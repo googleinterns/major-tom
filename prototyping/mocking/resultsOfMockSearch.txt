@@ -1,0 +1,26 @@
+Query #1:
+utilizar
+casco
+        Los conductores y ocupantes de bicicletas, bicimotos o triciclos podran utilizar de preferencia casco de proteccion para su seguridad.
+        count: 2
+
+Query #2:
+relojes
+via
+publica
+        La autoridad municipal podra determinar la instalación de relojes estacionometros en la via publica, previo estudio de factibilidad elaborado por la Secretaria.
+        count: 3
+
+Query #3:
+exclusivo
+taxis
+taxis
+autorizados
+        No se autorizara ningun exclusivo para taxis a una distancia menor de 300-trescientos metros a la redonda de otro sitio de taxis autorizados.
+        count: 4
+
+Query #4:
+calcomania
+placa
+        Las calcomania del refrendo del vehiculo deberan colocarse en el espacio establecido en la placa de circulacion.
+        count: 2
