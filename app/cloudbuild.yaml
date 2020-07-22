@@ -1,0 +1,11 @@
+steps:
+  - name: node:10.16.3
+    entrypoint: yarn
+    args: [install, --production]
+  - name: node:10.16.3
+    entrypoint: yarn
+    args: [build]
+    env:
+      - REACT_APP_HTTP_URI=https://graphql-mvnta4v2hq-uc.a.run.app/graphql
+  - name: gcr.io/cloud-builders/gcloud
+    args: [app, deploy]
