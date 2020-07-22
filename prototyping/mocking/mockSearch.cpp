@@ -1,7 +1,14 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void search(unordered_set<string> words, vector<string> articles) {
+// search function
+// input: array of article text
+// input: set of words to search through
+// return: frequency map of articles and amount of incidences between 
+// 	   words from the text and words in the set
+// debugging output: every match between a word from an article and a
+// 		     word from the set is printed
+unordered_map<string, int> search(unordered_set<string> words, vector<string> articles) {
 	unordered_map<string, int> incidences;
 
 	for (const auto & article : articles) {
@@ -23,10 +30,7 @@ void search(unordered_set<string> words, vector<string> articles) {
 			incidences[article]++;
 		}
 	}
-
-	for (auto it = incidences.begin(); it != incidences.end(); it++) {
-		cout << "\t" << it->first << "\n\tcount: " << it->second << "\n\n";
-	}
+	return incidences;
 } 
 
 int main() {
@@ -43,6 +47,11 @@ int main() {
 	
 	for (int i = 0; i < queries.size(); i++) {
 		cout << "Query #" << i + 1 << ":\n";
-		search(queries[i], articles);
+		unordered_map<string, int> incidences = search(queries[i], articles);
+		
+		// Prints all articles which had a match for the specific query
+		for (auto it = incidences.begin(); it != incidences.end(); it++) {
+			cout << "\t" << it->first << "\n\tcount: " << it->second << "\n\n";
+		}
 	}
 }
