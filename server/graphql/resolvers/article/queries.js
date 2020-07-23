@@ -1,7 +1,6 @@
 const articleQueries = {
   articles: (_, { search }) => {
-    console.log(search);
-    const articles = [
+    return [
       {
         id: 1,
         number: 1,
@@ -86,8 +85,6 @@ const articleQueries = {
         minutesToRead: 8,
       },
     ];
-
-    return articles;
   },
 };
 

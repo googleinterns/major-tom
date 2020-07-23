@@ -1,6 +1,7 @@
 {
   "short_name": "Reglamento Vial",
   "name": "Motor de búsqueda del reglamento vial",
+  "description": "Motor de búsqueda para el reglamento vial de tu zona. Permite acceder de manera rápida a los articulos disponibles en el reglamento.",
   "icons": [
     {
       "src": "static/favicon.ico",
