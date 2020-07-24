@@ -1,3 +1,5 @@
+from MockArticle import Article
+
 class Search:
     """
     This class implements the functions to score every article 
@@ -14,7 +16,7 @@ class Search:
     """
     def __init__(self, keywords, synonyms, articles, keywords_weight=1, synonyms_weight=1):
         """
-        Inits  the search class with all the attributes.
+        Inits the search class with all the attributes.
         The weights attributes are default arguments for ease of use
         """
         self.keywords = keywords
@@ -32,4 +34,17 @@ class Search:
             A map of the score for every article
         """
 
-        return {}
+        score_per_article = {}
+        for article in self.articles:
+            score = 0
+            article_frequency = article.keywords
+            for keyword in self.keywords:
+                score += article_frequency.get(keyword, 0) * self.keywords_weight
+
+            for synonym in self.synonyms:
+                score += article_frequency.get(synonym, 0) * self.synonyms_weight
+
+            if score != 0:
+                score_per_article[article] = score
+        
+        return score_per_article
