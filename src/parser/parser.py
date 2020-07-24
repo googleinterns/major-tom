@@ -51,10 +51,11 @@ def count_articles(pdf_text):
 
 
 # Acts as main
-with open("regs.pdf", "rb") as f:
-    doc = slate.PDF(f)
-    final_text = ""
-    for page in doc:
-        final_text += page
-    final_text = final_text.strip().lower().split()
-    count_articles(final_text)
+def parse():
+    with open("regs.pdf", "rb") as f:
+        doc = slate.PDF(f)
+        final_text = ""
+        for page in doc:
+            final_text += page
+        final_text = final_text.strip().lower().split()
+        count_articles(final_text)
