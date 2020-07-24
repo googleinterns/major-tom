@@ -25,6 +25,7 @@ article_4 = Article(4, "El calcomania de refrendo de vehiculo deber colocar en e
 articles = [ article_1, article_2, article_3, article_4 ]
 
 keywords_article_1 = ["forzoso", "bicicleta","usar" ,"casco"] # Es forzoso en bicicleta usar casco
+# Synonyms created using design doc's mentioned spanish synonym api and limiting to 5 results
 synonyms_article_1 = ["obligatorio", "inexcusable", "imprescindible", "preciso", "necesario",
                       "bici", "velocipedo", "tandem",
                       "emplear", "utilizar", "gastar", "acostumbrar", "practicar",
