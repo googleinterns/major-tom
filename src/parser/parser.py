@@ -1,7 +1,9 @@
-import slate
-
-
+"""Parses a PDF document.
+"""
 import logging
+
+
+import slate
 
 
 logging.basicConfig(level=logging.INFO)
@@ -32,9 +34,9 @@ def count_articles(pdf_text):
     i = 0
     while i < len(pdf_text) - 1:
         if (pdf_text[i] == "artículo" or pdf_text[i] == "articulo") and (
-            pdf_text[i + 1] == str(article_count) + ".-"
-            or pdf_text[i + 1] == str(article_count) + "-"
-            or pdf_text[i + 1] == str(article_count) + "."
+                pdf_text[i + 1] == str(article_count) + ".-"
+                or pdf_text[i + 1] == str(article_count) + "-"
+                or pdf_text[i + 1] == str(article_count) + "."
         ):
             logging.info("Article #" + str(article_count) + " recognized!")
             articles.append(Article(article_count, article_text))
@@ -51,10 +53,12 @@ def count_articles(pdf_text):
 
 # Acts as main
 def parse():
-    with open("regs.pdf", "rb") as f:
-        doc = slate.PDF(f)
+    """Parses a PDF document
+    """
+    with open("regs.pdf", "rb") as pdf_file:
+        doc = slate.PDF(pdf_file)
         final_text = ""
         for page in doc:
-            final_text += page
+            final_text.join(page)
         final_text = final_text.strip().lower().split()
         count_articles(final_text)
