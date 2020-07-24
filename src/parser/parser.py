@@ -9,12 +9,24 @@ logging.basicConfig(level=logging.INFO)
 
 
 class Article:
+    """Class for storing articles.
+    """
+
     def __init__(self, number, text):
         self.number = number
         self.text = text
 
 
 def count_articles(pdf_text):
+    """Identifies articles and returns a list of Article objects.
+
+    Args:
+        pdf_text (string): contains the PDF text where articles 
+        are to be identified.
+
+    Returns:
+        list: article objects
+    """
     articles = []
     article_text = ""
     article_count = 1
@@ -35,18 +47,14 @@ def count_articles(pdf_text):
         i += 1
     for article in articles:
         logging.info("Article: " + str(article.number - 1) + " Text: " + article.text)
+    return articles
 
 
+# Acts as main
 with open("regs.pdf", "rb") as f:
     doc = slate.PDF(f)
-
     final_text = ""
     for page in doc:
-        why = page
         final_text += page
     final_text = final_text.strip().lower().split()
-    # final_text_pass = final_text
-    # final_text = numpy.array(final_text)
-    # numpy.savetxt("foo.txt", final_text, fmt="%s")
-    # print(final_text)
     count_articles(final_text)
