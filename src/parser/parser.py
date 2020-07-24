@@ -3,7 +3,6 @@ import slate
 
 import logging
 
-# import numpy
 
 logging.basicConfig(level=logging.INFO)
 
@@ -46,7 +45,7 @@ def count_articles(pdf_text):
             article_text += " " + pdf_text[i]
         i += 1
     for article in articles:
-        logging.info("Article: " + str(article.number - 1) + " Text: " + article.text)
+        logging.debug("Article: " + str(article.number - 1) + " Text: " + article.text)
     return articles
 
 
