@@ -14,6 +14,7 @@ import {
   Button,
 } from '@material-ui/core';
 import styles from './styles';
+import { DEFAULT_ARTICLE_PREVIEW_SIZE } from 'constants/misc';
 
 const ArticlesList = ({ articles }) => {
   const [currentArticle, setCurrentArticle] = useState(undefined);
@@ -23,8 +24,8 @@ const ArticlesList = ({ articles }) => {
     <Grid container spacing={3}>
       {articles.map((article) => {
         const contentPreview =
-          article.content.length > 200
-            ? `${article.content.substring(0, 200)}...`
+          article.content.length > DEFAULT_ARTICLE_PREVIEW_SIZE
+            ? `${article.content.substring(0, DEFAULT_ARTICLE_PREVIEW_SIZE)}...`
             : article.content;
 
         return (
@@ -80,7 +81,6 @@ const ArticlesList = ({ articles }) => {
           <DialogActions>
             <Button
               variant="contained"
-              autoFocus
               onClick={() => setCurrentArticle(undefined)}
               color="primary"
             >

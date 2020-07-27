@@ -22,7 +22,7 @@ const SearchEngine = () => {
 
   return (
     <Container>
-      <SearchBar setSearch={setSearch} />
+      <SearchBar setSearch={setSearch} refetch={getArticlesQuery.refetch} />
       <ArticlesList articles={articles} />
     </Container>
   );
