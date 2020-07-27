@@ -1,0 +1,11 @@
+steps:
+  - name: node:10.16.3
+    entrypoint: yarn
+    args: [install, --production]
+  - name: node:10.16.3
+    entrypoint: yarn
+    args: [build]
+    env:
+      - REACT_APP_HTTP_URI=$_BACKEND_SERVICE_API
+  - name: gcr.io/cloud-builders/gcloud
+    args: [app, deploy]
