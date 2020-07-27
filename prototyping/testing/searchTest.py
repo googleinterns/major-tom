@@ -39,16 +39,25 @@ synonyms_multiple = ["taximetro",
 
 
 def test_same_weights_for_all():
+    """
+    Have the query only apply for article 1, and the weights be the same for keywords and synonyms (default args.)
+    """
     result = { article_1 : 3 }
 
     assert result == Search(keywords_article_1, synonyms_article_1, articles).score_articles()
 
 def test_double_weights_synonyms():
+    """
+    Have the query only apply for article 1, and double the synonym weights
+    """
     result = { article_1 : 4 }
     
     assert result == Search(keywords_article_1, synonyms_article_1, articles, synonyms_weight=2).score_articles()
 
 def test_multiple_articles():
+    """
+    Have the query apply for two articles
+    """
     result = { article_3 : 2, article_4 : 2}
 
     assert result == Search(keywords_multiple, synonyms_multiple, articles).score_articles()
