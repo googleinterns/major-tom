@@ -1,6 +1,6 @@
 from MockArticle import Article
 
-class Search:
+class SearchEngine:
     """
     This class implements the functions to score every article 
     by the amount of incidences between keywords and synonyms to articles
@@ -14,20 +14,25 @@ class Search:
         synonyms_weight: The weight that a synonym has on the scoring algorithm
             Optional: default argument as 1
     """
-    def __init__(self, keywords, synonyms, articles, keywords_weight=1, synonyms_weight=1):
+    def __init__(self, articles):
         """
-        Inits the search class with all the attributes.
+        Inits the search engine by loading all articles
+        """
+        self.articles = articles
+
+    def query(self, keywords, synonyms, keywords_weight=1, synonyms_weight=1):
+        """
+        Loads all necessary data from the query.
         The weights attributes are default arguments for ease of use
         """
         self.keywords = keywords
         self.synonyms = synonyms
-        self.articles = articles
         self.keywords_weight = keywords_weight
         self.synonyms_weight = synonyms_weight
 
     def score_articles(self):
         """
-        Counts the number of indices between article words, keywords, and synonyms
+        Counts the number of incidences between article words, keywords, and synonyms
         implementing the different weights for the different type of weight values
 
         Returns:
@@ -45,6 +50,6 @@ class Search:
                 score += article_frequency.get(synonym, 0) * self.synonyms_weight
 
             if score != 0:
-                score_per_article[article] = score
+                score_per_article[article.id] = score
         
         return score_per_article
