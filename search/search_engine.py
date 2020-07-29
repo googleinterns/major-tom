@@ -1,4 +1,4 @@
-from MockArticle import Article
+from mock_article import Article
 
 class SearchEngine:
     """
@@ -14,23 +14,15 @@ class SearchEngine:
         synonyms_weight: The weight that a synonym has on the scoring algorithm
             Optional: default argument as 1
     """
-    def __init__(self, articles):
+    def __init__(self, articles, keywords_weight=1, synonyms_weight=1):
         """
         Inits the search engine by loading all articles
         """
         self.articles = articles
-
-    def query(self, keywords, synonyms, keywords_weight=1, synonyms_weight=1):
-        """
-        Loads all necessary data from the query.
-        The weights attributes are default arguments for ease of use
-        """
-        self.keywords = keywords
-        self.synonyms = synonyms
         self.keywords_weight = keywords_weight
         self.synonyms_weight = synonyms_weight
 
-    def score_articles(self):
+    def query(self, keywords, synonyms):
         """
         Counts the number of incidences between article words, keywords, and synonyms
         implementing the different weights for the different type of weight values
@@ -43,10 +35,10 @@ class SearchEngine:
         for article in self.articles:
             score = 0
             article_frequency = article.keywords
-            for keyword in self.keywords:
+            for keyword in keywords:
                 score += article_frequency.get(keyword, 0) * self.keywords_weight
 
-            for synonym in self.synonyms:
+            for synonym in synonyms:
                 score += article_frequency.get(synonym, 0) * self.synonyms_weight
 
             if score != 0:

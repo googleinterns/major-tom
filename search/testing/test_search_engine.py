@@ -2,11 +2,8 @@ import os
 import sys
 import inspect
 
-current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parent_dir = os.path.dirname(current_dir)
-sys.path.insert(0, parent_dir) 
-from SearchEngine import SearchEngine
-from MockArticle import Article
+from search.search_engine import SearchEngine
+from mock_article import Article
 
 # Assuming articles already come in lemma form, lemma form created manually using cloud natural language
 article_1 = Article(1, 1,"El conductor y ocupante de bicicleta, bicimoto o triciclos poder utilizar de preferencia casco de proteccion para el seguridad.", 
@@ -44,9 +41,7 @@ def test_same_weights_for_all():
     """
     result = { 1 : 3 }
 
-    search = SearchEngine(articles)
-    search.query(keywords_article_1, synonyms_article_1)
-    assert result == search.score_articles()
+    assert result == SearchEngine(articles).query(keywords_article_1, synonyms_article_1)
 
 def test_double_weights_synonyms():
     """
@@ -54,9 +49,7 @@ def test_double_weights_synonyms():
     """
     result = { 1 : 4 }
     
-    search = SearchEngine(articles)
-    search.query(keywords_article_1, synonyms_article_1, synonyms_weight=2)
-    assert result == search.score_articles()
+    assert result == SearchEngine(articles, synonyms_weight=2).query(keywords_article_1, synonyms_article_1)
 
 def test_multiple_articles():
     """
@@ -64,6 +57,4 @@ def test_multiple_articles():
     """
     result = { 3 : 2, 4 : 2}
 
-    search = SearchEngine(articles)
-    search.query(keywords_multiple, synonyms_multiple)
-    assert result == search.score_articles()
+    assert result == SearchEngine(articles).query(keywords_multiple, synonyms_multiple)
