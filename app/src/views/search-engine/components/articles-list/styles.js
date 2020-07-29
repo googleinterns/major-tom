@@ -1,19 +1,19 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 
 const styles = makeStyles(() => ({
   card: {
     '&:hover': {
       cursor: 'pointer',
-      backgroundColor: '#fafafa',
-    },
+      backgroundColor: '#fafafa'
+    }
   },
   cardContent: {
     whiteSpace: 'pre-wrap',
-    marginBottom: 15,
+    marginBottom: 15
   },
   keywords: {
-    width: '75%',
-  },
-}));
+    width: '75%'
+  }
+}))
 
-export default styles;
+export default styles

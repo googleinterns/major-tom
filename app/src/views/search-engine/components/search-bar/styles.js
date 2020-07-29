@@ -1,4 +1,4 @@
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { fade, makeStyles } from '@material-ui/core/styles'
 
 const styles = makeStyles((theme) => ({
   appbar: {
@@ -6,7 +6,7 @@ const styles = makeStyles((theme) => ({
     borderRadius: theme.shape.borderRadius
   },
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   search: {
     position: 'relative',
@@ -15,7 +15,7 @@ const styles = makeStyles((theme) => ({
     marginLeft: 0,
     width: '100%',
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+      backgroundColor: fade(theme.palette.common.white, 0.25)
     }
   },
   searchIcon: {
@@ -24,15 +24,15 @@ const styles = makeStyles((theme) => ({
       marginRight: 8,
       display: 'inline',
       color: 'grey'
-    },
+    }
   },
   avatar: {
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
+    backgroundRepeat: 'no-repeat'
   },
   inputRoot: {
-    color: 'inherit',
+    color: 'inherit'
   },
   inputInput: {
     transition: theme.transitions.create('width'),
@@ -41,10 +41,10 @@ const styles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: '35ch',
       '&:focus': {
-        width: '45ch',
-      },
-    },
-  },
-}));
+        width: '45ch'
+      }
+    }
+  }
+}))
 
-export default styles;
+export default styles

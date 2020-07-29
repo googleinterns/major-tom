@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client'
 
 const GET_ARTICLES = gql`
   query articles($search: String!) {
@@ -10,6 +10,6 @@ const GET_ARTICLES = gql`
       minutesToRead
     }
   }
-`;
+`
 
-export { GET_ARTICLES };
+export { GET_ARTICLES }

@@ -1,5 +1,5 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { HTTP_URI } from '../config';
+import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { HTTP_URI } from '../config'
 
 const client = new ApolloClient({
   uri: HTTP_URI,
@@ -7,12 +7,12 @@ const client = new ApolloClient({
   defaultOptions: {
     query: {
       fetchPolicy: 'network-only',
-      errorPolicy: 'all',
+      errorPolicy: 'all'
     },
     mutate: {
-      errorPolicy: 'all',
-    },
-  },
-});
+      errorPolicy: 'all'
+    }
+  }
+})
 
-export default client;
+export default client
