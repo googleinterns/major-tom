@@ -1,8 +1,6 @@
-from mock_article import Article
-
 class SearchEngine:
     """
-    This class implements the functions to score every article 
+    This class implements the functions to score every article
     by the amount of incidences between keywords and synonyms to articles
 
     Attributes:
@@ -43,5 +41,5 @@ class SearchEngine:
 
             if score != 0:
                 score_per_article[article.id] = score
-        
+
         return score_per_article
