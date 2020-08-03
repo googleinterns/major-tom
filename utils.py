@@ -1,7 +1,6 @@
-import requests
-
-from google.cloud import language
-from google.cloud.language import enums, types
+import requests # pylint: disable=import-error
+from google.cloud import language # pylint: disable=import-error
+from google.cloud.language import enums, types # pylint: disable=import-error
 
 SPANISH_API_URL = "http://sesat.fdi.ucm.es:8080/servicios/rest/sinonimos/json/"
 KEY_PARTS_OF_SPEECH = ["ADJ", "NOUN", "NUM", "VERB"]
