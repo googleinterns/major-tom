@@ -1,0 +1,21 @@
+name: Lint
+
+on:
+  push:
+    branches-ignore: [main] # Run on push to all branches except main
+  pull_request:
+    branches: [main] # Run for PRs to main
+
+jobs:
+  super-linter:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Super-Linter
+      uses: github/super-linter@v3.4.0
+      env:
+        VALIDATE_ALL_CODEBASE: false
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        DEFAULT_BRANCH: main
