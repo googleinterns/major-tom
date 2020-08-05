@@ -1,0 +1,56 @@
+swagger: "2.0"
+info:
+  description: "This is the backend component API. Visit the link for an interactive playground to execute requests."
+  version: "1.0.0"
+  title: "Road Rules Search Engine"
+tags:
+  - name: "Backend service"
+schemes:
+  - "https"
+paths:
+  /:
+    post:
+      tags:
+        - "Root"
+      summary: "Base path"
+      description: "Base path handles any incoming request and re-routes it to the requested resolver."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Any GraphQL request ( query/mutation/subscription )"
+          schema:
+            $ref: '#/definitions/Request'
+      responses:
+        "200":
+          description: "Default response format"
+          schema:
+            $ref: '#/definitions/Response'
+definitions:
+  Request:
+    type: "object"
+    properties:
+      operationName:
+        type: "string"
+        description: "The name of the GraphQL resolver being requested."
+        example: "articles"
+      query:
+        type: "string"
+        description: "A GraphQL request containing required attributes."
+        example: "query articles(search: String! limit: Int) { id number content }"
+      variables:
+        type: "object"
+        description: "An object containing all required variables by the operation."
+        example: { search: "test", limit: 5 }
+  Response:
+    type: "object"
+    properties:
+      data:
+        type: "object"
+      errors:
+        type: "array"
+        items:
+          type: "object"
