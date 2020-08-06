@@ -139,3 +139,16 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Recursive calls
+**/node_modules
+**.env
+
+# React app
+app/build
+app/*.pnp
+app/*.pnp.js
+app/coverage
+app/npm-debug.log*
+app/yarn-debug.log*
+app/yarn-error.log*
