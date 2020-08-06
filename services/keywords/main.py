@@ -1,8 +1,3 @@
-if __name__ == "main":
-    __package__ = "src.services.keywords"
-
-import sys
-sys.path.append('../../')
 import utils
 
 def get_keywords_service(request):

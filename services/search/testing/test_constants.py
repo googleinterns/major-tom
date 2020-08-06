@@ -1,4 +1,4 @@
-from mock_article import Article
+from testing.mock_article import Article
 
 # Assuming articles already come in lemma form,
 # lemma form created manually using cloud natural language
@@ -15,8 +15,6 @@ ARTICLE_4 = Article(4, 4, "El calcomania de refrendo de vehiculo deber colocar e
 
 ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4]
 
-QUERY_ARTICLE_1 = 'es forzoso en bicicleta usar casco?'
-
 KEYWORDS_ARTICLE_1 = ["forzoso", "bicicleta", "usar", "casco"] # Es forzoso en bicicleta usar casco
 # Synonyms created using design doc's mentioned spanish synonym api and limiting to 5 results
 SYNONYMS_ARTICLE_1 = ["obligatorio", "inexcusable", "imprescindible", "preciso", "necesario",
@@ -30,8 +28,3 @@ SYNONYMS_MULTIPLE = ["taximetro",
                      "copia", "reproduccion", "estampa", "adhesivo",
                      "lamina", "plancha", "chapa", "hoja", "pelicula"]
 
-SPANISH_API_URL = "http://sesat.fdi.ucm.es:8080/servicios/rest/sinonimos/json/"
-
-KEY_PARTS_OF_SPEECH = ["ADJ", "NOUN", "NUM", "VERB"]
-
-SUPPORTED_LANGUAGES = ["es"]

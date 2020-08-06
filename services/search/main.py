@@ -1,10 +1,5 @@
-if __name__ == "main":
-    __package__ = "src.services.search"
-
-import sys
-sys.path.append('../../')
-import constants
-from search.search_engine import SearchEngine
+import testing.test_constants as constants
+from search_engine import SearchEngine
 
 def search_service(request):
     """
