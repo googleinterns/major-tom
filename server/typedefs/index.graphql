@@ -1,0 +1,8 @@
+# import * from 'article.graphql'
+
+# Scalars
+scalar Date
+
+type Query {
+  articles(search: String!): [Article!]
+}

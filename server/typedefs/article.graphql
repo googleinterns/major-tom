@@ -1,0 +1,7 @@
+type Article {
+  id: ID!
+  number: Int!
+  content: String!
+  keywords: [String!]!
+  minutesToRead: Float!
+}
