@@ -34,9 +34,8 @@ class SearchEngine:
         Returns:
             A map of the score of every article
         """
-        url = "http://localhost:8080"
         query_text = {'text': query}
-        response = requests.post(url, json=query_text)
+        response = requests.post(constants.KEYWORDS_ENDPOINT, json=query_text)
         response = response.json()
         
         lan = response['lan']
