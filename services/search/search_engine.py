@@ -47,12 +47,8 @@ class SearchEngine:
 
         for token in response['tokens']:
             keywords.append(token['lemma'])
-
-        synonyms = []
-        for word in keywords:
-            synonyms_list = utils.create_synonym_list_esp(word)
-            synonyms.extend(synonyms_list)
-
+        
+        synonyms = utils.create_synonym_list_esp(keywords)
         return self.search_query(keywords, synonyms)
 
     def search_query(self, keywords, synonyms):

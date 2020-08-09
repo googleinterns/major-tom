@@ -15,5 +15,7 @@ def search_service(request):
     #articles = requests.post(/get_articles_from_keywords)
     articles = constants.ARTICLES
     search = SearchEngine(articles, keywords_weight=2)
-    return search.query(query)
-
+    score_per_article = search.query(query)
+    articles_sorted = [k for k,v in sorted(score_per_article.items(),
+        key=lambda item: item[1], reverse=True)] # sorts dictionary by value in DESC order
+    return {"articles":articles_sorted}
