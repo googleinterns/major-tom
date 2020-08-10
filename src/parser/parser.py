@@ -1,12 +1,44 @@
-"""Parses a PDF document.
+"""Program that parses PDF documents and separates it by article for database storage.
 """
 import logging
+import hashlib
+import datetime
 
 
 import slate
 
 
+import retriever
+import database
+
+
 logging.basicConfig(level=logging.INFO)
+
+
+class Document:
+    """Class for Regulations Documents"""
+
+    def __init__(self, jurisdiction, hash, url):
+        self.id = None
+        self.jurisdiction = jurisdiction
+        self.hash = hash
+        self.url = url
+
+    @staticmethod
+    def from_dict():
+        pass
+
+    def to_dict(self):
+        pass
+
+    def __repr__(self):
+        return f"Document(\
+                id={self.id}, \
+                jurisdiction={self.jurisdiction}, \
+                lastUpdated={self.lastUpdated}, \
+                url={self.url}, \
+                hash={self.hash}\
+            )"
 
 
 class Article:
@@ -22,7 +54,7 @@ def count_articles(pdf_text):
     """Identifies articles and returns a list of Article objects.
 
     Args:
-        pdf_text (string): contains the PDF text where articles 
+        pdf_text (string): contains the PDF text where articles
         are to be identified.
 
     Returns:
@@ -34,9 +66,9 @@ def count_articles(pdf_text):
     i = 0
     while i < len(pdf_text) - 1:
         if (pdf_text[i] == "artículo" or pdf_text[i] == "articulo") and (
-                pdf_text[i + 1] == str(article_count) + ".-"
-                or pdf_text[i + 1] == str(article_count) + "-"
-                or pdf_text[i + 1] == str(article_count) + "."
+            pdf_text[i + 1] == str(article_count) + ".-"
+            or pdf_text[i + 1] == str(article_count) + "-"
+            or pdf_text[i + 1] == str(article_count) + "."
         ):
             logging.info("Article #" + str(article_count) + " recognized!")
             articles.append(Article(article_count, article_text))
@@ -47,18 +79,30 @@ def count_articles(pdf_text):
             article_text += " " + pdf_text[i]
         i += 1
     for article in articles:
-        logging.debug("Article: " + str(article.number - 1) + " Text: " + article.text)
+        print("Article: " + str(article.number - 1) + " Text: " + article.text)
     return articles
 
 
 # Acts as main
 def parse():
-    """Parses a PDF document
-    """
-    with open("regs.pdf", "rb") as pdf_file:
-        doc = slate.PDF(pdf_file)
-        final_text = ""
-        for page in doc:
-            final_text.join(page)
-        final_text = final_text.strip().lower().split()
-        count_articles(final_text)
+    """Parses all PDF documents that are in the DB"""
+    docs = database.get_regulation_documents()
+    for doc in docs:
+        document = doc.to_dict()
+        retriever.get_document(document["url"])
+        hasher = hashlib.sha256()
+        with open("regs.pdf", "rb") as pdf_file:
+            file_buffer = pdf_file.read()
+            hasher.update(file_buffer)
+            if hasher.hexdigest() != document["hash"]:
+                doc = slate.PDF(pdf_file)
+                final_text = ""
+                for page in doc:
+                    final_text.join(page)
+                final_text = final_text.strip().lower().split()
+                count_articles(final_text)
+            else:
+                print("Downloaded document is the same as the one currently stored")
+
+
+parse()
