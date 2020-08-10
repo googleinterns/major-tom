@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  description: "API description for the Parser/Database component of the Road Search Engine."
+  description: "API spec for the Parser/Database component of the Road Search Engine."
   version: "1.0.0"
   title: "Parser/Database Component"
   contact:
