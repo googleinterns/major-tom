@@ -12,7 +12,16 @@ def create_synonym_list_esp(word_arr, max_synonyms=5):
     """
     synonyms = []
     for word in word_arr:
-        payload = requests.get(constants.SPANISH_API_URL+word)
+        try:
+            payload = requests.get(constants.SPANISH_API_URL+word)
+            payload.raise_for_status()
+        except requests.exceptions.HTTPError as err:
+            return {"error": {"type": "HTTPError", "status_code": err.response.status_code,
+                "message": getattr(err, 'message', str(err))}}
+        except requests.exceptions.RequestException as e:
+            return {"error": {"type": "RequestException",
+                "message": getattr(err, 'message', str(err))}}
+
         word_synonyms = payload.json()['sinonimos']
         if len(word_synonyms) > max_synonyms:
             word_synonyms = word_synonyms[:max_synonyms]
