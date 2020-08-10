@@ -103,8 +103,16 @@ definitions:
       keywords:
         type: "array"
         items:
-          type: "string"
+          type: "object"
+          $ref: '#/definitions/KeywordFrequencyPair'
   # For Reference Only
+  KeywordFrequencyPair:
+    type: "object"
+    properties:
+      keyword:
+        type: "string"
+      frequency:
+        type: "integer"
   Document:
     type: "object"
     properties:
