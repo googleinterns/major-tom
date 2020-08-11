@@ -12,9 +12,7 @@ def search_service(request):
     """
     json = request.get_json()
     query = json["query"]
-    #articles = requests.post(/get_articles_from_keywords)
-    articles = constants.ARTICLES
-    search = SearchEngine(articles, keywords_weight=2)
+    search = SearchEngine(keywords_weight=2)
     score_per_article = search.query(query)
     
     if 'error' in score_per_article:

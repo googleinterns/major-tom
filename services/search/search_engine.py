@@ -1,5 +1,6 @@
 import requests
 import constants
+import testing.test_constants
 import utils
 
 class SearchEngine:
@@ -16,11 +17,10 @@ class SearchEngine:
         synonyms_weight: The weight that a synonym has on the scoring algorithm
             Optional: default argument as 1
     """
-    def __init__(self, articles, keywords_weight=1, synonyms_weight=1):
+    def __init__(self, keywords_weight=1, synonyms_weight=1):
         """
         Inits the search engine by loading all articles
         """
-        self.articles = articles
         self.keywords_weight = keywords_weight
         self.synonyms_weight = synonyms_weight
 
@@ -59,6 +59,22 @@ class SearchEngine:
 
         return self.search_query(keywords, synonyms)
 
+    def _calculate_score(self, frequency, weight, words, target_dict):
+        """
+        Helper function to update score for resulting array
+        Attributes:
+            frequency: db frequency result
+            weight: the weight for the current call
+            words: keywords in search engine
+            target_dict: dictionary to update
+        """
+        for word in words:
+            if word in frequency:
+                for key, value in frequency[word].items():
+                    score = target_dict.get(key, 0) + value * weight
+                    if score != 0:
+                        target_dict[key] = score
+
     def search_query(self, keywords, synonyms):
         """
         Counts the number of incidences between article words, keywords, and synonyms
@@ -67,18 +83,17 @@ class SearchEngine:
         Returns:
             A map of the score for every article
         """
-
+        
         score_per_article = {}
-        for article in self.articles:
-            score = 0
-            article_frequency = article.keywords
-            for keyword in keywords:
-                score += article_frequency.get(keyword, 0) * self.keywords_weight
-
-            for synonym in synonyms:
-                score += article_frequency.get(synonym, 0) * self.synonyms_weight
-
-            if score != 0:
-                score_per_article[int(article.id)] = score
-
-        return score_per_article
+        keywords_json = {"keywords": keywords}
+        synonyms_json = {"keywords": synonyms}
+        
+        # article_keywords_frequency = requests.post(db_endpoint, json=keywords_json)
+        # article_synonyms_frequency = requests.post(db_endpoint, json=synonyms_json)
+        article_keywords_frequency = testing.test_constants.KEYWORDS_DB_MOCK_1
+        article_synonyms_frequency = testing.test_constants.SYNONYMS_DB_MOCK_1
+        
+        self._calculate_score(article_keywords_frequency, self.keywords_weight, keywords, score_per_article)
+        self._calculate_score(article_synonyms_frequency, self.synonyms_weight, synonyms, score_per_article)
+        
+        return score_per_article 
