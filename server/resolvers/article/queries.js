@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {SEARCH_SERVICE_ENDPOINT} from "../../config"
+import { SEARCH_SERVICE_ENDPOINT } from '../../config'
 
 const articleQueries = {
   articles: async (_, { search }) => {
@@ -91,11 +91,12 @@ const articleQueries = {
     const { data } = await axios.post(SEARCH_SERVICE_ENDPOINT, { query: search })
     const articleIds = [...data.articles]
 
-    const articles = [];
-    for (const id of articleIds)
-      for (const article of database)
-        if (id === article.id)
-          articles.push(article)
+    const articles = []
+    for (const id of articleIds) {
+      for (const article of database) {
+        if (id === article.id) { articles.push(article) }
+      }
+    }
 
     return articles
   }
