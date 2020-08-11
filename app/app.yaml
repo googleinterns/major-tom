@@ -1,0 +1,12 @@
+runtime: nodejs12
+
+network:
+  session_affinity: true
+
+handlers:
+  - url: /$
+    static_files: build/index.html
+    upload: build/index.html
+  - url: /(.*\.(gif|png|jpg|css|js|json|txt|map|ico))$
+    static_files: build/\1
+    upload: build/.*\.(gif|png|jpg|css|js|json|txt|map|ico)$
