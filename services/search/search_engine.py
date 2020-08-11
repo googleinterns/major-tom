@@ -51,7 +51,7 @@ class SearchEngine:
 
         try:
             synonyms = utils.create_synonym_list_esp(keywords)
-        except:
+        except Exception:
             raise
 
         return self.search_query(keywords, synonyms)

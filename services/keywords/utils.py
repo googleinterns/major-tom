@@ -18,7 +18,7 @@ def gcloud_syntax_extraction(text):
             content=text,
             type=enums.Document.Type.PLAIN_TEXT)
         response = client.analyze_syntax(document=document)
-    except:
+    except Exception:
         raise
 
     return response
@@ -37,7 +37,7 @@ def extract_keywords(text):
     """
     try:
         gcloud_response = gcloud_syntax_extraction(text)
-    except:
+    except Exception:
         raise
 
     tokens_shortened = []

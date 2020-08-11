@@ -16,7 +16,7 @@ def create_synonym_list_esp(word_arr, max_synonyms=5):
         try:
             payload = requests.get(constants.SPANISH_API_URL+word)
             payload.raise_for_status()
-        except:
+        except Exception:
             raise
 
         word_synonyms = payload.json()['sinonimos']
