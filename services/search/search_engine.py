@@ -54,7 +54,7 @@ class SearchEngine:
         except Exception:
             raise
 
-        return self.search_query(keywords, synonyms)
+        return self._search_query(keywords, synonyms)
 
     def _calculate_score(self, frequency, weight, words, target_dict):
         """
@@ -72,7 +72,7 @@ class SearchEngine:
                     if score != 0:
                         target_dict[key] = score
 
-    def search_query(self, keywords, synonyms):
+    def _search_query(self, keywords, synonyms):
         """
         Counts the number of incidences between article words, keywords, and synonyms
         implementing the different weights for the different type of weight values

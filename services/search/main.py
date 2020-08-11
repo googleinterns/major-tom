@@ -1,4 +1,5 @@
 import traceback  # pylint: disable=import-error
+import constants
 from search_engine import SearchEngine
 
 
@@ -16,7 +17,7 @@ def search_service(request):
         return {"error": {"message": "ValueError: Expected 'query' field in json body is missing"}}
 
     query = json["query"]
-    search = SearchEngine(keywords_weight=2)
+    search = SearchEngine(keywords_weight=constants.KEYWORDS_WEIGHT)
     try:
         score_per_article = search.query(query)
     except Exception as e:

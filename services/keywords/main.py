@@ -1,5 +1,5 @@
 import traceback
-import utils
+import extract
 
 
 def get_keywords_service(request):
@@ -16,7 +16,7 @@ def get_keywords_service(request):
 
     text = json["text"]
     try:
-        response = utils.extract_keywords(text)
+        response = extract.extract_keywords(text)
     except Exception as e:
         return {"error": {"message": getattr(e, 'message', str(e)),
                           "trace": traceback.format_exc()}}
