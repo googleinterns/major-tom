@@ -1,4 +1,4 @@
-import requests
+import requests # pylint: disable=import-error
 import constants
 import testing.test_constants
 import utils
@@ -26,7 +26,7 @@ class SearchEngine:
 
     def query(self, query):
         """
-        Extracts keywords, from keywords endpoint, 
+        Extracts keywords, from keywords endpoint,
         and synonyms, from local function,
         to call search query and calculate the score for articles
         Args:
@@ -37,23 +37,23 @@ class SearchEngine:
         query_text = {'text': query}
         response = requests.post(constants.KEYWORDS_ENDPOINT, json=query_text)
         response = response.json()
-        
+
         if 'error' in response:
             return response
 
         lan = response['lan']
-        
+
         if lan not in constants.SUPPORTED_LANGUAGES:
-            return {'error': {'type': 'inputError',
-                'message': f'{lan} not supported!'}}
+            return {'error': {
+                'type': 'inputError', 'message': f'{lan} not supported!'}}
 
         keywords = []
 
         for token in response['tokens']:
             keywords.append(token['lemma'])
-        
+
         synonyms = utils.create_synonym_list_esp(keywords)
-        
+
         if isinstance(synonyms, dict):
             return synonyms
 
@@ -83,17 +83,17 @@ class SearchEngine:
         Returns:
             A map of the score for every article
         """
-        
+
         score_per_article = {}
         keywords_json = {"keywords": keywords}
         synonyms_json = {"keywords": synonyms}
-        
+
         # article_keywords_frequency = requests.post(db_endpoint, json=keywords_json)
         # article_synonyms_frequency = requests.post(db_endpoint, json=synonyms_json)
         article_keywords_frequency = testing.test_constants.KEYWORDS_DB_MOCK_1
         article_synonyms_frequency = testing.test_constants.SYNONYMS_DB_MOCK_1
-        
+
         self._calculate_score(article_keywords_frequency, self.keywords_weight, keywords, score_per_article)
         self._calculate_score(article_synonyms_frequency, self.synonyms_weight, synonyms, score_per_article)
-        
-        return score_per_article 
+
+        return score_per_article

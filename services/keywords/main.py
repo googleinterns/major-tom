@@ -1,5 +1,6 @@
 import utils
 
+
 def get_keywords_service(request):
     """
     Parses http json request and returns keywords and language of text

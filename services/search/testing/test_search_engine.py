@@ -1,4 +1,4 @@
-from search_engine import SearchEngine
+from search_engine import SearchEngine  # pylint: disable=import-error
 import test_constants as constants
 
 def test_same_weights_for_all():

@@ -1,6 +1,6 @@
-from google.cloud import language # pylint: disable=import-error
-from google.cloud.language import enums, types # pylint: disable=import-error
-from google.api_core import exceptions
+from google.cloud import language  # pylint: disable=import-error
+from google.cloud.language import enums, types  # pylint: disable=import-error
+from google.api_core import exceptions  # pylint: disable=import-error
 import constants
 
 def gcloud_syntax_extraction(text):

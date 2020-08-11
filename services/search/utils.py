@@ -1,4 +1,4 @@
-import requests # pylint: disable=import-error
+import requests  # pylint: disable=import-error
 import constants
 
 def create_synonym_list_esp(word_arr, max_synonyms=5):
@@ -18,7 +18,7 @@ def create_synonym_list_esp(word_arr, max_synonyms=5):
         except requests.exceptions.HTTPError as err:
             return {"error": {"type": "HTTPError", "status_code": err.response.status_code,
                 "message": getattr(err, 'message', str(err))}}
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.RequestException as err:
             return {"error": {"type": "RequestException",
                 "message": getattr(err, 'message', str(err))}}
 
