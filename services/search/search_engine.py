@@ -3,6 +3,7 @@ import constants
 import testing.test_constants
 import utils
 
+
 class SearchEngine:
     """
     This class implements the functions to score every article
@@ -23,6 +24,7 @@ class SearchEngine:
         """
         self.keywords_weight = keywords_weight
         self.synonyms_weight = synonyms_weight
+
 
     def query(self, query):
         """
@@ -59,6 +61,7 @@ class SearchEngine:
 
         return self.search_query(keywords, synonyms)
 
+
     def _calculate_score(self, frequency, weight, words, target_dict):
         """
         Helper function to update score for resulting array
@@ -74,6 +77,7 @@ class SearchEngine:
                     score = target_dict.get(key, 0) + value * weight
                     if score != 0:
                         target_dict[key] = score
+
 
     def search_query(self, keywords, synonyms):
         """

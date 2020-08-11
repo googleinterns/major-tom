@@ -1,6 +1,7 @@
 import requests  # pylint: disable=import-error
 import constants
 
+
 def create_synonym_list_esp(word_arr, max_synonyms=5):
     """
     Retrieves a synonym list given a word list

@@ -1,5 +1,6 @@
 from search_engine import SearchEngine
 
+
 def search_service(request):
     """
     Parses http json request and returns list of articles and their

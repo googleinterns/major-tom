@@ -3,6 +3,7 @@ from google.cloud.language import enums, types  # pylint: disable=import-error
 from google.api_core import exceptions  # pylint: disable=import-error
 import constants
 
+
 def gcloud_syntax_extraction(text):
     """
     Calls the gcloud natural langauge api's analyze syntax
@@ -19,17 +20,17 @@ def gcloud_syntax_extraction(text):
             type=enums.Document.Type.PLAIN_TEXT)
         response = client.analyze_syntax(document=document)
     except exceptions.GoogleAPICallError as err:
-        return {"error": {"type": "GoogleAPICallError", 
+        return {"error": {"type": "GoogleAPICallError",
             "message": getattr(err, 'message', str(err))}}
     except TypeError as err:
-        return {"error": {"type": "TypeError", 
+        return {"error": {"type": "TypeError",
             "message": getattr(err, 'message', str(err))}}
     except ValueError as err:
-        return {"error": {"type": "ValueError", 
+        return {"error": {"type": "ValueError",
             "message": getattr(err, 'message', str(err))}}
 
-
     return response
+
 
 def extract_keywords(text):
     """
@@ -43,7 +44,7 @@ def extract_keywords(text):
         the lemma and part of speech for said keywords
     """
     gcloud_response = gcloud_syntax_extraction(text)
-    
+
     if isinstance(gcloud_response, dict):
         return gcloud_response
 
