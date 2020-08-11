@@ -3,6 +3,8 @@
 import logging
 import hashlib
 import datetime
+import requests
+from collections import namedtuple
 
 
 import slate
@@ -49,6 +51,14 @@ class Article:
         self.number = number
         self.text = text
 
+class Keyword:
+    """Class for storing keywords.
+    """
+
+    def __init__(self, number, text):
+        self.number = number
+        self.text = text
+
 
 def count_articles(pdf_text):
     """Identifies articles and returns a list of Article objects.
@@ -83,7 +93,6 @@ def count_articles(pdf_text):
     return articles
 
 
-# Acts as main
 def parse():
     """Parses all PDF documents that are in the DB"""
     docs = database.get_regulation_documents()
@@ -105,4 +114,32 @@ def parse():
                 print("Downloaded document is the same as the one currently stored")
 
 
-parse()
+def parse_without_database():
+    """Parses all PDF documents that are in the DB"""
+    articles_in_memory = []
+    keywords = {}
+    with open("regs.pdf", "rb") as pdf_file:
+        doc = slate.PDF(pdf_file)
+        final_text = ""
+        for page in doc:
+            final_text.join(page)
+        final_text = final_text.strip().lower().split()
+        articles = count_articles(final_text)
+
+        for article in articles:
+            # get the keywords
+            # add to dict, add dict to list
+            article["articleNumber"] = article.number
+            article["text"] = article.text
+            article["wordCount"] = len(article.text.split())
+            articles_in_memory.append(article)
+
+            # Get keywords that relate to this article (Javier's service)
+            keywords_service_response = requests.get('localhost:8000', params={'text':article.text}).json()
+            split_article = article.text.split()
+            for keyword in keywords_service_response["keywords"]:
+                frequency = split_article.count(keyword)
+                keywords[keyword] = namedtuple(article.number, frequency)
+
+
+parse_without_database()
