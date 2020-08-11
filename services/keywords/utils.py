@@ -21,13 +21,13 @@ def gcloud_syntax_extraction(text):
         response = client.analyze_syntax(document=document)
     except exceptions.GoogleAPICallError as err:
         return {"error": {"type": "GoogleAPICallError",
-            "message": getattr(err, 'message', str(err))}}
+                          "message": getattr(err, 'message', str(err))}}
     except TypeError as err:
         return {"error": {"type": "TypeError",
-            "message": getattr(err, 'message', str(err))}}
+                          "message": getattr(err, 'message', str(err))}}
     except ValueError as err:
         return {"error": {"type": "ValueError",
-            "message": getattr(err, 'message', str(err))}}
+                          "message": getattr(err, 'message', str(err))}}
 
     return response
 
@@ -52,10 +52,10 @@ def extract_keywords(text):
     for token in gcloud_response.tokens:
         part_of_speech_tag = enums.PartOfSpeech.Tag(token.part_of_speech.tag).name
         if part_of_speech_tag in constants.KEY_PARTS_OF_SPEECH:
-            token_data = {'word' : token.text.content, 'lemma' : token.lemma,
-                          'part_of_speech' : part_of_speech_tag}
+            token_data = {'word': token.text.content, 'lemma': token.lemma,
+                          'part_of_speech': part_of_speech_tag}
             tokens_shortened.append(token_data)
 
-    response = {'lan' : gcloud_response.language, 'tokens' : tokens_shortened}
+    response = {'lan': gcloud_response.language, 'tokens': tokens_shortened}
 
     return response

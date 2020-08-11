@@ -1,4 +1,4 @@
-import requests # pylint: disable=import-error
+import requests  # pylint: disable=import-error
 import constants
 import testing.test_constants
 import utils
@@ -24,7 +24,6 @@ class SearchEngine:
         """
         self.keywords_weight = keywords_weight
         self.synonyms_weight = synonyms_weight
-
 
     def query(self, query):
         """
@@ -61,7 +60,6 @@ class SearchEngine:
 
         return self.search_query(keywords, synonyms)
 
-
     def _calculate_score(self, frequency, weight, words, target_dict):
         """
         Helper function to update score for resulting array
@@ -78,7 +76,6 @@ class SearchEngine:
                     if score != 0:
                         target_dict[key] = score
 
-
     def search_query(self, keywords, synonyms):
         """
         Counts the number of incidences between article words, keywords, and synonyms
@@ -89,15 +86,18 @@ class SearchEngine:
         """
 
         score_per_article = {}
-        keywords_json = {"keywords": keywords}
-        synonyms_json = {"keywords": synonyms}
 
+        # keywords_json = {"keywords": keywords}
+        # synonyms_json = {"keywords": synonyms}
         # article_keywords_frequency = requests.post(db_endpoint, json=keywords_json)
         # article_synonyms_frequency = requests.post(db_endpoint, json=synonyms_json)
+
         article_keywords_frequency = testing.test_constants.KEYWORDS_DB_MOCK_1
         article_synonyms_frequency = testing.test_constants.SYNONYMS_DB_MOCK_1
 
-        self._calculate_score(article_keywords_frequency, self.keywords_weight, keywords, score_per_article)
-        self._calculate_score(article_synonyms_frequency, self.synonyms_weight, synonyms, score_per_article)
+        self._calculate_score(article_keywords_frequency, self.keywords_weight,
+                              keywords, score_per_article)
+        self._calculate_score(article_synonyms_frequency, self.synonyms_weight,
+                              synonyms, score_per_article)
 
         return score_per_article

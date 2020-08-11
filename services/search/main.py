@@ -18,6 +18,9 @@ def search_service(request):
     if 'error' in score_per_article:
         return score_per_article
 
-    articles_sorted = [k for k, v in sorted(score_per_article.items(),
-        key=lambda item: item[1], reverse=True)]  # sorts dictionary by value in DESC order
-    return {"articles":articles_sorted}
+    # sorts dictionary by value in DESC order
+    articles_sorted = [k for k, v in sorted(
+        score_per_article.items(),
+        key=lambda item: item[1], reverse=True)]
+
+    return {"articles": articles_sorted}

@@ -18,10 +18,10 @@ def create_synonym_list_esp(word_arr, max_synonyms=5):
             payload.raise_for_status()
         except requests.exceptions.HTTPError as err:
             return {"error": {"type": "HTTPError", "status_code": err.response.status_code,
-                "message": getattr(err, 'message', str(err))}}
+                              "message": getattr(err, 'message', str(err))}}
         except requests.exceptions.RequestException as err:
             return {"error": {"type": "RequestException",
-                "message": getattr(err, 'message', str(err))}}
+                              "message": getattr(err, 'message', str(err))}}
 
         word_synonyms = payload.json()['sinonimos']
         if len(word_synonyms) > max_synonyms:
