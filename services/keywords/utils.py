@@ -1,6 +1,5 @@
 from google.cloud import language  # pylint: disable=import-error
 from google.cloud.language import enums, types  # pylint: disable=import-error
-from google.api_core import exceptions  # pylint: disable=import-error
 import constants
 
 
@@ -19,15 +18,8 @@ def gcloud_syntax_extraction(text):
             content=text,
             type=enums.Document.Type.PLAIN_TEXT)
         response = client.analyze_syntax(document=document)
-    except exceptions.GoogleAPICallError as err:
-        return {"error": {"type": "GoogleAPICallError",
-                          "message": getattr(err, 'message', str(err))}}
-    except TypeError as err:
-        return {"error": {"type": "TypeError",
-                          "message": getattr(err, 'message', str(err))}}
-    except ValueError as err:
-        return {"error": {"type": "ValueError",
-                          "message": getattr(err, 'message', str(err))}}
+    except:
+        raise
 
     return response
 
@@ -43,10 +35,10 @@ def extract_keywords(text):
         An object with the language, the keywords as defined by the design doc,
         the lemma and part of speech for said keywords
     """
-    gcloud_response = gcloud_syntax_extraction(text)
-
-    if isinstance(gcloud_response, dict):
-        return gcloud_response
+    try:
+        gcloud_response = gcloud_syntax_extraction(text)
+    except:
+        raise
 
     tokens_shortened = []
     for token in gcloud_response.tokens:

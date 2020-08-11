@@ -1,3 +1,4 @@
+import traceback
 import utils
 
 
@@ -10,5 +11,13 @@ def get_keywords_service(request):
         json of language detected and keywords for text
     """
     json = request.get_json()
+    if "text" not in json:
+        return {"error": {"message": "ValueError: Expected 'text' field in json body is missing"}}
+
     text = json["text"]
-    return utils.extract_keywords(text)
+    try:
+        response = utils.extract_keywords(text)
+    except Exception as e:
+        return {"error": {"message": getattr(e, 'message', str(e)),
+                          "trace": traceback.format_exc()}}
+    return response

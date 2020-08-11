@@ -39,24 +39,20 @@ class SearchEngine:
         response = requests.post(constants.KEYWORDS_ENDPOINT, json=query_text)
         response = response.json()
 
-        if 'error' in response:
-            return response
-
         lan = response['lan']
 
         if lan not in constants.SUPPORTED_LANGUAGES:
-            return {'error': {
-                'type': 'inputError', 'message': f'{lan} not supported!'}}
+            raise ValueError(f'{lan} not supported')
 
         keywords = []
 
         for token in response['tokens']:
             keywords.append(token['lemma'])
 
-        synonyms = utils.create_synonym_list_esp(keywords)
-
-        if isinstance(synonyms, dict):
-            return synonyms
+        try:
+            synonyms = utils.create_synonym_list_esp(keywords)
+        except:
+            raise
 
         return self.search_query(keywords, synonyms)
 
