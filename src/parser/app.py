@@ -16,11 +16,9 @@ def trigger_parsing():
 
 
 @app.route('/articles/byKeywords', methods=['POST'])
-def by_keywords():
+def get_keywords():
     data = request.get_json()
-    print(data)
-    return jsonify(data)
-    # return jsonify(parser.get_articles_that_match_keywords(data['keywords']))
+    return jsonify(parser.get_articles_that_match_keywords(data['keywords']))
     # else:
     #     return "Invalid Request Body", 500
 
