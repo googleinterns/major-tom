@@ -1,9 +1,9 @@
-from flask import Flask
-from flask import request
-from flask import jsonify
+from flask import Flask # pylint: disable=import-error
+from flask import request # pylint: disable=import-error
+from flask import jsonify # pylint: disable=import-error
 
-import database
-import parser
+import database # pylint: disable=import-error
+import parser # pylint: disable=import-error
 
 
 app = Flask(__name__)

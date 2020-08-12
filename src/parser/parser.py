@@ -8,12 +8,12 @@ from collections import namedtuple
 import json
 
 
-import slate
+import slate # pylint: disable=import-error
 
 
-import retriever
-import database
-import keywordMock
+import retriever # pylint: disable=import-error
+import database # pylint: disable=import-error
+import keywordMock # pylint: disable=import-error
 
 
 logging.basicConfig(level=logging.INFO)
@@ -78,6 +78,7 @@ def get_articles_that_match_keywords(keywords_list):
     to_return = []
     for keyword in keywords_list:
         if keyword in keywords:
+            print(keyword)
             to_return.append(keywords[keyword])
     return to_return
 
