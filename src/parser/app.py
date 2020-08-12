@@ -9,27 +9,23 @@ import parser
 app = Flask(__name__)
 
 
-@app.route('/')
-def hello_world():
-    return "Hello World!"
-
-
 @app.route('/parse', endpoint='parser', methods=['POST'])
 def trigger_parsing():
-    parser.parse()
+    # return parser.parse_without_database()
+    return parser.parse()
 
 
-@app.route('/articles/byKeywords/', endpoint='database', methods=['GET'])
-def by_keywords(id):
-    data = request.data
-    if data != '':
-        pass
+@app.route('/articles/byKeywords', methods=['POST'])
+def by_keywords():
+    data = request.get_json()
+    print(data)
+    return jsonify(data)
+    # return jsonify(parser.get_articles_that_match_keywords(data['keywords']))
+    # else:
+    #     return "Invalid Request Body", 500
 
-
-    return jsonify(database.get_article(id))
-
-@app.route('/articles/<id>', endpoint='database', methods=['GET'])
-def trigger_parsing(id):
-    return jsonify(database.get_article(id))
+@app.route('/articles/<id>', methods=['GET'])
+def get_article_by_number_in_memory(id):
+    return jsonify(parser.get_article_by_number(id))
 
 # parser.parse('regs.pdf')
