@@ -2,8 +2,9 @@ import json
 import mock  # pylint: disable=import-error
 import flask  # pylint: disable=import-error
 from munch import munchify  # pylint: disable=import-error
-from main import get_keywords_service as get_keywords
+from main import get_keywords_service as get_keywords  # pylint: disable=no-name-in-module
 import test_constants as constants
+
 
 def make_flask_request(data):
     """
@@ -15,6 +16,7 @@ def make_flask_request(data):
     """
     return flask.Request.from_values(
         method='POST', content_type="application/json", data=json.dumps(data))
+
 
 def test_single_word_keyword():
     """
@@ -28,6 +30,7 @@ def test_single_word_keyword():
     with mock.patch('extract.gcloud_syntax_extraction', return_value=response_obj):
         assert result == get_keywords(make_flask_request({'text': 'hablando'}))
 
+
 def test_single_word_not_keyword():
     """
     Only one word in input, but it isn't a keyword
@@ -38,6 +41,7 @@ def test_single_word_not_keyword():
 
     with mock.patch('extract.gcloud_syntax_extraction', return_value=response_obj):
         assert result == get_keywords(make_flask_request({'text': 'el'}))
+
 
 def test_no_words():
     """
@@ -50,6 +54,7 @@ def test_no_words():
 
     with mock.patch('extract.gcloud_syntax_extraction', return_value=response_obj):
         assert result == get_keywords(make_flask_request({'text': ''}))
+
 
 def test_wrong_input():
     """

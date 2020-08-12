@@ -1,4 +1,4 @@
-from google.cloud.language import enums
+from google.cloud.language import enums  # pylint: disable=import-error
 
 VERB_TAG = enums.PartOfSpeech.Tag.VERB
 DET_TAG = enums.PartOfSpeech.Tag.DET
