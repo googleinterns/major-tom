@@ -3,7 +3,7 @@
 import logging
 import hashlib
 # import datetime
-import requests
+# import requests
 from collections import namedtuple
 import json
 
