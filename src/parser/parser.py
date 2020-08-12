@@ -2,7 +2,7 @@
 """
 import logging
 import hashlib
-import datetime
+# import datetime
 import requests
 from collections import namedtuple
 import json
