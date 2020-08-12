@@ -4,6 +4,7 @@ FROM python:3.7-slim
 
 # Copy local code to the container image.
 ENV APP_HOME /app
+ENV PORT=8081
 WORKDIR $APP_HOME
 COPY . .
 
@@ -11,4 +12,4 @@ COPY . .
 RUN pip install -r requirements.txt
 
 # Run the web service on container startup.
-CMD exec functions-framework --target=get_keywords_service
+CMD exec functions-framework --target=get_keywords_service --port=$PORT

@@ -1,3 +1,4 @@
+import os
 import requests  # pylint: disable=import-error
 import constants
 import testing.test_constants
@@ -36,7 +37,7 @@ class SearchEngine:
             A map of the score of every article
         """
         query_text = {'text': query}
-        response = requests.post(constants.KEYWORDS_ENDPOINT, json=query_text)
+        response = requests.post(os.getenv('KEYWORDS_ENDPOINT'), json=query_text)
         response = response.json()
 
         lan = response['lan']
@@ -62,7 +63,7 @@ class SearchEngine:
         Attributes:
             frequency: db frequency result
             weight: the weight for the current call
-            words: keywords in search engine
+            iwords: keywords in search engine
             target_dict: dictionary to update
         """
         for word in words:
