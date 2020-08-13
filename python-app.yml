@@ -1,0 +1,52 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python application
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies (Parser)
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      working-directory: /services/parser-database/
+    - name: Install dependencies (Keywords)
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      working-directory: /services/keywords/
+    - name: Install dependencies (Search Engine)
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      working-directory: /services/search/
+  
+    - name: Test with pytest (parser)
+      run: |
+        pytest
+      working-directory: /services/parser-database/
+    - name: Test with pytest (keywords)
+      run: |
+        pytest
+      working-directory: /services/keywords/
+    - name: Test with pytest (searchengine)
+      run: |
+        pytest
+      working-directory: /services/search/
+      
