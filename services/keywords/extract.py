@@ -11,15 +11,12 @@ def gcloud_syntax_extraction(text):
     Returns:
         the response given by the api call
     """
-    try:
-        client = language.LanguageServiceClient()
-        # pylint: disable=no-member
-        document = types.Document(
-            content=text,
-            type=enums.Document.Type.PLAIN_TEXT)
-        response = client.analyze_syntax(document=document)
-    except Exception:
-        raise
+    client = language.LanguageServiceClient()
+    # pylint: disable=no-member
+    document = types.Document(
+        content=text,
+        type=enums.Document.Type.PLAIN_TEXT)
+    response = client.analyze_syntax(document=document)
 
     return response
 
@@ -35,10 +32,7 @@ def extract_keywords(text):
         An object with the language, the keywords as defined by the design doc,
         the lemma and part of speech for said keywords
     """
-    try:
-        gcloud_response = gcloud_syntax_extraction(text)
-    except Exception:
-        raise
+    gcloud_response = gcloud_syntax_extraction(text)
 
     tokens_shortened = []
     for token in gcloud_response.tokens:

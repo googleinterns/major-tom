@@ -11,7 +11,7 @@ def get_keywords_service(request):
         json of language detected and keywords for text
     """
     json = request.get_json()
-    if "text" not in json:
+    if json is None or "text" not in json:
         return {"error": {"message": "ValueError: Expected 'text' field in json body is missing"}}
 
     text = json["text"]

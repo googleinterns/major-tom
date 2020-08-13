@@ -37,7 +37,8 @@ class SearchEngine:
             A map of the score of every article
         """
         query_text = {'text': query}
-        response = requests.post(os.getenv('KEYWORDS_ENDPOINT'), json=query_text)
+        keywords_endpoint = os.getenv('KEYWORDS_ENDPOINT') is not None or 'http://localhost:8081'
+        response = requests.post(keywords_endpoint, json=query_text)
         response = response.json()
 
         lan = response['lan']
@@ -50,10 +51,7 @@ class SearchEngine:
         for token in response['tokens']:
             keywords.append(token['lemma'])
 
-        try:
-            synonyms = utils.create_synonym_list_esp(keywords)
-        except Exception:
-            raise
+        synonyms = utils.create_synonym_list_esp(keywords)
 
         return self._search_query(keywords, synonyms)
 

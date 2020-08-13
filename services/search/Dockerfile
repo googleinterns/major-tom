@@ -12,4 +12,6 @@ COPY . .
 RUN pip install -r requirements.txt
 
 # Run the web service on container startup.
+# Spins up in port 8080 by default
+# https://github.com/GoogleCloudPlatform/functions-framework-python
 CMD exec functions-framework --target=search_service
