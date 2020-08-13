@@ -1,4 +1,4 @@
-import requests # pylint: disable=import-error
+import requests  # pylint: disable=import-error
 
 
 def get_document(url):
