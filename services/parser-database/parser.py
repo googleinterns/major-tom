@@ -115,9 +115,11 @@ def count_articles(pdf_text):
 
 
 mty_document = {
-    "hash": "afafbfbdce8c40924edae00f6ce54f0c639ce42a2c0fbbfa6ab82ea6925827c51",
+    "hash": "afafbfbdce8c40924edae00f6ce54f0c639ce42a2" +
+    "c0fbbfa6ab82ea6925827c51",
     "jurisdiction": "Monterrey",
-    "url": "http://www.guadalupe.gob.mx/wp-content/uploads/2019/09/Nuevo-Reglamento-Homologado-1.pdf",
+    "url": "http://www.guadalupe.gob.mx/wp-content/upl" +
+    "oads/2019/09/Nuevo-Reglamento-Homologado-1.pdf",
 }
 document_list = []
 document_list.append(mty_document)
