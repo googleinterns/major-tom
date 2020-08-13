@@ -45,6 +45,5 @@ def get_article_by_number_in_memory(id):
         return {"error": {
             "message": "Article not found with submitted ID"}}, 404
 
-
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=os.getenv("PORT"))
