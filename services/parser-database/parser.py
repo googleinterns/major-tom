@@ -42,7 +42,7 @@ class Document:
                 jurisdiction={self.jurisdiction}, \
                 last_updated={self.last_updated}, \
                 url={self.url}, \
-                hash={self.hash}\
+                shahash={self.shahash}\
             )"
 
 
@@ -173,8 +173,7 @@ def get_keywords(text):
         "localhost:8000", params={"text": text}
     ).json()
     """
-    keywords_service_response = keywordMock.get_
-    keywords(text)
+    keywords_service_response = keywordMock.get_keywords(text)
     return json.loads(keywords_service_response)
 
 
