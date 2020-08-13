@@ -1,4 +1,3 @@
-// Test
 import articleQueries from './article/queries'
 
 const resolvers = {
