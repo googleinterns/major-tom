@@ -1,5 +1,3 @@
-"""Program that parses PDF documents and separates it by article for database storage.
-"""
 import logging
 import hashlib
 
@@ -7,21 +5,17 @@ import hashlib
 # import requests
 import json
 
-
 import slate  # pylint: disable=import-error
-
 
 import retriever  # pylint: disable=import-error
 # import database  # pylint: disable=import-error
-import keywordMock  # pylint: disable=import-error
-
+import keywordmock  # pylint: disable=import-error
 
 logging.basicConfig(level=logging.INFO)
 
 
 class Document:
     """Class for Regulations Documents"""
-
     def __init__(self, jurisdiction, shahash, url, last_updated):
         self.id = None
         self.jurisdiction = jurisdiction
@@ -49,7 +43,6 @@ class Document:
 class Article:
     """Class for storing articles.
     """
-
     def __init__(self, number, text):
         self.number = number
         self.text = text
@@ -63,7 +56,7 @@ def get_article_by_number(art_num):
     for item in articles_in_memory:
         if art_num == str(item["articleNumber"]):
             return item
-    return "No article matches such ID", 402
+    return None
 
 
 def get_articles_that_match_keywords(keywords_list):
@@ -101,8 +94,7 @@ def count_articles(pdf_text):
         if (pdf_text[i] == "artículo" or pdf_text[i] == "articulo") and (
                 pdf_text[i + 1] == str(article_count) + ".-"
                 or pdf_text[i + 1] == str(article_count) + "-"
-                or pdf_text[i + 1] == str(article_count) + "."
-        ):
+                or pdf_text[i + 1] == str(article_count) + "."):
             logging.info("Article #" + str(article_count) + " recognized!")
             articles.append(Article(article_count, article_text))
             article_text = ""
@@ -115,11 +107,12 @@ def count_articles(pdf_text):
 
 
 mty_document = {
-    "hash": "afafbfbdce8c40924edae00f6ce54f0c639ce42a2" +
-    "c0fbbfa6ab82ea6925827c51",
-    "jurisdiction": "Monterrey",
-    "url": "http://www.guadalupe.gob.mx/wp-content/upl" +
-    "oads/2019/09/Nuevo-Reglamento-Homologado-1.pdf",
+    "hash":
+    "afafbfbdce8c40924edae00f6ce54f0c639ce42a2c0fbbfa6ab82ea6925827c51",  # pylint: disable=line-too-long
+    "jurisdiction":
+    "Monterrey",
+    "url":
+    "http://www.guadalupe.gob.mx/wp-content/uploads/2019/09/Nuevo-Reglamento-Homologado-1.pdf",  # pylint: disable=line-too-long
 }
 document_list = []
 document_list.append(mty_document)
@@ -175,7 +168,7 @@ def get_keywords(text):
         "localhost:8000", params={"text": text}
     ).json()
     """
-    keywords_service_response = keywordMock.get_keywords(text)
+    keywords_service_response = keywordmock.get_keywords(text)
     return json.loads(keywords_service_response)
 
 
@@ -206,8 +199,10 @@ def save_keywords_in_memory(keywords, article):
         frequency = split_article.count(keyword)
         if keyword not in keywords:
             keywords_in_memory[keyword] = []
-        keywords_in_memory[keyword].append(
-            {"articleNumber": article.number, "frequency": frequency})
+        keywords_in_memory[keyword].append({
+            "articleNumber": article.number,
+            "frequency": frequency
+        })
 
 
 # When the time comes to implement the DB, the commented stuff will allow
