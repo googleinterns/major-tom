@@ -1,18 +1,18 @@
 swagger: "2.0"
 info:
-  description: "This is the backend component API. Visit the link for an interactive playground to execute requests."
+  description: "This is the backend component API exposing a GraphQL server. The [GraphQL spec](https://spec.graphql.org/June2018/) dives deep into the philosophy of GraphQL. This spec models and showcases the request/response formats expected from the backend service."
   version: "1.0.0"
   title: "Road Rules Search Engine"
 tags:
   - name: "Backend service"
 schemes:
-  - "https"
+  - "http"
 paths:
   /:
     post:
       tags:
-        - "Root"
-      summary: "Base path"
+        - "Backend service"
+      summary: "GraphQL endpoint"
       description: "Base path handles any incoming request and re-routes it to the requested resolver."
       consumes:
         - "application/json"
