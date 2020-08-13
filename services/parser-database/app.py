@@ -38,6 +38,5 @@ def get_article_by_number_in_memory(id):
         return "No article matches such ID", 402
 
 
-
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=8082)
