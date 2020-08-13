@@ -144,15 +144,6 @@ def has_file_changed(past_hash):
         return True
 
 
-def download_file(url):
-    """Downloads a PDF file from the given URL
-
-    Args:
-        url (string): URL to download file from
-    """
-    retriever.get_document(url)
-
-
 # TODO Change to point to Javier's service
 def get_keywords(text):
     """Get keywords that relate to this article (Javier's service)
@@ -209,7 +200,7 @@ def save_keywords_in_memory(keywords, article):
 # that (with a few additions)
 def parse(document_to_parse):
     """Parses all PDF documents that are in the DB"""
-    download_file(document_to_parse["url"])
+    retriever.get_document(document_to_parse["url"])
     print('File downloaded')
     if has_file_changed(document_to_parse["hash"]):
         print('File has changed')
