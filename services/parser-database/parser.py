@@ -76,7 +76,7 @@ def get_articles_that_match_keywords(keywords_list):
     return to_return
 
 
-def count_articles(pdf_text):
+def identify_articles(pdf_text):
     """Identifies articles and returns a list of Article objects.
 
     Args:
@@ -212,7 +212,7 @@ def parse(document_to_parse):
             for page in doc:
                 final_text += page
             final_text = final_text.strip().lower().split()
-            articles = count_articles(final_text)
+            articles = identify_articles(final_text)
 
             for article in articles:
                 article_to_dictionary(article)
