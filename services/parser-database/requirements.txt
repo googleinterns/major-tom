@@ -1,0 +1,4 @@
+Flask
+firebase-admin
+utils
+https://github.com/timClicks/slate/archive/master.zip
