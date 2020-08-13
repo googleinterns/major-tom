@@ -1,0 +1,5 @@
+google-cloud-language
+functions-framework
+mock
+flask
+munch
