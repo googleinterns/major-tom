@@ -4,7 +4,7 @@ import logging
 import hashlib
 
 # import datetime
-import requests
+# import requests
 import json
 
 
@@ -12,7 +12,7 @@ import slate  # pylint: disable=import-error
 
 
 import retriever  # pylint: disable=import-error
-import database  # pylint: disable=import-error
+# import database  # pylint: disable=import-error
 import keywordMock  # pylint: disable=import-error
 
 
@@ -22,11 +22,12 @@ logging.basicConfig(level=logging.INFO)
 class Document:
     """Class for Regulations Documents"""
 
-    def __init__(self, jurisdiction, hash, url):
+    def __init__(self, jurisdiction, shahash, url, last_updated):
         self.id = None
         self.jurisdiction = jurisdiction
-        self.hash = hash
+        self.shahash = shahash
         self.url = url
+        self.last_updated = last_updated
 
     @staticmethod
     def from_dict():
@@ -39,7 +40,7 @@ class Document:
         return f"Document(\
                 id={self.id}, \
                 jurisdiction={self.jurisdiction}, \
-                lastUpdated={self.lastUpdated}, \
+                last_updated={self.last_updated}, \
                 url={self.url}, \
                 hash={self.hash}\
             )"
@@ -55,22 +56,30 @@ class Article:
 
 
 articles_in_memory = []
-keywords = {}
+keywords_in_memory = {}
 
 
-def get_article_by_number(artNum):
+def get_article_by_number(art_num):
     for item in articles_in_memory:
-        if artNum == str(item["articleNumber"]):
+        if art_num == str(item["articleNumber"]):
             return item
     return "No article matches such ID", 402
 
 
 def get_articles_that_match_keywords(keywords_list):
+    """Returns articles that match the the given keyword(s)
+
+    Args:
+        keywords_list (list): Keyword(s) to look for
+
+    Returns:
+        list: articles that match such keyword(s)
+    """
     to_return = []
     for keyword in keywords_list:
-        if keyword in keywords:
+        if keyword in keywords_in_memory:
             print(keyword)
-            to_return.append(keywords[keyword])
+            to_return.append(keywords_in_memory[keyword])
     return to_return
 
 
@@ -90,9 +99,9 @@ def count_articles(pdf_text):
     i = 0
     while i < len(pdf_text) - 1:
         if (pdf_text[i] == "artículo" or pdf_text[i] == "articulo") and (
-            pdf_text[i + 1] == str(article_count) + ".-"
-            or pdf_text[i + 1] == str(article_count) + "-"
-            or pdf_text[i + 1] == str(article_count) + "."
+                pdf_text[i + 1] == str(article_count) + ".-"
+                or pdf_text[i + 1] == str(article_count) + "-"
+                or pdf_text[i + 1] == str(article_count) + "."
         ):
             logging.info("Article #" + str(article_count) + " recognized!")
             articles.append(Article(article_count, article_text))
@@ -106,7 +115,7 @@ def count_articles(pdf_text):
 
 
 mty_document = {
-    "hash": "afafbfbdce8c40924edae00f6ce54f0c639ce42a2c0fbbfa6ab82ea6925827c51",  # Added one at last
+    "hash": "afafbfbdce8c40924edae00f6ce54f0c639ce42a2c0fbbfa6ab82ea6925827c51",
     "jurisdiction": "Monterrey",
     "url": "http://www.guadalupe.gob.mx/wp-content/uploads/2019/09/Nuevo-Reglamento-Homologado-1.pdf",
 }
@@ -115,61 +124,93 @@ document_list.append(mty_document)
 
 
 def parse_all_documents():
-    """Parses all documents that are specified on the DB"""
-    """(For obvious reasons, this won't work as is while the DB is not in use)
+    """Parses all documents that are specified on the DB
+    (For obvious reasons, this won't work as is while the DB is not in use)
     (But will still parse the hardcoded document)"""
     for document in document_list:
         parse(document)
 
 
 def has_file_changed(past_hash):
+    """Sees if the file is different.
+
+    Args:
+        past_hash (string): hash to compare from
+
+    Returns:
+        [boolean]: [if the file has changed or not]
+    """
     hasher = hashlib.sha256()
     with open("regs.pdf", "rb") as pdf_file:
         file_buffer = pdf_file.read()
         hasher.update(file_buffer)
         if hasher.hexdigest() == past_hash:
             return False
-        else:
-            return True
+        return True
 
 
 def download_file(url):
+    """Downloads a PDF file from the given URL
+
+    Args:
+        url (string): URL to download file from
+    """
     retriever.get_document(url)
 
 
 # TODO Change to point to Javier's service
 def get_keywords(text):
-    """Get keywords that relate to this article (Javier's service)"""
-    keywords_service_response = keywordMock.get_keywords(text)
-    return json.loads(keywords_service_response)
-    '''
+    """Get keywords that relate to this article (Javier's service)
+
+    Args:
+        text (sting): text to extract keywords from
+
+    Returns:
+        [JSON]: extracted keywords
+    """
+    """
     return requests.post(
         "localhost:8000", params={"text": text}
     ).json()
-    '''
+    """
+    keywords_service_response = keywordMock.get_
+    keywords(text)
+    return json.loads(keywords_service_response)
 
 
 def article_to_dictionary(article):
-    articleDict = {}
-    articleDict["articleNumber"] = article.number
-    articleDict["text"] = article.text
-    articleDict["wordCount"] = len(article.text.split())
-    articles_in_memory.append(articleDict)
-    #print("Adding " + str(articleDict))
+    """Converts an parsed article to a dictionary and saves it
+
+    Args:
+        article (Article): [article object]
+    """
+    article_dict = {
+        "articleNumber": article.number,
+        "text": article.text,
+        "wordCount": len(article.text.split())
+    }
+    articles_in_memory.append(article_dict)
     save_keywords_in_memory(get_keywords(article.text), article)
 
 
 def save_keywords_in_memory(keywords, article):
+    """Saves the keywords from an article in memory
+
+    Args:
+        keywords (JSON): contains keywords
+        article (Article): article object
+    """
     split_article = article.text.split()
     for keyword in keywords["keywords"]:
         frequency = split_article.count(keyword)
         if keyword not in keywords:
-            keywords[keyword] = []
-        keywords[keyword].append(
+            keywords_in_memory[keyword] = []
+        keywords_in_memory[keyword].append(
             {"articleNumber": article.number, "frequency": frequency})
 
 
-# When the time comes to implement the DB, the commented stuff will allow that (with a few additions)
+# When the time comes to implement the DB, the commented stuff will allow
+# that (with a few additions)
 def parse(document_to_parse):
     """Parses all PDF documents that are in the DB"""
     download_file(document_to_parse["url"])
