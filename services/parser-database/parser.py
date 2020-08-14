@@ -23,13 +23,6 @@ class Document:
         self.url = url
         self.last_updated = last_updated
 
-    @staticmethod
-    def from_dict():
-        pass
-
-    def to_dict(self):
-        pass
-
     def __repr__(self):
         return f"Document(\
                 id={self.id}, \
@@ -48,14 +41,13 @@ class Article:
         self.text = text
 
 
-articles_in_memory = []
+articles_in_memory = {}
 keywords_in_memory = {}
 
 
 def get_article_by_number(art_num):
-    for item in articles_in_memory:
-        if art_num == str(item["articleNumber"]):
-            return item
+    if art_num in articles_in_memory:
+        return articles_in_memory[art_num]
     return None
 
 
@@ -68,12 +60,12 @@ def get_articles_that_match_keywords(keywords_list):
     Returns:
         list: articles that match such keyword(s)
     """
-    to_return = []
+    mnatching_articles = []
     for keyword in keywords_list:
         if keyword in keywords_in_memory:
             print(keyword)
-            to_return.append(keywords_in_memory[keyword])
-    return to_return
+            mnatching_articles.append(keywords_in_memory[keyword])
+    return mnatching_articles
 
 
 def identify_articles(pdf_text):
@@ -125,10 +117,13 @@ def parse_all_documents():
     (For obvious reasons, this won't work as is while the DB is not in use)
     (But will still parse the hardcoded document)"""
     for document in document_list:
-        parse(document)
+        file_name = document["jurisdiction"] + ".pdf"
+        download_file(document["url"], file_name)
+        print('File downloaded')
+        parse(document, file_name)
 
 
-def has_file_changed(past_hash):
+def has_file_changed(past_hash, file_name):
     """Sees if the file is different.
 
     Args:
@@ -138,7 +133,7 @@ def has_file_changed(past_hash):
         [boolean]: [if the file has changed or not]
     """
     hasher = hashlib.sha256()
-    with open("regs.pdf", "rb") as pdf_file:
+    with open(file_name, "rb") as pdf_file:
         file_buffer = pdf_file.read()
         hasher.update(file_buffer)
         if hasher.hexdigest() == past_hash:
@@ -154,15 +149,19 @@ def get_keywords(text):
         text (sting): text to extract keywords from
 
     Returns:
-        [JSON]: extracted keywords
+        [list]: list of extracted keywords
     """
     """
     return requests.post(
         "localhost:8000", params={"text": text}
     ).json()
     """
-    keywords_service_response = keywordmock.get_keywords(text)
-    return json.loads(keywords_service_response)
+    extracted_keywords = []
+    nlp_output = keywordmock.get_keywords(text)
+    json_output = json.loads(nlp_output)
+    for keyword in json_output["keywords"]:
+        extracted_keywords.append(keyword)
+    return extracted_keywords
 
 
 def article_to_dictionary(article):
@@ -176,8 +175,9 @@ def article_to_dictionary(article):
         "text": article.text,
         "wordCount": len(article.text.split())
     }
-    articles_in_memory.append(article_dict)
-    save_keywords_in_memory(get_keywords(article.text), article)
+    articles_in_memory[str(article.number)] = article_dict
+    keywords = get_keywords(article.text)
+    save_keywords_in_memory(keywords, article)
 
 
 def save_keywords_in_memory(keywords, article):
@@ -188,9 +188,9 @@ def save_keywords_in_memory(keywords, article):
         article (Article): article object
     """
     split_article = article.text.split()
-    for keyword in keywords["keywords"]:
+    for keyword in keywords:
         frequency = split_article.count(keyword)
-        if keyword not in keywords:
+        if keyword not in keywords_in_memory:
             keywords_in_memory[keyword] = []
         keywords_in_memory[keyword].append({
             "articleNumber": article.number,
@@ -198,15 +198,22 @@ def save_keywords_in_memory(keywords, article):
         })
 
 
-# When the time comes to implement the DB, the commented stuff will allow
-# that (with a few additions)
-def parse(document_to_parse):
+def download_file(url, filename_to_use):
+    """Downloads file from the given URL
+
+    Args:
+        url (string): [URL that contains the file to download]
+        file_name_to_use (string): [file name for file to save]
+    """
+    retriever.get_document(url, filename_to_use)
+
+
+def parse(document_to_parse, file_name):
     """Parses all PDF documents that are in the DB"""
-    retriever.get_document(document_to_parse["url"])
-    print('File downloaded')
-    if has_file_changed(document_to_parse["hash"]):
+
+    if has_file_changed(document_to_parse["hash"], file_name):
         print('File has changed')
-        with open("regs.pdf", "rb") as pdf_file:
+        with open(file_name, "rb") as pdf_file:
             doc = slate.PDF(pdf_file)
             final_text = ""
             for page in doc:
