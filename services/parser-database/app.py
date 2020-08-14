@@ -39,7 +39,7 @@ def get_article_by_number_in_memory(id):
     if article is not None:
         return jsonify(article)
     else:
-        return "No article matches such ID", 404
+        return {"error": "Article not found with submitted ID"}, 404
 
 
 if __name__ == '__main__':
