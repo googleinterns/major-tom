@@ -1,9 +1,4 @@
-import pytest
-
-from parser import parse
 from parser import identify_articles
-from parser import get_article_by_number
-from parser import article_to_dictionary
 
 
 test_file = {
