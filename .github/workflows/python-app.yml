@@ -46,8 +46,8 @@ jobs:
     - name: Test with pytest (keywords)
       working-directory: ./services/keywords
       run: |
-        pytest
+        python -m pytest
     - name: Test with pytest (searchengine)
       working-directory: ./services/search
       run: |
-        pytest
+        python -m pytest
