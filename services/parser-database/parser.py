@@ -63,7 +63,6 @@ def get_articles_that_match_keywords(keywords_list):
     mnatching_articles = []
     for keyword in keywords_list:
         if keyword in keywords_in_memory:
-            print(keyword)
             mnatching_articles.append(keywords_in_memory[keyword])
     return mnatching_articles
 
@@ -119,7 +118,7 @@ def parse_all_documents():
     for document in document_list:
         file_name = document["jurisdiction"] + ".pdf"
         download_file(document["url"], file_name)
-        print('File downloaded')
+        logging.info('File downloaded')
         parse(document, file_name)
 
 
@@ -212,7 +211,7 @@ def parse(document_to_parse, file_name):
     """Parses all PDF documents that are in the DB"""
 
     if has_file_changed(document_to_parse["hash"], file_name):
-        print('File has changed')
+        logging.info('File has changed')
         with open(file_name, "rb") as pdf_file:
             doc = slate.PDF(pdf_file)
             final_text = ""
