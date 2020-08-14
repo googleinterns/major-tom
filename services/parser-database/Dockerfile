@@ -4,6 +4,8 @@ FROM python:3.8-slim
 # set the working directory in the container
 WORKDIR /code
 
+ENV PORT 8082
+
 # Copy dependencies file to container
 COPY requirements.txt .
 
