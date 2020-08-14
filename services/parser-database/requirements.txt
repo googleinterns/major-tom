@@ -1,3 +1,0 @@
-Flask
-utils
-https://github.com/timClicks/slate/archive/master.zip
