@@ -1,30 +1,27 @@
-import axios from 'axios'
-import { DATABASE_ENDPOINT, SEARCH_ENDPOINT } from '../../config'
 import { AVERAGE_WORDS_PER_MINUTE } from '../../utils/constants'
+import { databaseApi, searchApi } from '../../endpoints'
 
 const articleQueries = {
   articles: async (_, { search }) => {
-    const payload = await axios.post(SEARCH_ENDPOINT, { query: search })
+    const payload = await searchApi(search)
 
-    if (!payload.error) {
-      const articleIds = [...payload.data.articles]
-      const articles = []
+    if (payload.error) return new Error(JSON.stringify(payload.error))
 
-      for (const id of articleIds) {
-        const article = await axios.get(`${DATABASE_ENDPOINT}/${id}`)
+    const articleIds = [...payload.data.articles]
+    const articles = []
 
-        if (article.error) return new Error(JSON.stringify(article))
+    for (const id of articleIds) {
+      const article = await databaseApi(id)
 
-        article.minutesToRead = parseInt(article.wordCount) / AVERAGE_WORDS_PER_MINUTE
-        delete article.wordCount
+      if (article.error) return new Error(JSON.stringify(article))
 
-        articles.push(article)
-      }
+      article.minutesToRead = parseInt(article.wordCount) / AVERAGE_WORDS_PER_MINUTE
+      delete article.wordCount
 
-      return articles
+      articles.push(article)
     }
 
-    return new Error(JSON.stringify(payload.error))
+    return articles
   }
 }
 

@@ -4,18 +4,7 @@ const articles = [
     number: 1,
     content:
             'Esta prohibido manejar en las siguientes condiciones:\n\t 1. Teniendo los faros rotos\n\t 2. Teniendo las llantas ponchadas\nCualquiera de estos casos no será tolerado!',
-    keywords: [
-      'Lorem',
-      'Ipsum',
-      'Ipsum',
-      'Ipsum',
-      'Ipsum',
-      'Ipsum',
-      'Ipsum',
-      'Ipsum',
-      'Ipsum',
-      'Ipsum'
-    ],
+    keywords: ['Lorem', 'Ipsum'],
     wordCount: 1125
   },
   {
@@ -76,24 +65,4 @@ const articles = [
   }
 ]
 
-const responses = {
-  articleIdsFromSearch: limit => {
-    const articles = []
-
-    for (let i = 1; i <= limit; i++) {
-      articles.push(i)
-    }
-
-    return { data: { articles } }
-  },
-  errorResponseFromSearch: () => ({ error: { message: 'This is the error message', trace: 'unicode ugly stack trace' } }),
-  articleFromIdDatabase: id => {
-    for (const article of articles) {
-      if (parseInt(article.id) === id) { return article }
-    }
-
-    return { error: 'No article matches such ID', code: 404 }
-  }
-}
-
-export { responses, articles }
+export { articles }
