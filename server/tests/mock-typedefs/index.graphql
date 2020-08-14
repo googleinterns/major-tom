@@ -1,0 +1,6 @@
+# import * from 'article.graphql'
+
+type Query {
+  articles(search: String!, limit: Int): [Article!]
+  articlesSearchError(search: String!): [Article!]
+}

@@ -4,14 +4,16 @@ import { AVERAGE_WORDS_PER_MINUTE } from '../../utils/constants'
 
 const articleQueries = {
   articles: async (_, { search }) => {
-    const { data } = await axios.post(SEARCH_ENDPOINT, { query: search })
+    const payload = await axios.post(SEARCH_ENDPOINT, { query: search })
 
-    if (!data.error) {
-      const articleIds = [...data.articles]
+    if (!payload.error) {
+      const articleIds = [...payload.data.articles]
       const articles = []
 
       for (const id of articleIds) {
         const article = await axios.get(`${DATABASE_ENDPOINT}/${id}`)
+
+        if (article.error) return new Error(JSON.stringify(article))
 
         article.minutesToRead = parseInt(article.wordCount) / AVERAGE_WORDS_PER_MINUTE
         delete article.wordCount
@@ -22,7 +24,7 @@ const articleQueries = {
       return articles
     }
 
-    return new Error(data.error)
+    return new Error(JSON.stringify(payload.error))
   }
 }
 
