@@ -37,10 +37,3 @@ def test_article_extraction_by_article_content():
     recieved_articles = identify_articles(articles.strip().split())
     assert recieved_articles[1].text == " los ciclistas se deben de orillar"
     assert recieved_articles[4].text == " carros de mas de 3/4 toneladas requieren licencia de chofer"
-
-
-def test_article_retrieval():
-    recieved_articles = identify_articles(articles.split())
-    for article in recieved_articles:
-        article_to_dictionary(article)
-    assert get_article_by_number(2) == "los ciclistas no se deben de orillar"
