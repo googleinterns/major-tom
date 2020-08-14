@@ -33,10 +33,6 @@ definitions:
   Request:
     type: "object"
     properties:
-      operationName:
-        type: "string"
-        description: "The name of the GraphQL resolver being requested."
-        example: "articles"
       query:
         type: "string"
         description: "A GraphQL request containing required attributes."
