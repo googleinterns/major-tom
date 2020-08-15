@@ -60,11 +60,11 @@ def get_articles_that_match_keywords(keywords_list):
     Returns:
         list: articles that match such keyword(s)
     """
-    mnatching_articles = []
+    matching_articles = []
     for keyword in keywords_list:
         if keyword in keywords_in_memory:
-            mnatching_articles.append(keywords_in_memory[keyword])
-    return mnatching_articles
+            matching_articles.append(keywords_in_memory[keyword])
+    return matching_articles
 
 
 def identify_articles(pdf_text):
