@@ -1,4 +1,5 @@
 import traceback  # pylint: disable=import-error
+import logging
 import constants
 from search_engine import SearchEngine
 
@@ -13,20 +14,30 @@ def search_service(request):
         list of articles with their respective scores
     """
     json = request.get_json()
+    logging.info(json)
+
     if "query" not in json:
-        return {"error": {"message": "ValueError: Expected 'query' field in json body is missing"}}
+        message = "ValueError: Expected 'query' field in json body missing"
+        error = {"error": {"message": message}}
+        logging.error(message)
+        return error
 
     query = json["query"]
     search = SearchEngine(keywords_weight=constants.KEYWORDS_WEIGHT)
     try:
         score_per_article = search.query(query)
     except Exception as e:
-        return {"error": {"message": getattr(e, 'message', str(e)),
-                          "trace": traceback.format_exc()}}
+        error = {"error": {"message": getattr(e, 'message', str(e)),
+                           "trace": traceback.format_exc()}}
+        logging.error(error['error'])
+        return error
 
     # sorts dictionary by value in DESC order
     articles_sorted = [k for k, v in sorted(
         score_per_article.items(),
         key=lambda item: item[1], reverse=True)]
 
-    return {"articles": articles_sorted}
+    response = {"articles": articles_sorted}
+
+    logging.info(response)
+    return response

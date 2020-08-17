@@ -1,4 +1,5 @@
 import os
+import logging
 import requests  # pylint: disable=import-error
 import constants
 import testing.test_constants
@@ -38,8 +39,12 @@ class SearchEngine:
         """
         query_text = {'text': query}
         keywords_endpoint = os.getenv('KEYWORDS_ENDPOINT') is not None or 'http://localhost:8081'
+
+        logging.debug("keywords location: %s", keywords_endpoint)
+
         response = requests.post(keywords_endpoint, json=query_text)
         response = response.json()
+        logging.info("keywords response: %s", response)
 
         if 'error' in response:
             raise Exception(response['error']['message'])
@@ -54,7 +59,11 @@ class SearchEngine:
         for token in response['tokens']:
             keywords.append(token['lemma'])
 
+        logging.info("keywords: %s", keywords)
+
         synonyms = utils.create_synonym_list_esp(keywords)
+
+        logging.info("synonyms: %s", synonyms)
 
         return self.search_query(keywords, synonyms)
 
@@ -92,6 +101,9 @@ class SearchEngine:
 
         article_keywords_frequency = testing.test_constants.KEYWORDS_DB_MOCK_1
         article_synonyms_frequency = testing.test_constants.SYNONYMS_DB_MOCK_1
+
+        logging.info("DB Endpoint response keywords: %s", article_keywords_frequency)
+        logging.info("DB Endpoint response synonyms: %s", article_synonyms_frequency)
 
         self._calculate_score(article_keywords_frequency, self.keywords_weight,
                               keywords, score_per_article)
