@@ -65,12 +65,12 @@ def get_articles_that_match_keywords(keywords_list):
         articles_that_match_keyword = []
         if keyword in keywords_in_memory:
             for article in keywords_in_memory[keyword]:
-                articles_that_match_keyword.append({article["articleNumber"]: article["frequency"]})
-                print('ama')
-        print(articles_that_match_keyword)
+                articles_that_match_keyword.append(
+                    {
+                        article["articleNumber"]: article["frequency"]
+                    }
+                )
         matching_articles.append({keyword: articles_that_match_keyword})
-        print('ma')
-        print(matching_articles)
     return matching_articles
 
 
