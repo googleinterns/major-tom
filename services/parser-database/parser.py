@@ -57,7 +57,7 @@ def identify_articles(pdf_text):
     article_text = ""
     article_count = 1
     i = 0
-    #print(len(pdf_text))
+    # print(len(pdf_text))
     while i < len(pdf_text) - 1:
         print('1' + str(pdf_text[i]))
         print('1+1' + str(pdf_text[i+1]))
@@ -119,25 +119,7 @@ def article_to_dictionary(article):
     }
     connector.articles_in_memory[str(article.number)] = article_dict
     keywords = connector.get_keywords(article.text)
-    save_keywords_in_memory(keywords, article)
-
-
-def save_keywords_in_memory(keywords, article):
-    """Saves the keywords from an article in memory
-
-    Args:
-        keywords (JSON): contains keywords
-        article (Article): article object
-    """
-    split_article = article.text.split()
-    for keyword in keywords:
-        frequency = split_article.count(keyword)
-        if keyword not in connector.keywords_in_memory:
-            connector.keywords_in_memory[keyword] = []
-        connector.keywords_in_memory[keyword].append({
-            "articleNumber": article.number,
-            "frequency": frequency
-        })
+    connector.save_keywords_in_memory(keywords, article)
 
 
 def download_file(url, filename_to_use):

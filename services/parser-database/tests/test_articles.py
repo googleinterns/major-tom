@@ -28,17 +28,11 @@ def test_article_extraction_by_number_of_articles_extracted():
     articles_to_send = articles_to_send.split()
     #print(articles_to_send)
     recieved_articles = identify_articles(articles_to_send)
+    print(recieved_articles[5].text)
     assert len(recieved_articles) == 6
-    #print(recieved_articles[1].text)
-    assert recieved_articles[0].text == " los ciclistas se deben de orillar"
-    assert recieved_articles[1].text == " los ciclistas no se deben de orillar"
-    assert recieved_articles[2].text == " velocidad maxima de 10kmh"
-    assert recieved_articles[3].text == " carros de mas de 3/4 toneladas requieren licencia de chofer"
-    assert recieved_articles[4].text == " no te pueden infraccionar en navidad"
-    assert recieved_articles[5].text == " marcar al seguro y al 911 al chocar"
-
-def test_article_extraction_by_article_content():
-    """Tests if articles are extracted correctly"""
-    recieved_articles = identify_articles(articles.strip().split())
-    assert recieved_articles[1].text == " los ciclistas se deben de orillar"
-    assert recieved_articles[4].text == " carros de mas de 3/4 toneladas requieren licencia de chofer"
+    assert recieved_articles[0].text == "los ciclistas se deben de orillar"
+    assert recieved_articles[1].text == "los ciclistas no se deben de orillar"
+    assert recieved_articles[2].text == "velocidad maxima de 10kmh"
+    assert recieved_articles[3].text == "carros de mas de 3/4 toneladas requieren licencia de chofer"
+    assert recieved_articles[4].text == "no te pueden infraccionar en navidad"
+    assert recieved_articles[5].text == "marcar al seguro y al 911 al chocar"

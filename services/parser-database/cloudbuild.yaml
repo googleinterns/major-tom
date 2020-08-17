@@ -1,0 +1,26 @@
+steps:
+  # This step runs the unit tests on the app
+- name: 'python:3.8-slim'
+  id: Test
+  entrypoint: /bin/sh
+  args:
+  - -c
+  - 'pip install -r requirements.txt && pytest'
+      
+  # This step builds the container image.
+- name: 'gcr.io/cloud-builders/docker'
+  id: Build
+  args:
+  - 'build'
+  - '-t'
+  - 'gcr.io/major-tom-285619/parser-database'
+  - '.'
+      
+  # This step pushes the image to Container Registry
+  # The PROJECT_ID and SHORT_SHA variables are automatically
+  # replaced by Cloud Build.
+- name: 'gcr.io/cloud-builders/docker'
+  id: Push
+  args:
+  - 'push'
+  - 'gcr.io/major-tom-285619/parser-database'

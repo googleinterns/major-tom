@@ -5,6 +5,7 @@ FROM python:3.8-slim
 WORKDIR /code
 
 ENV PORT 8082
+ENV KEYWORDS_SERVICE http://keywords.default.major-tom.googleinterns.app
 
 # Copy dependencies file to container
 COPY requirements.txt .

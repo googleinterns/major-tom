@@ -2,6 +2,8 @@
 services/databases"""
 
 import json
+import os
+import requests
 
 import keywordmock  # pylint: disable=import-error
 
@@ -38,16 +40,13 @@ def get_keywords(text):
         [list]: list of extracted keywords
     """
 
-    """
-    return requests.post(
-        "localhost:8000", params={"text": text}
-    ).json()
-    """
     extracted_keywords = []
-    nlp_output = keywordmock.get_keywords(text)
-    json_output = json.loads(nlp_output)
-    for keyword in json_output["keywords"]:
-        extracted_keywords.append(keyword)
+    request = {'text': text}
+    nlp_output = requests.post(os.getenv("KEYWORDS_SERVICE"), json=request)
+    # nlp_output = keywordmock.get_keywords(text)
+    json_output = nlp_output.json()
+    for keyword in json_output["tokens"]:
+        extracted_keywords.append(keyword["lemma"])
     return extracted_keywords
 
 
@@ -74,3 +73,21 @@ def get_articles_that_match_keywords(keywords_list):
                 articles_that_match_keyword[article["articleNumber"]] = article["frequency"]
         matching_articles[keyword] = articles_that_match_keyword
     return matching_articles
+
+
+def save_keywords_in_memory(keywords, article):
+    """Saves the keywords from an article in memory
+
+    Args:
+        keywords (JSON): contains keywords
+        article (Article): article object
+    """
+    # split_article = article.text.split()
+    for keyword in keywords:
+        frequency = article.count(keyword)
+        if keyword not in keywords_in_memory:
+            keywords_in_memory[keyword] = []
+        keywords_in_memory[keyword].append({
+            "articleNumber": article.number,
+            "frequency": frequency
+        })
