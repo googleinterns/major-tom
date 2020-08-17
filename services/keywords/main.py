@@ -12,11 +12,12 @@ def get_keywords_service(request):
         json of language detected and keywords for text
     """
     json = request.get_json()
-    logging.info("Endpoint request:", json)  # pylint: disable=logging-too-many-args
+    logging.info("Endpoint request: %s", json)
 
     if json is None or "text" not in json:
-        error = {"error": {"message": "ValueError: Expected 'text' field in json body is missing"}}
-        logging.error(error['error']['message'])  # pylint: disable=logging-too-many-args
+        message = "ValueError: Expected 'text' field in json body is missing"
+        error = {"error": {"message": message}}
+        logging.error(message)
         return error
 
     text = json["text"]
@@ -25,8 +26,8 @@ def get_keywords_service(request):
     except Exception as e:
         error = {"error": {"message": getattr(e, 'message', str(e)),
                            "trace": traceback.format_exc()}}
-        logging.error(error['error'])  # pylint: disable=logging-too-many-args
+        logging.error(error['error'])
         return error
 
-    logging.info("Endpoint response:", response)  # pylint: disable=logging-too-many-args
+    logging.info("Endpoint response: %s", response)
     return response

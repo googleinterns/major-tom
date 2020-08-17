@@ -17,8 +17,9 @@ def search_service(request):
     logging.info(json)
 
     if "query" not in json:
-        error = {"error": {"message": "ValueError: Expected 'query' field in json body is missing"}}
-        logging.error(error['error']['message'])
+        message = "ValueError: Expected 'query' field in json body missing"
+        error = {"error": {"message": message}}
+        logging.error(message)
         return error
 
     query = json["query"]

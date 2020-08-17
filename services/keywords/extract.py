@@ -34,7 +34,7 @@ def extract_keywords(text):
         the lemma and part of speech for said keywords
     """
     gcloud_response = gcloud_syntax_extraction(text)
-    logging.info("gcloud syntax response:", gcloud_response)  # pylint: disable=logging-too-many-args
+    logging.info("gcloud syntax response: %s", gcloud_response)
 
     tokens_shortened = []
     for token in gcloud_response.tokens:
