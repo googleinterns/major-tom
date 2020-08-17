@@ -1,3 +1,6 @@
+"""This tests only test (duh) the parser's ability of
+identifying individual articles, and does not test 
+parsing ability"""
 from parser import identify_articles
 
 
@@ -8,10 +11,6 @@ test_file = {
     "jurisdiction": "tests/test_document",
 }
 
-'''
-def test_file_parsability():
-    parse(test_file)
-'''
 
 articles = (
     "articulo 1.- los ciclistas se deben de orillar"
@@ -24,11 +23,13 @@ articles = (
 
 
 def test_article_extraction_by_number_of_articles_extracted():
+    """Tests if the right number of articles is extracted"""
     recieved_articles = identify_articles(articles.strip().split())
     assert len(recieved_articles) == 6
 
 
 def test_article_extraction_by_article_content():
+    """Tests if articles are extracted correctly"""
     recieved_articles = identify_articles(articles.strip().split())
     assert recieved_articles[1].text == " los ciclistas se deben de orillar"
     assert recieved_articles[4].text == " carros de mas de 3/4 toneladas requieren licencia de chofer"

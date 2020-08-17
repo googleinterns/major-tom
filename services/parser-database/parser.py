@@ -73,25 +73,9 @@ def identify_articles(pdf_text):
     return articles
 
 
-# When database is integrated, this will go away
-mty_document = {
-    "hash":
-    "afafbfbdce8c40924edae00f6ce54f0c639ce42a2" +
-    "c0fbbfa6ab82ea6925827c51",
-    "jurisdiction":
-    "Monterrey",
-    "url":
-    "http://www.guadalupe.gob.mx/wp-content/up" +
-    "loads/2019/09/Nuevo-Reglamento-Homologado-1.pdf",
-}
-document_list = []
-document_list.append(mty_document)
-
-
 def parse_all_documents():
-    """Parses all documents that are specified on the DB
-    (For obvious reasons, this won't work as is while the DB is not in use)
-    (But will still parse the hardcoded document)"""
+    """Parses all documents that are specified on the DB"""
+    document_list = connector.get_documents_to_parse()
     for document in document_list:
         file_name = document["jurisdiction"] + ".pdf"
         download_file(document["url"], file_name)
