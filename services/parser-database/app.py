@@ -9,6 +9,7 @@ from connector import get_articles_that_match_keywords  # pylint: disable=import
 from connector import get_article_by_number  # pylint: disable=import-error
 
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
 
 
 @app.route('/parse', endpoint='parser', methods=['POST'])
