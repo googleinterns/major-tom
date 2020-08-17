@@ -63,7 +63,7 @@ class SearchEngine:
 
         synonyms = utils.create_synonym_list_esp(keywords)
 
-        logging.info("synonyms: %s", synonym)
+        logging.info("synonyms: %s", synonyms)
 
         return self.search_query(keywords, synonyms)
 
