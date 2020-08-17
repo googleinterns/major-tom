@@ -42,8 +42,6 @@ paths:
         schema:
           $ref: '#/definitions/ArticleKeywordsQuery'
       responses:
-        "400":
-          description: "No articles matched keyword query"
         "200":
           description: "Successful Operation"
           schema:
@@ -68,10 +66,10 @@ paths:
           description: "successful operation"
           schema:
             $ref: "#/definitions/Article"
-        "400":
-          description: "Invalid Article ID"
+        "404":
+          description: "No article found with that ID"
         "500":
-          description: "Error when retrieving the Article from the database"
+          description: "Error when retrieving the article"
 definitions:
   Article:
     type: "object"
@@ -81,42 +79,43 @@ definitions:
         format: "int 64"
       text:
         type: "string"
-      timeToRead:
+      wordCount:
         type: "integer"
         format: "int 64"
-      pageNumber:
-        type: "integer"
-        format: "int 64"
+    required: 
+    - articleNumber
+    - text
+    - wordCount
   ArticleKeywordsQuery:
-     type: "object"
-     properties:
+    type: "object"
+    properties:
        keywords:
         type: "array"
         items:
           type: "string"
+    required:
+    - keywords
   ArticleKeywords:
     type: "object"
     properties:
-      keyword1:
+      keyword:
         type: "array"
         items:
           type: "object"
-          $ref: '#/definitions/KeywordFrequencyPair'
-      keywordN:
-        type: "array"
-        items:
-          type: "object"
-          $ref: '#/definitions/KeywordFrequencyPair'
+          $ref: '#/definitions/ArticleKeywordFrequencyPair'
+    required: 
+    - keyword
   # For Reference Only
-  KeywordFrequencyPair:
+  ArticleKeywordFrequencyPair:
     type: "object"
     properties:
       articleId:
         type: "string"
-      keyword:
-        type: "string"
-      count:
+      frequency:
         type: "integer"
+    required:
+    - articleId
+    - frequency
   Document:
     type: "object"
     properties:
@@ -128,3 +127,8 @@ definitions:
         type: "string"
       hash:
         type: "string"
+    required: 
+    - id
+    - city
+    - dateOfDownload
+    - hash
