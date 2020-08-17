@@ -1,9 +1,9 @@
-"""conector.py - One stop connector for external 
+"""conector.py - One stop connector for external
 services/databases"""
 
 import json
 
-import keywordmock
+import keywordmock  # pylint: disable=import-error
 
 
 articles_in_memory = {}

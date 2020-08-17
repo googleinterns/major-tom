@@ -57,11 +57,15 @@ def identify_articles(pdf_text):
     article_text = ""
     article_count = 1
     i = 0
+    #print(len(pdf_text))
     while i < len(pdf_text) - 1:
+        print('1' + str(pdf_text[i]))
+        print('1+1' + str(pdf_text[i+1]))
         if (pdf_text[i] == "artículo" or pdf_text[i] == "articulo") and (
                 pdf_text[i + 1] == str(article_count) + ".-"
                 or pdf_text[i + 1] == str(article_count) + "-"
                 or pdf_text[i + 1] == str(article_count) + "."):
+            print('ARTICLE REGOGNIZED HEREEEEEEE')
             logging.info("Article #" + str(article_count) + " recognized!")
             articles.append(Article(article_count, article_text))
             article_text = ""
@@ -81,6 +85,7 @@ def parse_all_documents():
         download_file(document["url"], file_name)
         logging.info('File downloaded')
         parse(document, file_name)
+
 
 # logging.info("gcloud syntax response: %s", gcloud_response)
 def has_file_changed(past_hash, file_name):

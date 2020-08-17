@@ -1,4 +1,4 @@
-import pytest
+import pytest  # pylint: disable=import-error
 
 from app import app as flask_app
 
