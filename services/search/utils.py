@@ -15,8 +15,13 @@ def create_synonym_list_esp(word_arr, max_synonyms=5):
     for word in word_arr:
         payload = requests.get(constants.SPANISH_API_URL+word)
         payload.raise_for_status()
+        resp = payload.json()
 
-        word_synonyms = payload.json()['sinonimos']
+        if 'sinonimos' not in resp:
+            raise Exception("Unexpected synonyms API response format")
+
+        word_synonyms = resp['sinonimos']
+ 
         if len(word_synonyms) > max_synonyms:
             word_synonyms = word_synonyms[:max_synonyms]
         for synonym in word_synonyms:
