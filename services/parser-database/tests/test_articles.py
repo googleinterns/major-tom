@@ -26,9 +26,7 @@ def test_article_extraction_by_number_of_articles_extracted():
     """Tests if the right number of articles is extracted"""
     articles_to_send = articles.strip()
     articles_to_send = articles_to_send.split()
-    #print(articles_to_send)
     recieved_articles = identify_articles(articles_to_send)
-    print(recieved_articles[5].text)
     assert len(recieved_articles) == 6
     assert recieved_articles[0].text == "los ciclistas se deben de orillar"
     assert recieved_articles[1].text == "los ciclistas no se deben de orillar"
