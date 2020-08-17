@@ -1,15 +1,17 @@
+"""parser.py - Parses a PDF document to extract driving
+regulation articles and store them in memory.
+"""
 import logging
 import hashlib
 
 # import datetime
 # import requests
-import json
 
 import slate  # pylint: disable=import-error
 
 import retriever  # pylint: disable=import-error
 # import database  # pylint: disable=import-error
-import keywordmock  # pylint: disable=import-error
+import connector
 
 logging.basicConfig(level=logging.INFO)
 
@@ -39,39 +41,6 @@ class Article:
     def __init__(self, number, text):
         self.number = number
         self.text = text
-
-
-articles_in_memory = {}
-keywords_in_memory = {}
-
-
-def get_article_by_number(art_num):
-    if art_num in articles_in_memory:
-        return articles_in_memory[art_num]
-    return None
-
-
-def get_articles_that_match_keywords(keywords_list):
-    """Returns articles that match the the given keyword(s)
-
-    Args:
-        keywords_list (list): Keyword(s) to look for
-
-    Returns:
-        list: articles that match such keyword(s)
-    """
-    matching_articles = []
-    for keyword in keywords_list:
-        articles_that_match_keyword = []
-        if keyword in keywords_in_memory:
-            for article in keywords_in_memory[keyword]:
-                articles_that_match_keyword.append(
-                    {
-                        article["articleNumber"]: article["frequency"]
-                    }
-                )
-        matching_articles.append({keyword: articles_that_match_keyword})
-    return matching_articles
 
 
 def identify_articles(pdf_text):
@@ -104,6 +73,7 @@ def identify_articles(pdf_text):
     return articles
 
 
+# When database is integrated, this will go away
 mty_document = {
     "hash":
     "afafbfbdce8c40924edae00f6ce54f0c639ce42a2" +
@@ -147,29 +117,6 @@ def has_file_changed(past_hash, file_name):
         return True
 
 
-# TODO Change to point to Javier's service
-def get_keywords(text):
-    """Get keywords that relate to this article (Javier's service)
-
-    Args:
-        text (sting): text to extract keywords from
-
-    Returns:
-        [list]: list of extracted keywords
-    """
-    """
-    return requests.post(
-        "localhost:8000", params={"text": text}
-    ).json()
-    """
-    extracted_keywords = []
-    nlp_output = keywordmock.get_keywords(text)
-    json_output = json.loads(nlp_output)
-    for keyword in json_output["keywords"]:
-        extracted_keywords.append(keyword)
-    return extracted_keywords
-
-
 def article_to_dictionary(article):
     """Converts an parsed article to a dictionary and saves it
 
@@ -181,8 +128,8 @@ def article_to_dictionary(article):
         "text": article.text,
         "wordCount": len(article.text.split())
     }
-    articles_in_memory[str(article.number)] = article_dict
-    keywords = get_keywords(article.text)
+    connector.articles_in_memory[str(article.number)] = article_dict
+    keywords = connector.get_keywords(article.text)
     save_keywords_in_memory(keywords, article)
 
 
@@ -196,9 +143,9 @@ def save_keywords_in_memory(keywords, article):
     split_article = article.text.split()
     for keyword in keywords:
         frequency = split_article.count(keyword)
-        if keyword not in keywords_in_memory:
-            keywords_in_memory[keyword] = []
-        keywords_in_memory[keyword].append({
+        if keyword not in connector.keywords_in_memory:
+            connector.keywords_in_memory[keyword] = []
+        connector.keywords_in_memory[keyword].append({
             "articleNumber": article.number,
             "frequency": frequency
         })

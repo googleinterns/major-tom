@@ -5,8 +5,8 @@ from flask import request  # pylint: disable=import-error
 from flask import jsonify  # pylint: disable=import-error
 
 from parser import parse_all_documents  # pylint: disable=import-error
-from parser import get_articles_that_match_keywords  # pylint: disable=import-error
-from parser import get_article_by_number  # pylint: disable=import-error
+from connector import get_articles_that_match_keywords  # pylint: disable=import-error
+from connector import get_article_by_number  # pylint: disable=import-error
 
 app = Flask(__name__)
 
