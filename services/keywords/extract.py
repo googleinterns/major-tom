@@ -1,3 +1,4 @@
+import logging
 from google.cloud import language  # pylint: disable=import-error
 from google.cloud.language import enums, types  # pylint: disable=import-error
 import constants
@@ -33,6 +34,7 @@ def extract_keywords(text):
         the lemma and part of speech for said keywords
     """
     gcloud_response = gcloud_syntax_extraction(text)
+    logging.info("gcloud syntax response: %s", gcloud_response)
 
     tokens_shortened = []
     for token in gcloud_response.tokens:
