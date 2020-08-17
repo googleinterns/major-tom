@@ -82,7 +82,7 @@ def parse_all_documents():
         logging.info('File downloaded')
         parse(document, file_name)
 
-
+# logging.info("gcloud syntax response: %s", gcloud_response)
 def has_file_changed(past_hash, file_name):
     """Sees if the file is different.
 
