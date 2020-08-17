@@ -1,4 +1,5 @@
 import os
+import logging
 import requests  # pylint: disable=import-error
 import constants
 import testing.test_constants
@@ -38,12 +39,12 @@ class SearchEngine:
         """
         query_text = {'text': query}
         keywords_endpoint = os.getenv('KEYWORDS_ENDPOINT') is not None or 'http://localhost:8081'
-        
-        logging.debug("keywords location:", keywords_endpoint)
+
+        logging.debug("keywords location:", keywords_endpoint)  # pylint: disable=logging-too-many-args
 
         response = requests.post(keywords_endpoint, json=query_text)
         response = response.json()
-        logging.info("keywords response:", response)
+        logging.info("keywords response:", response)  # pylint: disable=logging-too-many-args
 
         if 'error' in response:
             raise Exception(response['error']['message'])
@@ -58,11 +59,11 @@ class SearchEngine:
         for token in response['tokens']:
             keywords.append(token['lemma'])
 
-        logging.info("keywords:", keywords)
+        logging.info("keywords:", keywords)  # pylint: disable=logging-too-many-args
 
         synonyms = utils.create_synonym_list_esp(keywords)
 
-        logging.info("synonyms:", synonyms)
+        logging.info("synonyms:", synonyms)  # pylint: disable=logging-too-many-args
 
         return self.search_query(keywords, synonyms)
 
@@ -101,6 +102,7 @@ class SearchEngine:
         article_keywords_frequency = testing.test_constants.KEYWORDS_DB_MOCK_1
         article_synonyms_frequency = testing.test_constants.SYNONYMS_DB_MOCK_1
 
+        # pylint: disable=logging-too-many-args
         logging.info("DB Endpoint response keywords:", article_keywords_frequency)
         logging.info("DB Endpoint response synonyms:", article_synonyms_frequency)
 

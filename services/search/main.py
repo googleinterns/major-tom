@@ -27,7 +27,7 @@ def search_service(request):
         score_per_article = search.query(query)
     except Exception as e:
         error = {"error": {"message": getattr(e, 'message', str(e)),
-                          "trace": traceback.format_exc()}}
+                           "trace": traceback.format_exc()}}
         logging.error(error['error'])
         return error
 
