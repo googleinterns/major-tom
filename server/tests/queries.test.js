@@ -7,7 +7,7 @@ import { importSchema } from 'graphql-import'
 import { createTestClient } from 'apollo-server-testing'
 import resolvers from '../resolvers'
 import { databaseApi, searchApi } from '../endpoints'
-import { articles } from './mocks'
+import { mockArticles } from './mocks'
 
 const typeDefs = importSchema(path.join(__dirname, '../typedefs/index.graphql'))
 const server = new ApolloServer({ typeDefs, resolvers })
@@ -28,21 +28,24 @@ const tests = [
         `,
     variables: { search: 'Es obligatorio usar casco con bicicleta?' },
     response: { data: { articles: ['1'] } },
-    expected: { articles: [articles[0]] }
+    expected: { articles: [mockArticles[0]] }
   },
   {
-    name: 'Specific attributes to select',
+    name: 'Normal request with a valid search and multiple results',
     query: gql`
             query articles($search: String!) {
                 articles(search: $search) {
+                    id
                     number
                     content
+                    keywords
+                    minutesToRead
                 }
             }
         `,
     variables: { search: 'Es obligatorio usar casco con bicicleta?' },
-    response: { data: { articles: ['1'] } },
-    expected: { articles: [articles[0]].map(({ number, content }) => ({ number, content })) }
+    response: { data: { articles: ['2', '3', '4'] } },
+    expected: { articles: [mockArticles[1], mockArticles[2], mockArticles[3]] }
   },
   {
     name: 'None match from request',
@@ -91,10 +94,10 @@ const tests = [
 
 jest.mock('../endpoints')
 
-describe('Article Queries', () => {
+describe('Queries', () => {
   const client = createTestClient(server)
   databaseApi.mockImplementation(id => {
-    for (const article of articles) {
+    for (const article of mockArticles) {
       if (article.id === id) {
         return article
       }

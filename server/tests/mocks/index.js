@@ -1,4 +1,4 @@
-const articles = [
+const mockArticles = [
   {
     id: '1',
     number: 1,
@@ -65,4 +65,4 @@ const articles = [
   }
 ]
 
-export { articles }
+export { mockArticles }
