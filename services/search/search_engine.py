@@ -102,6 +102,9 @@ class SearchEngine:
         keywords_json = {"keywords": keywords+synonyms}
         article_keywords_frequency = requests.post(os.getenv('DB_ENDPOINT'), json=keywords_json)
 
+        if 'error' in article_keywords_frequency:
+            raise Exception(article_keywords_frequency['error']['message'])
+
         logging.info("DB Endpoint response: %s", article_keywords_frequency)
 
         self._calculate_score(article_keywords_frequency, keywords, synonyms, score_per_article)
