@@ -4,9 +4,9 @@ from flask import Flask  # pylint: disable=import-error
 from flask import request  # pylint: disable=import-error
 from flask import jsonify  # pylint: disable=import-error
 
-from parser import parse_all_documents  # pylint: disable=import-error
-from connector import get_articles_that_match_keywords  # pylint: disable=import-error
-from connector import get_article_by_number  # pylint: disable=import-error
+from parser import parse_all_documents
+from connector import get_articles_that_match_keywords
+from connector import get_article_by_number
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -14,7 +14,6 @@ app.config['JSON_AS_ASCII'] = False
 
 @app.route('/parse', endpoint='parser', methods=['POST'])
 def trigger_parsing():
-    # return parser.parse_without_database()
     try:
         parse_all_documents()
     except Exception as e:
