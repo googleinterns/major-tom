@@ -1,5 +1,5 @@
 """This tests only test (duh) the parser's ability of
-identifying individual articles, and does not test 
+identifying individual articles, and does not test
 parsing ability"""
 from parser import identify_articles
 
