@@ -5,6 +5,7 @@ FROM python:3.7-slim
 # Copy local code to the container image.
 ENV APP_HOME /app
 ENV KEYWORDS_ENDPOINT="http://localhost:8081"
+ENV DB_ENDPOINT="http://parser-database.default.major-tom.googleinterns.app/byKeywords"
 ENV PORT=8080
 WORKDIR $APP_HOME
 COPY . .

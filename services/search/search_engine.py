@@ -100,7 +100,7 @@ class SearchEngine:
         score_per_article = {}
 
         keywords_json = {"keywords": keywords+synonyms}
-        article_keywords_frequency = requests.post(constants.DB_ENDPOINT, json=keywords_json)
+        article_keywords_frequency = requests.post(os.getenv('DB_ENDPOINT'), json=keywords_json)
 
         logging.info("DB Endpoint response: %s", article_keywords_frequency)
 
