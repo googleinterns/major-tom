@@ -29,7 +29,7 @@ def test_multiple_articles():
     Have the query apply for two articles
     """
     result = {3: 2, 4: 2}
-    
+
     with mock.patch('requests.post', return_value=constants.KEYWORDS_DB_MULTIPLE):
         assert result == SearchEngine().search_query(constants.KEYWORDS_MULTIPLE,
                                                      constants.SYNONYMS_MULTIPLE)

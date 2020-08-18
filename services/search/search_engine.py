@@ -86,7 +86,7 @@ class SearchEngine:
         """
         for word in keywords:
             self._calculate_individual(word, frequency, self.keywords_weight, target_dict)
-        
+
         for word in synonyms:
             self._calculate_individual(word, frequency, self.synonyms_weight, target_dict)
 

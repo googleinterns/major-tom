@@ -1,7 +1,8 @@
 KEYWORDS_DB_MOCK_1 = {"forzoso": {}, "bicicleta": {1: 1}, "usar": {}, "casco": {1: 1},
                       "obligatorio": {}, "inexcusable": {}, "imprescindible": {},
                       "preciso": {}, "necesario": {}, "bici": {}, "velocipedo": {}, "tandem": {},
-                      "emplear": {}, "utilizar": {1: 1}, "gastar": {}, "acostumbrar": {}, "practicar": {},
+                      "emplear": {}, "utilizar": {1: 1}, "gastar": {}, "acostumbrar": {},
+                      "practicar": {},
                       "copa": {}, "suelo": {}, "pezuna": {}, "vaso": {}, "cabeza": {}}
 
 KEYWORDS_DB_MULTIPLE = {"taxi": {3: 2}, "tener": {}, "calcomania": {4: 1}, "placa": {4: 1},
