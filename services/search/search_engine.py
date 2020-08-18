@@ -73,7 +73,6 @@ class SearchEngine:
                 if score != 0:
                     target_dict[key] = score
 
-
     def _calculate_score(self, frequency, keywords, synonyms, target_dict):
         """
         Helper function to update score for resulting array
