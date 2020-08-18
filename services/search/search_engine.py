@@ -51,7 +51,7 @@ class SearchEngine:
         lan = response['lan']
 
         if lan not in constants.SUPPORTED_LANGUAGES:
-            raise ValueError(f'{lan} not supported')
+            logging.warning("%s not supported", lan)
 
         keywords = []
 
