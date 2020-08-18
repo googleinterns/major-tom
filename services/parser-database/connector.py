@@ -25,7 +25,7 @@ def get_documents_to_parse():
 
 
 def get_keywords(text):
-    """Get keywords that relate to this article 
+    """Get keywords that relate to this article
 
     Args:
         text (sting): text to extract keywords from
@@ -33,7 +33,7 @@ def get_keywords(text):
     Returns:
         [list]: list of extracted keywords
     """
-    splited_text = endpoint.split()
+    splited_text = text.split()
     keywords = [
         splited_text[random.randint(0, len(splited_text) - 1)],
         splited_text[random.randint(0, len(splited_text) - 1)],
