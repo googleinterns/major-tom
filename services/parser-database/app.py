@@ -33,7 +33,7 @@ def get_keywords():
 
 @app.route('/articles/<id>', methods=['GET'])
 def get_article_by_number_in_memory(id):
-    """Returns the articlle that matches the ID value
+    """Returns the article that matches the ID value
     accoring to the apiSpec.yaml file"""
     article = get_article_by_number(id)
     if article is not None:
