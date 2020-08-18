@@ -4,13 +4,9 @@ regulation articles and store them in memory.
 import logging
 import hashlib
 
-# import datetime
-# import requests
-
 import slate  # pylint: disable=import-error
 
-import retriever  # pylint: disable=import-error
-# import database  # pylint: disable=import-error
+import retriever
 import connector
 
 logging.basicConfig(level=logging.INFO)
@@ -57,23 +53,23 @@ def identify_articles(pdf_text):
     article_text = ""
     article_count = 1
     i = 0
-    # print(len(pdf_text))
-    while i < len(pdf_text) - 1:
-        print('1' + str(pdf_text[i]))
-        print('1+1' + str(pdf_text[i+1]))
+
+    while i < len(pdf_text):
         if (pdf_text[i] == "artículo" or pdf_text[i] == "articulo") and (
                 pdf_text[i + 1] == str(article_count) + ".-"
                 or pdf_text[i + 1] == str(article_count) + "-"
                 or pdf_text[i + 1] == str(article_count) + "."):
-            print('ARTICLE REGOGNIZED HEREEEEEEE')
             logging.info("Article #" + str(article_count) + " recognized!")
-            articles.append(Article(article_count, article_text))
+            articles.append(Article(article_count, article_text.strip()))
             article_text = ""
             article_count += 1
             i += 1
         else:
             article_text += " " + pdf_text[i]
+            if i == len(pdf_text) - 1:
+                articles.append(Article(article_count, article_text.strip()))
         i += 1
+    articles.pop(0)
     return articles
 
 
@@ -82,7 +78,7 @@ def parse_all_documents():
     document_list = connector.get_documents_to_parse()
     for document in document_list:
         file_name = document["jurisdiction"] + ".pdf"
-        download_file(document["url"], file_name)
+        retriever.get_document(document["url"], file_name)
         logging.info('File downloaded')
         parse(document, file_name)
 
@@ -119,17 +115,8 @@ def article_to_dictionary(article):
     }
     connector.articles_in_memory[str(article.number)] = article_dict
     keywords = connector.get_keywords(article.text)
+    logging.info('Article ' + str(article.number) + ' assigned keywords')
     connector.save_keywords_in_memory(keywords, article)
-
-
-def download_file(url, filename_to_use):
-    """Downloads file from the given URL
-
-    Args:
-        url (string): [URL that contains the file to download]
-        file_name_to_use (string): [file name for file to save]
-    """
-    retriever.get_document(url, filename_to_use)
 
 
 def parse(document_to_parse, file_name):

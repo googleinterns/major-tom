@@ -1,11 +1,7 @@
 """conector.py - One stop connector for external
 services/databases"""
-
-import json
 import os
 import requests
-
-import keywordmock  # pylint: disable=import-error
 
 
 articles_in_memory = {}
@@ -84,7 +80,7 @@ def save_keywords_in_memory(keywords, article):
     """
     # split_article = article.text.split()
     for keyword in keywords:
-        frequency = article.count(keyword)
+        frequency = article.text.count(keyword)
         if keyword not in keywords_in_memory:
             keywords_in_memory[keyword] = []
         keywords_in_memory[keyword].append({
