@@ -1,9 +1,8 @@
 """conector.py - One stop connector for external
 services/databases"""
-
+import os
+import requests
 import json
-
-import keywordmock  # pylint: disable=import-error
 
 
 articles_in_memory = {}
@@ -27,7 +26,6 @@ def get_documents_to_parse():
     return document_list
 
 
-# TODO Change to point to Javier's service
 def get_keywords(text):
     """Get keywords that relate to this article (Javier's service)
 
@@ -38,16 +36,13 @@ def get_keywords(text):
         [list]: list of extracted keywords
     """
 
-    """
-    return requests.post(
-        "localhost:8000", params={"text": text}
-    ).json()
-    """
     extracted_keywords = []
-    nlp_output = keywordmock.get_keywords(text)
-    json_output = json.loads(nlp_output)
-    for keyword in json_output["keywords"]:
-        extracted_keywords.append(keyword)
+    request = {'text': text}
+    nlp_output = requests.post(os.getenv("KEYWORDS_SERVICE"), json=request)
+    # nlp_output = keywordmock.get_keywords(text)
+    json_output = nlp_output.json()
+    for keyword in json_output["tokens"]:
+        extracted_keywords.append(keyword["lemma"])
     return extracted_keywords
 
 
