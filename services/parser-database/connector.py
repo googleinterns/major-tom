@@ -1,8 +1,7 @@
 """conector.py - One stop connector for external
 services/databases"""
 import os
-import requests
-import json
+import requests  # pylint: disable=import-error
 
 
 articles_in_memory = {}
