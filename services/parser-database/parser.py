@@ -121,7 +121,6 @@ def article_to_dictionary(article):
 
 def parse(document_to_parse, file_name):
     """Parses all PDF documents that are in the DB"""
-
     if has_file_changed(document_to_parse["hash"], file_name):
         logging.info('File has changed')
         with open(file_name, "rb") as pdf_file:
