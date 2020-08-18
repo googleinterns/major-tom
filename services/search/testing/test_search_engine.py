@@ -1,6 +1,7 @@
-import mock
+import mock  # pylint: disable=import-error
 from search_engine import SearchEngine  # pylint: disable=import-error
 import test_constants as constants
+
 
 def test_same_weights_for_all():
     """
@@ -23,6 +24,7 @@ def test_double_weights_synonyms():
     with mock.patch('requests.post', return_value=constants.KEYWORDS_DB_MOCK_1):
         assert result == SearchEngine(synonyms_weight=2).search_query(constants.KEYWORDS_ARTICLE_1,
                                                                       constants.SYNONYMS_ARTICLE_1)
+
 
 def test_multiple_articles():
     """

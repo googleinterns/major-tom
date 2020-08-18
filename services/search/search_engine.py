@@ -2,7 +2,6 @@ import os
 import logging
 import requests  # pylint: disable=import-error
 import constants
-import testing.test_constants
 import utils
 
 
