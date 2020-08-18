@@ -19,14 +19,13 @@ articles = (
     + " artículo 4.- carros de mas de 3/4 toneladas requieren licencia de chofer"
     + " artículo 5.- no te pueden infraccionar en navidad"
     + " artículo 6.- marcar al seguro y al 911 al chocar"
-)
+).strip()
+articles = articles.split()
 
 
 def test_article_extraction_by_number_of_articles_extracted():
     """Tests if the right number of articles is extracted"""
-    articles_to_send = articles.strip()
-    articles_to_send = articles_to_send.split()
-    recieved_articles = identify_articles(articles_to_send)
+    recieved_articles = identify_articles(articles)
     assert len(recieved_articles) == 6
     assert recieved_articles[0].text == "los ciclistas se deben de orillar"
     assert recieved_articles[1].text == "los ciclistas no se deben de orillar"

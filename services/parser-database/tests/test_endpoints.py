@@ -1,4 +1,3 @@
-# pylint: disable=C0321
 from unittest.mock import MagicMock
 import random
 import json
