@@ -4,6 +4,9 @@ import test_constants as constants
 import env  # pylint: disable=import-error
 
 
+MOCK_URL = "http://somerealurl.com"
+
+
 def test_same_weights_for_all():
     """
     Have the query only apply for article 1, and the weights be the same
@@ -12,7 +15,7 @@ def test_same_weights_for_all():
     result = {1: 3}
 
     with mock.patch('requests.post', return_value=constants.KEYWORDS_DB_MOCK_1) as mocked:
-        with mock.patch('env.get_db_endpoint', return_value="http://somerealurl.com"):
+        with mock.patch('env.get_db_endpoint', return_value=MOCK_URL):
             assert result == SearchEngine().search_query(constants.KEYWORDS_ARTICLE_1,
                                                          constants.SYNONYMS_ARTICLE_1)
             mocked.assert_called_once_with(
@@ -27,7 +30,7 @@ def test_double_weights_synonyms():
     result = {1: 4}
 
     with mock.patch('requests.post', return_value=constants.KEYWORDS_DB_MOCK_1) as mocked:
-        with mock.patch('env.get_db_endpoint', return_value="http://somerealurl.com"):
+        with mock.patch('env.get_db_endpoint', return_value=MOCK_URL):
             assert result == SearchEngine(synonyms_weight=2).search_query(constants.KEYWORDS_ARTICLE_1,
                                                                           constants.SYNONYMS_ARTICLE_1)
             mocked.assert_called_once_with(
@@ -42,7 +45,7 @@ def test_multiple_articles():
     result = {3: 2, 4: 2}
 
     with mock.patch('requests.post', return_value=constants.KEYWORDS_DB_MULTIPLE) as mocked:
-        with mock.patch('env.get_db_endpoint', return_value="http://somerealurl.com"):
+        with mock.patch('env.get_db_endpoint', return_value=MOCK_URL):
             assert result == SearchEngine().search_query(constants.KEYWORDS_MULTIPLE,
                                                          constants.SYNONYMS_MULTIPLE)
             mocked.assert_called_once_with(
