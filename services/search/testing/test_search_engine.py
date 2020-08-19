@@ -1,4 +1,4 @@
-import mock  # pylint: disable=import-error
+from unittest import mock
 from search_engine import SearchEngine  # pylint: disable=import-error
 import test_constants as constants
 import utils  # pylint: disable=import-error

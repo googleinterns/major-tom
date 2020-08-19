@@ -47,6 +47,7 @@ def create_synonym_list_esp(word_arr, max_synonyms=5):
 
     for req in synonym_extractor.create_conc_reqs(word_arr):
         resp = synonym_extractor.req_to_json(req)
+        logging.info(resp)
 
         if 'sinonimos' not in resp:
             raise Exception("Unexpected synonyms API response format")
