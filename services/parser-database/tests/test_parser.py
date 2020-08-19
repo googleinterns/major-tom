@@ -1,7 +1,5 @@
-from unittest.mock import MagicMock
 from unittest import mock
 import parser
-import retriever
 import constants
 
 
@@ -12,7 +10,7 @@ def test_has_file_changed_if_true():
                 "2c0fbbfa6ab82ea6925827c51"
     file_name = "Monterrey.pdf"
     response = parser.has_file_changed(past_hash, file_name)
-    assert response == True
+    assert if response == True
 
 
 def test_has_file_changed_if_false():
@@ -40,9 +38,9 @@ def test_parse_all_documents_multiple_documents():
     mock_patch_get_documents = "connector.get_documents_to_parse"
     with mock.patch(mock_patch_parser) as mock_parser:
         with mock.patch(mock_patch_get_documents) as mock_connector:
-            mock_connector.return_value = [constants.mty_document]
+            mock_connector.return_value = constants.many_documents
             parser.parse_all_documents()
-            mock_parser.assert_called_once_with(constants.mty_document)
+            assert mock_parser.call_count == len(constants.many_documents)
 
 
 def test_parse():

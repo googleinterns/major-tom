@@ -2,6 +2,11 @@
 services/databases"""
 # import requests  # pylint: disable=import-error
 import random
+import logging
+
+import constants
+
+logging.basicConfig(level=logging.INFO)
 
 articles_in_memory = {}
 keywords_in_memory = {}
@@ -9,18 +14,8 @@ keywords_in_memory = {}
 
 def get_documents_to_parse():
     # When database is integrated, this will go away
-    mty_document = {
-        "hash":
-        "afafbfbdce8c40924edae00f6ce54f0c639ce42a2" +
-        "c0fbbfa6ab82ea6925827c51",
-        "jurisdiction":
-        "Monterrey",
-        "url":
-        "http://www.guadalupe.gob.mx/wp-content/up" +
-        "loads/2019/09/Nuevo-Reglamento-Homologado-1.pdf",
-    }
     document_list = []
-    document_list.append(mty_document)
+    document_list.append(constants.mty_document)
     return document_list
 
 
@@ -73,12 +68,17 @@ def save_keywords_in_memory(keywords, article):
         keywords (JSON): contains keywords
         article (Article): article object
     """
-    # split_article = article.text.split()
     for keyword in keywords:
-        frequency = article.text.count(keyword)
+        frequency = article["text"].count(keyword)
         if keyword not in keywords_in_memory:
             keywords_in_memory[keyword] = []
         keywords_in_memory[keyword].append({
-            "articleNumber": article.number,
+            "articleNumber": article["articleNumber"],
             "frequency": frequency
         })
+
+
+def store_article(article_dict):
+    articles_in_memory[str(article_dict["articleNumber"])] = article_dict
+    save_keywords_in_memory(get_keywords(article_dict["text"]), article_dict)
+    logging.info('Article ' + str(article_dict["articleNumber"]) + ' assigned keywords')
