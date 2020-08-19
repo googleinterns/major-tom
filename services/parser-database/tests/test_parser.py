@@ -1,7 +1,6 @@
 from unittest import mock
 import parser
 import constants
-import connector
 
 
 def test_has_file_changed_if_true():
@@ -52,14 +51,3 @@ def test_parse():
             mock_id_articles.return_value = constants.mock_article_values
             parser.parse(constants.mty_document)
             assert mock_article_storage.call_count == len(constants.mock_article_values)
-
-
-def test_get_documents():
-    assert connector.get_documents_to_parse() == [constants.mty_document]
-
-
-def test_get_articles_that_match_keywords():
-    pass
-    # Mock in memory keywords in memory
-    # Test this against the keywords in memory
-    # Assert results
