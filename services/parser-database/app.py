@@ -18,7 +18,7 @@ def trigger_parsing():
         parse_all_documents()
     except Exception as e:
         print(e)
-        return "Internal Server Error", 500
+        return {"error": {"message": "Internal Parser Error"}}, 500
     return "Sucessful Operation", 200
 
 
@@ -26,7 +26,7 @@ def trigger_parsing():
 def get_keywords():
     json_request = request.get_json()
     if "keywords" not in json_request:
-        return {"error": "keywords request body is missing"}, 400
+        return {"error": {"message": "keywords request body is missing"}}, 400
     else:
         return jsonify(get_articles_that_match_keywords(json_request['keywords']))
 
@@ -39,7 +39,8 @@ def get_article_by_number_in_memory(id):
     if article is not None:
         return jsonify(article)
     else:
-        return {"error": "Article not found with submitted ID"}, 404
+        return {"error": {
+            "message": "Article not found with submitted ID"}}, 404
 
 
 if __name__ == '__main__':
