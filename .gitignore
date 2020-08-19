@@ -1,6 +1,10 @@
 major-tom-venv
 .vscode
 ./vscode
+
+python38
+env2
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
