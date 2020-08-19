@@ -16,3 +16,8 @@ SYNONYMS_MULTIPLE = ["taximetro",
                      "haber", "poseer", "detentar", "sujetar", "coger",
                      "copia", "reproduccion", "estampa", "adhesivo",
                      "lamina", "plancha", "chapa", "hoja", "pelicula"]
+
+DEFAULT_MAX_SYNONYMS = 5
+TEN_SYNONYMS = 10
+INCREASED_MAX_SYNONYMS = 8
+DECREASED_MAX_SYNONYMS = 3

@@ -3,13 +3,11 @@ import constants
 
 
 class SynonymExtractor:
-    def __init__(self, word_arr, max_synonyms):
-        self.word_arr = word_arr
+    def __init__(self, max_synonyms):
         self.max_synonyms = max_synonyms
         self.session = FuturesSession()
-        self.reqs = self.create_conc_reqs()
 
-    def create_conc_reqs(self):
+    def create_conc_reqs(self, word_arr):
         """
         create an asynchronous request list using requests-futures
         Attributes:
@@ -19,7 +17,7 @@ class SynonymExtractor:
             A list of requests for every word
         """
         reqs = []
-        for word in self.word_arr:
+        for word in word_arr:
             reqs.append(self.session.get(constants.SPANISH_API_URL+word))  # pylint: disable=no-member
 
         return reqs
@@ -41,9 +39,9 @@ def create_synonym_list_esp(word_arr, max_synonyms=5):
     synonyms = []
     #reqs = create_conc_reqs(word_arr, session)
 
-    synonym_extractor = SynonymExtractor(word_arr, max_synonyms)
+    synonym_extractor = SynonymExtractor(max_synonyms)
 
-    for req in synonym_extractor.reqs:
+    for req in synonym_extractor.create_conc_reqs(word_arr):
         resp = synonym_extractor.req_to_json(req)
 
         if 'sinonimos' not in resp:
