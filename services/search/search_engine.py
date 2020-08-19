@@ -3,6 +3,7 @@ import logging
 import requests  # pylint: disable=import-error
 import constants
 import utils
+import env
 
 
 class SearchEngine:
@@ -37,11 +38,10 @@ class SearchEngine:
             A map of the score of every article
         """
         query_text = {'text': query}
-        keywords_endpoint = os.getenv('KEYWORDS_ENDPOINT') is not None or 'http://localhost:8081'
 
-        logging.debug("keywords location: %s", keywords_endpoint)
+        logging.debug("keywords location: %s", env.get_db_endpoint())
 
-        response = requests.post(keywords_endpoint, json=query_text)
+        response = requests.post(env.get_db_endpoint(), json=query_text)
         response = response.json()
         logging.info("keywords response: %s", response)
 
@@ -100,7 +100,7 @@ class SearchEngine:
         score_per_article = {}
 
         keywords_json = {"keywords": keywords+synonyms}
-        article_keywords_frequency = requests.post(os.getenv('DB_ENDPOINT'), json=keywords_json)
+        article_keywords_frequency = requests.post(env.get_db_endpoint(), json=keywords_json)
 
         if 'error' in article_keywords_frequency:
             raise Exception(article_keywords_frequency['error']['message'])
