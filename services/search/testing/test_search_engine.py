@@ -1,8 +1,7 @@
-import os
 import mock  # pylint: disable=import-error
 from search_engine import SearchEngine  # pylint: disable=import-error
 import test_constants as constants
-import env
+import env  # pylint: disable=import-error
 
 
 def test_same_weights_for_all():

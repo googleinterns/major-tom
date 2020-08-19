@@ -1,4 +1,3 @@
-import os
 import logging
 import requests  # pylint: disable=import-error
 import constants
