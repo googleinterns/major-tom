@@ -67,4 +67,3 @@ def test_get_articles_that_match_keywords_non_empty_result_two_keywords():
 
 def test_get_documents():
     assert connector.get_documents_to_parse() == [constants.mty_document]
-
