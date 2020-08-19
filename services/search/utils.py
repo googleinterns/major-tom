@@ -1,3 +1,4 @@
+import logging
 from requests_futures.sessions import FuturesSession  # pylint: disable=import-error
 import constants
 
