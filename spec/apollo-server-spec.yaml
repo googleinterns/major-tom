@@ -1,0 +1,52 @@
+swagger: "2.0"
+info:
+  description: "This is the backend component API exposing a GraphQL server. The [GraphQL spec](https://spec.graphql.org/June2018/) dives deep into the philosophy of GraphQL. This spec models and showcases the request/response formats expected from the backend service."
+  version: "1.0.0"
+  title: "Road Rules Search Engine"
+tags:
+  - name: "Backend service"
+schemes:
+  - "http"
+paths:
+  /:
+    post:
+      tags:
+        - "Backend service"
+      summary: "GraphQL endpoint"
+      description: "Base path handles any incoming request and re-routes it to the requested resolver."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Any GraphQL request ( query/mutation/subscription )"
+          schema:
+            $ref: '#/definitions/Request'
+      responses:
+        "200":
+          description: "Default response format"
+          schema:
+            $ref: '#/definitions/Response'
+definitions:
+  Request:
+    type: "object"
+    properties:
+      query:
+        type: "string"
+        description: "A GraphQL request containing required attributes."
+        example: "query articles(search: String! limit: Int) { id number content }"
+      variables:
+        type: "object"
+        description: "An object containing all required variables by the operation."
+        example: { search: "test", limit: 5 }
+  Response:
+    type: "object"
+    properties:
+      data:
+        type: "object"
+      errors:
+        type: "array"
+        items:
+          type: "object"

@@ -12,5 +12,3 @@ class Article:
         self.number = number
         self.content = content
         self.keywords = keywords
-
-
