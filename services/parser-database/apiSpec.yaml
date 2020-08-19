@@ -99,7 +99,8 @@ definitions:
     type: object
     additionalProperties:
       type: object
-      $ref: '#/definitions/ArticleKeywordFrequencyPair'
+      additionalProperties:
+        type: integer
   # For Reference Only
   ArticleKeywordFrequencyPair:
     type: "object"

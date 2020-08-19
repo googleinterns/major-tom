@@ -59,7 +59,6 @@ def get_articles_that_match_keywords(keywords_list):
                 articles_that_match_keyword[article["articleNumber"]] = article["frequency"]
         matching_articles[keyword] = articles_that_match_keyword
     return matching_articles
-    
 
 
 def save_keywords_in_memory(keywords, article):
