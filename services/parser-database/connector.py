@@ -51,16 +51,6 @@ def get_articles_that_match_keywords(keywords_list):
     Returns:
         list: articles that match such keyword(s)
     """
-    matching_queries = {}
-    for keyword in keywords_list:
-        local_matching_articles = []
-        if keyword in keywords_in_memory:
-            for article in keywords_in_memory[keyword]:
-                local_matching_articles.append(article)
-        matching_queries[keyword] = local_matching_articles
-    return matching_queries
-
-    '''
     matching_articles = {}
     for keyword in keywords_list:
         articles_that_match_keyword = {}
@@ -69,7 +59,7 @@ def get_articles_that_match_keywords(keywords_list):
                 articles_that_match_keyword[article["articleNumber"]] = article["frequency"]
         matching_articles[keyword] = articles_that_match_keyword
     return matching_articles
-    '''
+    
 
 
 def save_keywords_in_memory(keywords, article):
