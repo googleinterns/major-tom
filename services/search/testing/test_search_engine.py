@@ -3,7 +3,7 @@ import json
 from search_engine import SearchEngine  # pylint: disable=import-error
 import test_constants as constants
 import env  # pylint: disable=import-error
-import responses
+import responses  # pylint: disable=import-error
 
 
 @responses.activate
