@@ -7,6 +7,7 @@ import ArticlesList from './components/articles-list'
 import { GET_ARTICLES } from './graphql/queries'
 
 const SearchEngine = () => {
+  const [loading, setLoading] = useState(false)
   const [articles, setArticles] = useState([])
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 1000)
@@ -18,11 +19,17 @@ const SearchEngine = () => {
     if (data?.articles) {
       setArticles(data.articles)
     }
+    setLoading(false)
   }, [debouncedSearch, getArticlesQuery])
 
   return (
     <Container>
-      <SearchBar setSearch={setSearch} refetch={getArticlesQuery.refetch} />
+      <SearchBar
+        setSearch={setSearch}
+        refetch={getArticlesQuery.refetch}
+        setLoading={setLoading}
+        loading={loading}
+      />
       <ArticlesList articles={articles} />
     </Container>
   )
