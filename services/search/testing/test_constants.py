@@ -23,3 +23,5 @@ SYNONYMS_MULTIPLE = ["taximetro",
                      "haber", "poseer", "detentar", "sujetar", "coger",
                      "copia", "reproduccion", "estampa", "adhesivo",
                      "lamina", "plancha", "chapa", "hoja", "pelicula"]
+
+MOCK_URL = "http://somerealurl.com/"
