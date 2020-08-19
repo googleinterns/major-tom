@@ -6,8 +6,8 @@ import hashlib
 
 import slate  # pylint: disable=import-error
 
-import retriever
 import connector
+import retriever
 
 logging.basicConfig(level=logging.INFO)
 
@@ -37,6 +37,14 @@ class Article:
     def __init__(self, number, text):
         self.number = number
         self.text = text
+
+    def to_dict(self):
+        article_dict = {
+            "articleNumber": self.number,
+            "text": self.text,
+            "wordCount": len(self.text.split())
+        }
+        return article_dict
 
 
 def identify_articles(pdf_text):
@@ -80,10 +88,9 @@ def parse_all_documents():
         file_name = document["jurisdiction"] + ".pdf"
         retriever.get_document(document["url"], file_name)
         logging.info('File downloaded')
-        parse(document, file_name)
+        parse(document)
 
 
-# logging.info("gcloud syntax response: %s", gcloud_response)
 def has_file_changed(past_hash, file_name):
     """Sees if the file is different.
 
@@ -97,30 +104,15 @@ def has_file_changed(past_hash, file_name):
     with open(file_name, "rb") as pdf_file:
         file_buffer = pdf_file.read()
         hasher.update(file_buffer)
-        if hasher.hexdigest() == past_hash:
+        sha_hash = hasher.hexdigest()
+        if sha_hash == past_hash:
             return False
         return True
 
 
-def article_to_dictionary(article):
-    """Converts an parsed article to a dictionary and saves it
-
-    Args:
-        article (Article): [article object]
-    """
-    article_dict = {
-        "articleNumber": article.number,
-        "text": article.text,
-        "wordCount": len(article.text.split())
-    }
-    connector.articles_in_memory[str(article.number)] = article_dict
-    keywords = connector.get_keywords(article.text)
-    logging.info('Article ' + str(article.number) + ' assigned keywords')
-    connector.save_keywords_in_memory(keywords, article)
-
-
-def parse(document_to_parse, file_name):
+def parse(document_to_parse):
     """Parses all PDF documents that are in the DB"""
+    file_name = document_to_parse["jurisdiction"] + '.pdf'
     if has_file_changed(document_to_parse["hash"], file_name):
         logging.info('File has changed')
         with open(file_name, "rb") as pdf_file:
@@ -132,4 +124,5 @@ def parse(document_to_parse, file_name):
             articles = identify_articles(final_text)
 
             for article in articles:
-                article_to_dictionary(article)
+                dictionary = article.to_dict()
+                connector.store_article(dictionary)

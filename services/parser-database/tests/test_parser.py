@@ -35,16 +35,14 @@ def test_parse_all_documents():
             mock_parser.assert_called_once_with(constants.mty_document)
 
 
-mty_document = {
-        "hash":
-        "afafbfbdce8c40924edae00f6ce54f0c639ce42a2" +
-        "c0fbbfa6ab82ea6925827c51",
-        "jurisdiction":
-        "Monterrey",
-        "url":
-        "http://www.guadalupe.gob.mx/wp-content/up" +
-        "loads/2019/09/Nuevo-Reglamento-Homologado-1.pdf",
-    }
+def test_parse_all_documents_multiple_documents():
+    mock_patch_parser = "parser.parse"
+    mock_patch_get_documents = "connector.get_documents_to_parse"
+    with mock.patch(mock_patch_parser) as mock_parser:
+        with mock.patch(mock_patch_get_documents) as mock_connector:
+            mock_connector.return_value = [constants.mty_document]
+            parser.parse_all_documents()
+            mock_parser.assert_called_once_with(constants.mty_document)
 
 
 def test_parse():
@@ -53,9 +51,6 @@ def test_parse():
     with mock.patch(mock_article_identifier) as mock_id_articles:
         with mock.patch(mock_patch) as mock_article_storage:
             mock_id_articles.return_value = constants.mock_article_values
-            parser.parse(mty_document)
+            parser.parse(constants.mty_document)
             assert mock_article_storage.call_count == len(constants.mock_article_values)
-    # Mock Identify Articles
-    # Mock Store Articles (no need to store them I guess,
-    # just make it not break when its called, maybe
-    # return none or something like that)
+
