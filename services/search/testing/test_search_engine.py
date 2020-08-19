@@ -1,7 +1,7 @@
-import mock
+import mock  # pylint: disable=import-error
 from search_engine import SearchEngine  # pylint: disable=import-error
 import test_constants as constants
-import utils
+import utils  # pylint: disable=import-error
 
 
 def reqs_list(arr):
@@ -63,8 +63,8 @@ def test_increased_max_synonyms():
     with mock.patch('utils.SynonymExtractor.create_conc_reqs', side_effect=reqs_list):
         with mock.patch('utils.SynonymExtractor.req_to_json', side_effect=to_json):
 
-            assert result == utils.create_synonym_list_esp(["word1"],
-                    max_synonyms = constants.INCREASED_MAX_SYNONYMS)
+            assert result == utils.create_synonym_list_esp([
+                "word1"], max_synonyms=constants.INCREASED_MAX_SYNONYMS)
 
 
 def test_same_weights_for_all():
