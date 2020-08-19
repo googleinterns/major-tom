@@ -14,7 +14,7 @@ const articleQueries = {
     const articlePayloads = await Promise.all(requests)
 
     for (const article of articlePayloads) {
-      if (article.error) return new Error(JSON.stringify(article))
+      if (article.error) return new Error(JSON.stringify(article.error))
 
       article.minutesToRead = parseInt(article.wordCount) / AVERAGE_WORDS_PER_MINUTE
       delete article.wordCount
