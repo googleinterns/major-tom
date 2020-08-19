@@ -51,4 +51,3 @@ def test_parse():
             mock_id_articles.return_value = constants.mock_article_values
             parser.parse(constants.mty_document)
             assert mock_article_storage.call_count == len(constants.mock_article_values)
-
