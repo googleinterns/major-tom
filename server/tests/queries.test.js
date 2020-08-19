@@ -102,6 +102,7 @@ describe('Queries', () => {
         return article
       }
     }
+    
     return { error: { message: 'No article matches such ID', code: 404 } }
   })
 
