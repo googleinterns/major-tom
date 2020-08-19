@@ -10,7 +10,7 @@ def test_has_file_changed_if_true():
                 "2c0fbbfa6ab82ea6925827c51"
     file_name = "Monterrey.pdf"
     response = parser.has_file_changed(past_hash, file_name)
-    assert if response == True
+    assert response is True
 
 
 def test_has_file_changed_if_false():
@@ -20,7 +20,7 @@ def test_has_file_changed_if_false():
                 "0fbbfa6ab82ea6925827c5"
     file_name = "Monterrey.pdf"
     response = parser.has_file_changed(past_hash, file_name)
-    assert response == False
+    assert response is False
 
 
 def test_parse_all_documents():
