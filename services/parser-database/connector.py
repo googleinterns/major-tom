@@ -1,12 +1,11 @@
 """conector.py - One stop connector for external
 services/databases"""
-# import requests  # pylint: disable=import-error
-import random
+import os
+import requests  # pylint: disable=import-error
 import logging
 
-import constants
-
 logging.basicConfig(level=logging.INFO)
+
 
 articles_in_memory = {}
 keywords_in_memory = {}
@@ -14,13 +13,23 @@ keywords_in_memory = {}
 
 def get_documents_to_parse():
     # When database is integrated, this will go away
+    mty_document = {
+        "hash":
+        "afafbfbdce8c40924edae00f6ce54f0c639ce42a2" +
+        "c0fbbfa6ab82ea6925827c51",
+        "jurisdiction":
+        "Monterrey",
+        "url":
+        "http://www.guadalupe.gob.mx/wp-content/up" +
+        "loads/2019/09/Nuevo-Reglamento-Homologado-1.pdf",
+    }
     document_list = []
-    document_list.append(constants.mty_document)
+    document_list.append(mty_document)
     return document_list
 
 
 def get_keywords(text):
-    """Get keywords that relate to this article
+    """Get keywords that relate to this article (NLP service)
 
     Args:
         text (sting): text to extract keywords from
@@ -28,12 +37,15 @@ def get_keywords(text):
     Returns:
         [list]: list of extracted keywords
     """
-    splited_text = text.split()
-    keywords = [
-        splited_text[random.randint(0, len(splited_text) - 1)],
-        splited_text[random.randint(0, len(splited_text) - 1)],
-    ]
-    return keywords
+
+    extracted_keywords = []
+    request = {'text': text}
+    nlp_output = requests.post(os.getenv("KEYWORDS_SERVICE"), json=request)
+    # nlp_output = keywordmock.get_keywords(text)
+    json_output = nlp_output.json()
+    for keyword in json_output["tokens"]:
+        extracted_keywords.append(keyword["lemma"])
+    return extracted_keywords
 
 
 def get_article_by_number(art_num):
