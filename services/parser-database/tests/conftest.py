@@ -25,3 +25,10 @@ def fixture_mock_retriever():
     def _mock(url, file_name):
         return None
     return _mock
+
+
+@pytest.fixture(name="mock_identify_articles", scope="session")
+def fixture_mock_retriever():
+    def _mock(url, file_name):
+        return None
+    return _mock

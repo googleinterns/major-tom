@@ -2,12 +2,7 @@ from unittest.mock import MagicMock
 from unittest import mock
 import parser
 import retriever
-
-
-class MockRetrieverResponse:
-    @staticmethod
-    def get_document():
-        return None
+import constants
 
 
 def test_has_file_changed_if_true():
@@ -30,12 +25,14 @@ def test_has_file_changed_if_false():
     assert response == False
 
 
-def test_parse_all_documents(monkeypatch, mocker, mock_parser):
+def test_parse_all_documents():
     mock_patch_parser = "parser.parse"
-    with mock.patch(mock_patch_parser) as mck_parser:
-        mck_parser.side_effect = mock_parser
-        result = parser.parse_all_documents()
-        assert result[0] == "afafbfbdce8c40924edae00f6ce54f0c639ce42a2c0fbbfa6ab82ea6925827c51"
+    mock_patch_get_documents = "connector.get_documents_to_parse"
+    with mock.patch(mock_patch_parser) as mock_parser:
+        with mock.patch(mock_patch_get_documents) as mock_connector:
+            mock_connector.return_value = [constants.mty_document]
+            parser.parse_all_documents()
+            mock_parser.assert_called_once_with(constants.mty_document)
 
 
 mty_document = {
@@ -51,8 +48,13 @@ mty_document = {
 
 
 def test_parse():
-    parser.parse(mty_document, "Monterrey.pdf")
-
+    mock_article_identifier = "parser.identify_articles"
+    mock_patch = "connector.store_article"
+    with mock.patch(mock_article_identifier) as mock_id_articles:
+        with mock.patch(mock_patch) as mock_article_storage:
+            mock_id_articles.return_value = constants.mock_article_values
+            parser.parse(mty_document)
+            assert mock_article_storage.call_count == len(constants.mock_article_values)
     # Mock Identify Articles
     # Mock Store Articles (no need to store them I guess,
     # just make it not break when its called, maybe
