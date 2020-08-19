@@ -38,9 +38,9 @@ class SearchEngine:
         """
         query_text = {'text': query}
 
-        logging.debug("keywords location: %s", env.get_db_endpoint())
+        logging.debug("keywords location: %s", env.get_keyword_endpoint())
 
-        response = requests.post(env.get_db_endpoint(), json=query_text)
+        response = requests.post(env.get_keyword_endpoint(), json=query_text)
         response = response.json()
         logging.info("keywords response: %s", response)
 
@@ -99,12 +99,12 @@ class SearchEngine:
         score_per_article = {}
 
         keywords_json = {"keywords": keywords+synonyms}
-        article_keywords_frequency = requests.post(env.get_db_endpoint(), json=keywords_json)
+        article_keywords_frequency = requests.post(env.get_db_endpoint(), json=keywords_json).json()
+
+        logging.info("DB Endpoint response: %s", article_keywords_frequency)
 
         if 'error' in article_keywords_frequency:
             raise Exception(article_keywords_frequency['error']['message'])
-
-        logging.info("DB Endpoint response: %s", article_keywords_frequency)
 
         self._calculate_score(article_keywords_frequency, keywords, synonyms, score_per_article)
 
