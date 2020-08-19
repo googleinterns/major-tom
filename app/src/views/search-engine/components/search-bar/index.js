@@ -1,9 +1,9 @@
 import React from 'react'
-import { AppBar, Toolbar, Avatar, Input, IconButton } from '@material-ui/core'
+import { AppBar, Toolbar, Avatar, Input, IconButton, Fade, LinearProgress } from '@material-ui/core'
 import { Search as SearchIcon } from '@material-ui/icons'
 import styles from './styles'
 
-const SearchBar = ({ setSearch, refetch }) => {
+const SearchBar = ({ setSearch, refetch, setLoading, loading }) => {
   const classes = styles()
 
   return (
@@ -25,11 +25,23 @@ const SearchBar = ({ setSearch, refetch }) => {
               root: classes.inputRoot,
               input: classes.inputInput
             }}
-            onChange={({ target: { value } }) => setSearch(value)}
+            onChange={({ target: { value } }) => {
+              if (value?.length !== 0) {
+                setLoading(true)
+                setSearch(value)
+              } else {
+                setLoading(false)
+              }
+            }}
           />
         </div>
         <Avatar alt='Reglamento Vial' src='/static/icon-bg.png' className={classes.avatar} />
       </Toolbar>
+      {(loading &&
+        <Fade in={loading} style={{ transitionDelay: '1200ms' }}>
+          <LinearProgress />
+        </Fade>
+      )}
     </AppBar>
   )
 }
