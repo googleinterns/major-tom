@@ -37,10 +37,12 @@ class Article:
     def __init__(self, number, text):
         self.number = number
         self.text = text
+        self.id = str(number)
 
     def to_dict(self):
         article_dict = {
             "articleNumber": self.number,
+            "id": self.id,
             "text": self.text,
             "wordCount": len(self.text.split())
         }

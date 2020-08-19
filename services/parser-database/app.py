@@ -1,4 +1,5 @@
 import os
+from copy import copy
 
 from flask import Flask  # pylint: disable=import-error
 from flask import request  # pylint: disable=import-error
@@ -35,8 +36,10 @@ def get_keywords():
 def get_article_by_number_in_memory(id):
     """Returns the article that matches the ID value
     accoring to the apiSpec.yaml file"""
-    article = get_article_by_number(id)
+    article = get_article_by_number(str(id))
     if article is not None:
+        article = copy(article)
+        del article["id"]
         return jsonify(article)
     else:
         return {"error": {

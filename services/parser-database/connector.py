@@ -56,7 +56,7 @@ def get_articles_that_match_keywords(keywords_list):
         articles_that_match_keyword = {}
         if keyword in keywords_in_memory:
             for article in keywords_in_memory[keyword]:
-                articles_that_match_keyword[article["articleNumber"]] = article["frequency"]
+                articles_that_match_keyword[str(article["id"])] = article["frequency"]
         matching_articles[keyword] = articles_that_match_keyword
     return matching_articles
 
@@ -79,6 +79,6 @@ def save_keywords_in_memory(keywords, article):
 
 
 def store_article(article_dict):
-    articles_in_memory[str(article_dict["articleNumber"])] = article_dict
+    articles_in_memory[article_dict["id"]] = article_dict
     save_keywords_in_memory(get_keywords(article_dict["text"]), article_dict)
-    logging.info('Article ' + str(article_dict["articleNumber"]) + ' assigned keywords')
+    logging.info('Article ' + article_dict["id"] + ' assigned keywords')
