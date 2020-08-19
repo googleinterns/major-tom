@@ -39,15 +39,15 @@ in_memory_value_mock = {
 def test_get_articles_that_match_keywords_empty_result_one_keyword():
     keywords = ["alcohol"]
     result = connector.get_articles_that_match_keywords(keywords)
-    assert result["alcohol"] == {}
+    assert result["alcohol"] == []
 
 
 @mock.patch('connector.keywords_in_memory', in_memory_value_mock)
 def test_get_articles_that_match_keywords_empty_result_two_keywords():
     keywords = ["vehiculo", "conductor"]
     result = connector.get_articles_that_match_keywords(keywords)
-    assert result["vehiculo"] == {}
-    assert result["conductor"] == {}
+    assert result["vehiculo"] == []
+    assert result["conductor"] == []
 
 
 @mock.patch('connector.keywords_in_memory', in_memory_value_mock)
