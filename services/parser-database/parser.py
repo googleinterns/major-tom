@@ -126,4 +126,3 @@ def parse(document_to_parse):
             for article in articles:
                 dictionary = article.to_dict()
                 connector.store_article(dictionary)
-
