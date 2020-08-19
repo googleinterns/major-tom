@@ -27,6 +27,12 @@ def test_article_extraction_by_number_of_articles_extracted():
     """Tests if the right number of articles is extracted"""
     recieved_articles = identify_articles(articles)
     assert len(recieved_articles) == 6
+    assert recieved_articles[0].number == 1
+    assert recieved_articles[1].number == 2
+    assert recieved_articles[2].number == 3
+    assert recieved_articles[3].number == 4
+    assert recieved_articles[4].number == 5
+    assert recieved_articles[5].number == 6
     assert recieved_articles[0].text == "los ciclistas se deben de orillar"
     assert recieved_articles[1].text == "los ciclistas no se deben de orillar"
     assert recieved_articles[2].text == "velocidad maxima de 10kmh"

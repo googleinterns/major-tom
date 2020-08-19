@@ -68,14 +68,14 @@ def identify_articles(pdf_text):
                 or pdf_text[i + 1] == str(article_count) + "-"
                 or pdf_text[i + 1] == str(article_count) + "."):
             logging.info("Article #" + str(article_count) + " recognized!")
-            articles.append(Article(article_count, article_text.strip()))
+            articles.append(Article(article_count-1, article_text.strip()))
             article_text = ""
             article_count += 1
             i += 1
         else:
             article_text += " " + pdf_text[i]
             if i == len(pdf_text) - 1:
-                articles.append(Article(article_count, article_text.strip()))
+                articles.append(Article(article_count-1, article_text.strip()))
         i += 1
     articles.pop(0)
     return articles
@@ -126,3 +126,4 @@ def parse(document_to_parse):
             for article in articles:
                 dictionary = article.to_dict()
                 connector.store_article(dictionary)
+
