@@ -3,3 +3,19 @@ major-tom-venv
 ./vscode
 python38
 env2
+
+# Recursive calls
+**/node_modules
+**.env
+
+# React app
+app/build
+app/*.pnp
+app/*.pnp.js
+app/coverage
+app/npm-debug.log*
+app/yarn-debug.log*
+app/yarn-error.log*
+
+# Misc
+.idea/
