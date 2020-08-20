@@ -1,40 +1,40 @@
 steps:
-    - name: gcr.io/cloud-builders/docker
-      args:
-        - build
-        - '--no-cache'
-        - '--build-arg'
-        - 'REACT_APP_HTTP_URI=$_REACT_APP_HTTP_URI'
-        - '-t'
-        - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
-        - app
-        - '-f'
-        - app/Dockerfile
-      id: Build
-    - name: gcr.io/cloud-builders/docker
-      args:
-        - push
-        - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
-      id: Push
-    - name: gcr.io/google.com/cloudsdktool/cloud-sdk
-      args:
-        - run
-        - services
-        - update
-        - $_SERVICE_NAME
-        - '--platform=gke'
-        - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
-        - >-
-          --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID,$_LABELS
-        - '--cluster=$_GKE_CLUSTER'
-        - '--cluster-location=$_GKE_LOCATION'
-        - '--namespace=$_NAMESPACE'
-        - '--quiet'
-      id: Deploy
-      entrypoint: gcloud
-  images:
+- name: gcr.io/cloud-builders/docker
+    args:
+    - build
+    - '--no-cache'
+    - '--build-arg'
+    - 'REACT_APP_HTTP_URI=$_REACT_APP_HTTP_URI'
+    - '-t'
     - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
-  tags:
-    - gcp-cloud-build-deploy-cloud-run
-    - gcp-cloud-build-deploy-cloud-run-gke
-    - frontend
+    - app
+    - '-f'
+    - app/Dockerfile
+    id: Build
+- name: gcr.io/cloud-builders/docker
+    args:
+    - push
+    - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
+    id: Push
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    args:
+    - run
+    - services
+    - update
+    - $_SERVICE_NAME
+    - '--platform=gke'
+    - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
+    - >-
+        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID,$_LABELS
+    - '--cluster=$_GKE_CLUSTER'
+    - '--cluster-location=$_GKE_LOCATION'
+    - '--namespace=$_NAMESPACE'
+    - '--quiet'
+    id: Deploy
+    entrypoint: gcloud
+images:
+- '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
+tags:
+- gcp-cloud-build-deploy-cloud-run
+- gcp-cloud-build-deploy-cloud-run-gke
+- frontend
