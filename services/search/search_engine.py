@@ -1,7 +1,7 @@
 import logging
 import requests  # pylint: disable=import-error
 import constants
-import utils
+import synonym_extractor
 import env
 
 
@@ -59,7 +59,7 @@ class SearchEngine:
 
         logging.info("keywords: %s", keywords)
 
-        synonyms = utils.create_synonym_list_esp(keywords)
+        synonyms = synonym_extractor.create_synonym_list_esp(keywords)
 
         logging.info("synonyms: %s", synonyms)
 
