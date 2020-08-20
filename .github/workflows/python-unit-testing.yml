@@ -18,11 +18,23 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
-    - name: Install dependencies
-      working-directory: ./
-        if [ -f services/keywords/requirements.txt ]; then pip install -r requirements.txt; fi
-        if [ -f services/search/requirements.txt ]; then pip install -r requirements.txt; fi
-        if [ -f services/parser-database/requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Install dependencies (Keywords)
+      working-directory: ./services/keywords
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-mock
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        
+    - name: Install dependencies (Search Engine)
+      working-directory: ./services/search/
+      run: |
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        
+    - name: Install dependencies (Parser)
+      working-directory: ./services/parser-database
+      run: |
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+  
     - name: Test with pytest (parser)
       working-directory: ./services/parser-database
       run: |
