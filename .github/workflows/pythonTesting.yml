@@ -43,7 +43,7 @@ jobs:
       working-directory: ./services/parser-database
       run: |
         pytest
-    - name: Test with pytest (keywords)
+    - name: Test with pytest (keyword)
       working-directory: ./services/keywords
       run: |
         python -m pytest
