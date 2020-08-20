@@ -8,6 +8,7 @@ from flask import jsonify  # pylint: disable=import-error
 from parser import parse_all_documents
 from connector import get_articles_that_match_keywords
 from connector import get_article_by_number
+from connector import get_articles_by_tfidf_value
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -22,14 +23,13 @@ def trigger_parsing():
         return {"error": {"message": "Internal Parser Error"}}, 500
     return "Sucessful Operation", 200
 
-
 @app.route('/articles/byKeywords', methods=['POST'])
 def get_keywords():
     json_request = request.get_json()
     if "keywords" not in json_request:
         return {"error": {"message": "keywords request body is missing"}}, 400
     else:
-        return jsonify(get_articles_that_match_keywords(json_request['keywords']))
+        return jsonify(get_articles_by_tfidf_value(json_request['keywords']))
 
 
 @app.route('/articles/<id>', methods=['GET'])
