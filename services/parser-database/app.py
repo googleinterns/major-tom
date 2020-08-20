@@ -6,7 +6,6 @@ from flask import request  # pylint: disable=import-error
 from flask import jsonify  # pylint: disable=import-error
 
 from parser import parse_all_documents
-from connector import get_articles_that_match_keywords
 from connector import get_article_by_number
 from connector import get_articles_by_tfidf_value
 
@@ -22,6 +21,7 @@ def trigger_parsing():
         print(e)
         return {"error": {"message": "Internal Parser Error"}}, 500
     return "Sucessful Operation", 200
+
 
 @app.route('/articles/byKeywords', methods=['POST'])
 def get_keywords():
