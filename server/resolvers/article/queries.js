@@ -23,12 +23,11 @@ const articleQueries = {
     const articlePayloads = await Promise.all(requests)
 
     for (const payload of articlePayloads) {
-      const { data: article } = payload
+      const { data: article, error } = payload
 
-      if (!article) return new Error('Response format not supported!')
+      if (error) return new Error(JSON.stringify(error))
 
-      if (article.error) return new Error(JSON.stringify(article.error))
-
+      article.keywords = []
       article.minutesToRead = parseInt(article.wordCount) / AVERAGE_WORDS_PER_MINUTE
       delete article.wordCount
 
