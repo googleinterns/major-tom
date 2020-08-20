@@ -1,7 +1,8 @@
 from unittest import mock
+import pytest  # pylint: disable=import-error
 import connector
 import constants
-import pytest
+
 
 many_documents = [
     {
@@ -52,6 +53,7 @@ articles_in_memory = {'5': {'wordCount': 32}, '45': {'wordCount': 40}, '89': {'w
 
 
 articles_in_memory_no_wordCount = {'5': {}, '45': {}, '89': {}, '99': {}, '125': {}}
+
 
 def logn(num):
     """
@@ -111,7 +113,7 @@ def test_get_articles_by_tfidf_value_empty_result():
 
 @mock.patch("connector.keywords_in_memory", in_memory_value_mock_no_decimals)
 @mock.patch("connector.articles_in_memory", articles_in_memory_no_wordCount)
-def test_get_articles_by_tfidf_value_missing_wordCount():
+def test_get_articles_by_tfidf_value_missing_word_count():
     keywords = ["licencia", "ciclista"]
     with mock.patch("numpy.log", side_effect=logn):
         with pytest.raises(KeyError):
