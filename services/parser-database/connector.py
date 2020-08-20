@@ -1,6 +1,7 @@
 """conector.py - One stop connector for external
 services/databases"""
-# import requests  # pylint: disable=import-error
+import os
+import requests  # pylint: disable=import-error
 import random
 import logging
 
@@ -20,7 +21,7 @@ def get_documents_to_parse():
 
 
 def get_keywords(text):
-    """Get keywords that relate to this article
+    """Get keywords that relate to this article (Javier's service)
 
     Args:
         text (sting): text to extract keywords from
@@ -28,12 +29,15 @@ def get_keywords(text):
     Returns:
         [list]: list of extracted keywords
     """
-    splited_text = text.split()
-    keywords = [
-        splited_text[random.randint(0, len(splited_text) - 1)],
-        splited_text[random.randint(0, len(splited_text) - 1)],
-    ]
-    return keywords
+
+    extracted_keywords = []
+    request = {'text': text}
+    nlp_output = requests.post(os.getenv("KEYWORDS_SERVICE"), json=request)
+    # nlp_output = keywordmock.get_keywords(text)
+    json_output = nlp_output.json()
+    for keyword in json_output["tokens"]:
+        extracted_keywords.append(keyword["lemma"])
+    return extracted_keywords
 
 
 def get_article_by_number(art_num):
