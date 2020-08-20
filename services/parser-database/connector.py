@@ -4,6 +4,7 @@ import os
 import requests  # pylint: disable=import-error
 import random
 import logging
+import json
 
 import constants
 
@@ -21,7 +22,7 @@ def get_documents_to_parse():
 
 
 def get_keywords(text):
-    """Get keywords that relate to this article (Javier's service)
+    """Get keywords that relate to this article (from NLP service)
 
     Args:
         text (sting): text to extract keywords from
@@ -29,14 +30,14 @@ def get_keywords(text):
     Returns:
         [list]: list of extracted keywords
     """
-
     extracted_keywords = []
     request = {'text': text}
     nlp_output = requests.post(os.getenv("KEYWORDS_SERVICE"), json=request)
-    # nlp_output = keywordmock.get_keywords(text)
     json_output = nlp_output.json()
+    print(type(json_output))
     for keyword in json_output["tokens"]:
         extracted_keywords.append(keyword["lemma"])
+        print(extracted_keywords)
     return extracted_keywords
 
 
