@@ -35,7 +35,6 @@ def get_keywords(text):
         raise Exception(json_output['error']['message'])
     for keyword in json_output["tokens"]:
         extracted_keywords.append(keyword["lemma"])
-        print(extracted_keywords)
     return extracted_keywords
 
 
