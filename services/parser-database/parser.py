@@ -3,6 +3,7 @@ regulation articles and store them in memory.
 """
 import logging
 import hashlib
+import re
 
 import slate  # pylint: disable=import-error
 
@@ -64,22 +65,14 @@ def identify_articles(pdf_text):
     article_count = 1
     i = 0
 
+    res = re.split(r'(ART[ÍI]CULO *\d+ *[.-]-?)', pdf_text)
+
     while i < len(pdf_text):
-        if (pdf_text[i] == "artículo" or pdf_text[i] == "articulo") and (
-                pdf_text[i + 1] == str(article_count) + ".-"
-                or pdf_text[i + 1] == str(article_count) + "-"
-                or pdf_text[i + 1] == str(article_count) + "."):
-            logging.info("Article #" + str(article_count) + " recognized!")
-            articles.append(Article(article_count-1, article_text.strip()))
-            article_text = ""
-            article_count += 1
-            i += 1
-        else:
-            article_text += " " + pdf_text[i]
-            if i == len(pdf_text) - 1:
-                articles.append(Article(article_count-1, article_text.strip()))
+        logging.info("Article #" + str(article_count) + " recognized!")
+        articles.append(Article(article_count-1, article_text.strip()))
+        article_text = ""
+        article_count += 1
         i += 1
-    articles.pop(0)
     return articles
 
 
@@ -122,9 +115,16 @@ def parse(document_to_parse):
             final_text = ""
             for page in doc:
                 final_text += page
-            final_text = final_text.strip().lower().split()
-            articles = identify_articles(final_text)
+            print(len(res))
+            #for r in res:
+                #print('ANNIE')
+                #print(r)
+            # final_text = final_text.strip().lower().split()
+            # articles = identify_articles(final_text)
 
             for article in articles:
                 dictionary = article.to_dict()
                 connector.store_article(dictionary)
+
+
+parse_all_documents()
