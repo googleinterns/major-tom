@@ -75,7 +75,7 @@ def save_keywords_in_memory(keywords, article):
         if keyword not in keywords_in_memory:
             keywords_in_memory[keyword] = []
         keywords_in_memory[keyword].append({
-            "articleNumber": article["articleNumber"],
+            "id": article["articleNumber"],
             "frequency": frequency
         })
 
