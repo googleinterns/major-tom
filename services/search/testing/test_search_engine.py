@@ -1,10 +1,11 @@
+from unittest import mock
 import json
-import mock  # pylint: disable=import-error
 import flask
 import responses  # pylint: disable=import-error
 from search_engine import SearchEngine  # pylint: disable=import-error
 import test_constants as constants
 from main import search_service
+import synonym_extractor  # pylint: disable=import-error
 
 
 def make_flask_request(data):
@@ -17,6 +18,74 @@ def make_flask_request(data):
     """
     return flask.Request.from_values(
         method='POST', content_type="application/json", data=json.dumps(data))
+
+
+class MockJson:
+    def __init__(self, json_test_value):
+        self.json_test_value = json_test_value
+
+    def json(self):
+        return self.json_test_value
+
+
+class MockResult:
+    def __init__(self, json_test_value):
+        self.mock_json = MockJson(json_test_value)
+
+    def result(self):
+        return self.mock_json
+
+
+def json_mock():
+    return {"sinonimos": [{"sinonimo": "my_synonym"}] * constants.TEN_SYNONYMS}
+
+
+def test_one_synonym():
+    """
+    Tests one synonym call with default max synonyms (5)
+    """
+    expected = ["my_synonym"] * constants.DEFAULT_MAX_SYNONYMS
+    req_list = MockResult(json_mock())
+    with mock.patch('requests_futures.sessions.FuturesSession.get', return_value=req_list):
+
+        assert expected == synonym_extractor.create_synonym_list_esp(["word"])
+
+
+def test_no_synonyms():
+    """
+    Tests no synonym calls
+    """
+    expected = []
+
+    req_list = MockResult(json_mock())
+    with mock.patch('requests_futures.sessions.FuturesSession.get', return_value=req_list):
+
+        assert expected == synonym_extractor.create_synonym_list_esp([])
+
+
+def test_multiple_synonyms():
+    """
+    Tests two synonym call with default max synonyms (5)
+    """
+    expected = ["my_synonym", "my_synonym"] * constants.DEFAULT_MAX_SYNONYMS
+
+    req_list = MockResult(json_mock())
+    with mock.patch('requests_futures.sessions.FuturesSession.get', return_value=req_list):
+
+        assert expected == synonym_extractor.create_synonym_list_esp(["word1", "word2"])
+
+
+def test_increased_max_synonyms():
+    """
+    Tests one synonym call with increased max synonyms (8)
+    """
+    expected = ["my_synonym"] * constants.INCREASED_MAX_SYNONYMS
+
+    req_list = MockResult(json_mock())
+    with mock.patch('requests_futures.sessions.FuturesSession.get', return_value=req_list):
+
+        assert expected == synonym_extractor.create_synonym_list_esp(
+            ["word1"], max_synonyms=constants.INCREASED_MAX_SYNONYMS)
 
 
 @responses.activate
