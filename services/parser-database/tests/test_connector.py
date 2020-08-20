@@ -77,6 +77,6 @@ def test_get_documents():
 def test_get_keywords_from_nlp(mock_get):
     text_to_keywordize = 'es forzoso en bicicleta usar casco?'
     output_to_assert_nlp_keywords = ['ser', 'forzoso', 'bicicleta', 'usar', 'casco']
-    mock_get.return_value.json.return_value = {"lan": "es", "tokens": [{"lemma": "ser","part_of_speech":"VERB","word":"es"},{"lemma": "forzoso", "part_of_speech": "ADJ","word": "forzoso"},{"lemma": "bicicleta", "part_of_speech": "NOUN","word": "bicicleta"},{"lemma":"usar","part_of_speech": "VERB","word": "usar"}, {"lemma": "casco", "part_of_speech": "NOUN", "word": "casco"}]}
+    mock_get.return_value.json.return_value = {"lan": "es", "tokens": [{"lemma": "ser", "part_of_speech": "VERB", "word": "es"}, {"lemma": "forzoso", "part_of_speech": "ADJ", "word": "forzoso"}, {"lemma": "bicicleta", "part_of_speech": "NOUN", "word": "bicicleta"},{"lemma": "usar", "part_of_speech": "VERB", "word": "usar"}, {"lemma": "casco", "part_of_speech": "NOUN", "word": "casco"}]}  # noqa: E501
     result = connector.get_keywords(text_to_keywordize)
     assert result == output_to_assert_nlp_keywords

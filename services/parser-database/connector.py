@@ -2,10 +2,7 @@
 services/databases"""
 import os
 import requests  # pylint: disable=import-error
-import random
 import logging
-import json
-
 import constants
 
 logging.basicConfig(level=logging.INFO)
@@ -34,7 +31,8 @@ def get_keywords(text):
     request = {'text': text}
     nlp_output = requests.post(os.getenv("KEYWORDS_SERVICE"), json=request)
     json_output = nlp_output.json()
-    print(type(json_output))
+    if 'error' in json_output:
+        raise Exception(json_output['error']['message'])
     for keyword in json_output["tokens"]:
         extracted_keywords.append(keyword["lemma"])
         print(extracted_keywords)
