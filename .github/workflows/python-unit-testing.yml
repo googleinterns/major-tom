@@ -22,27 +22,23 @@ jobs:
       working-directory: ./services/keywords
       run: |
         python -m pip install --upgrade pip
-        pip install pytest
+        pip install pytest pytest-mock
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         
     - name: Install dependencies (Search Engine)
       working-directory: ./services/search/
       run: |
-        python -m pip install --upgrade pip
-        pip install pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         
     - name: Install dependencies (Parser)
       working-directory: ./services/parser-database
       run: |
-        python -m pip install --upgrade pip
-        pip install pytest pytest-mock
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
   
     - name: Test with pytest (parser)
       working-directory: ./services/parser-database
       run: |
-        pytest
+        python -m pytest
     - name: Test with pytest (keyword)
       working-directory: ./services/keywords
       run: |
