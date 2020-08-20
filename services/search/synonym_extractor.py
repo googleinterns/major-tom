@@ -24,10 +24,10 @@ class SynonymExtractor:
         for word in word_arr:
             responses.append(self.session.get(constants.SPANISH_API_URL+word))  # pylint: disable=no-member
 
-        responses_json = [self.get_response_json(resp) for resp in responses]
+        responses_json = [self.__get_response_json(resp) for resp in responses]
         return responses_json
 
-    def get_response_json(self, resp):
+    def __get_response_json(self, resp):
         """
         Returns json from request
         """
