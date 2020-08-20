@@ -24,4 +24,5 @@ SYNONYMS_MULTIPLE = ["taximetro",
                      "copia", "reproduccion", "estampa", "adhesivo",
                      "lamina", "plancha", "chapa", "hoja", "pelicula"]
 
-MOCK_URL = "http://somerealurl.com/"
+MOCK_URL_DB = "http://somerealurl.com/"
+MOCK_URL_KEYWORDS = "http://someotherurl.com/"
