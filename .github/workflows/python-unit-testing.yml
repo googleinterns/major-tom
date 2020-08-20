@@ -19,9 +19,10 @@ jobs:
       with:
         python-version: 3.8
     - name: Install dependencies
-        if [ -f ./services/keywords/requirements.txt ]; then pip install -r requirements.txt; fi
-        if [ -f ./services/search/requirements.txt ]; then pip install -r requirements.txt; fi
-        if [ -f ./services/parser-database/requirements.txt ]; then pip install -r requirements.txt; fi
+      working-directory: ./
+        if [ -f services/keywords/requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -f services/search/requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -f services/parser-database/requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Test with pytest (parser)
       working-directory: ./services/parser-database
       run: |
