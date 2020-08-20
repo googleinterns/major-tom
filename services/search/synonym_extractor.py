@@ -11,7 +11,7 @@ class SynonymExtractor:
         self.max_synonyms = max_synonyms
         self.session = FuturesSession()
 
-    def create_conc_reqs(self, word_arr):
+    def get_responses_as_json(self, word_arr):
         """
         create an asynchronous request list using requests-futures
         Attributes:
@@ -20,17 +20,18 @@ class SynonymExtractor:
         Return:
             A list of requests for every word
         """
-        reqs = []
+        responses = []
         for word in word_arr:
-            reqs.append(self.session.get(constants.SPANISH_API_URL+word))  # pylint: disable=no-member
+            responses.append(self.session.get(constants.SPANISH_API_URL+word))  # pylint: disable=no-member
 
-        return reqs
+        responses_json = [self.get_response_json(resp) for resp in responses]
+        return responses_json
 
-    def req_to_json(self, json):
+    def get_response_json(self, resp):
         """
         Returns json from request
         """
-        return json.result().json()
+        return resp.result().json()
 
 
 def create_synonym_list_esp(word_arr, max_synonyms=5):
@@ -46,8 +47,7 @@ def create_synonym_list_esp(word_arr, max_synonyms=5):
 
     synonym_extractor = SynonymExtractor(max_synonyms)
 
-    for req in synonym_extractor.create_conc_reqs(word_arr):
-        resp = synonym_extractor.req_to_json(req)
+    for resp in synonym_extractor.get_responses_as_json(word_arr):
         logging.info(resp)
 
         if 'sinonimos' not in resp:
