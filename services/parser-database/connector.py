@@ -79,7 +79,8 @@ def get_articles_by_tfidf_value(keywords_list):
         if keyword in keywords_in_memory:
             for article in keywords_in_memory[keyword]:
                 # tfidf computation
-                term_density_in_article = article["frequency"]/article["wordCount"]
+                word_count = articles_in_memory[str(article["id"])]["wordCount"]
+                term_density_in_article = article["frequency"]/word_count
                 document_frequency = len(articles_in_memory)/len(keywords_in_memory[keyword])
                 inverse_doc_freq = np.log(document_frequency)
                 value = term_density_in_article * inverse_doc_freq
@@ -101,10 +102,8 @@ def save_keywords_in_memory(keywords, article):
         if keyword not in keywords_in_memory:
             keywords_in_memory[keyword] = []
         keywords_in_memory[keyword].append({
-            "id": article["id"],
-            "articleNumber": article["articleNumber"],
-            "frequency": frequency,
-            "wordCount": article["wordCount"]
+            "id": article["articleNumber"],
+            "frequency": frequency
         })
 
 
