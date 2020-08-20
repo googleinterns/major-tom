@@ -88,9 +88,7 @@ const tests = [
         `,
     variables: { search: '' },
     response: { data: { articles: ['20'] } },
-
     expected: [new GraphQLError(JSON.stringify({ message: 'No article matches such ID', code: 404 }))]
-
   }
 ]
 
@@ -106,7 +104,6 @@ describe('Queries', () => {
     }
 
     return { error: { message: 'No article matches such ID', code: 404 } }
-
   })
 
   tests.forEach(currentTest => {
