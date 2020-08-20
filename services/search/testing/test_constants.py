@@ -30,3 +30,4 @@ INCREASED_MAX_SYNONYMS = 8
 DECREASED_MAX_SYNONYMS = 3
 
 MOCK_URL = "http://somerealurl.com/"
+
