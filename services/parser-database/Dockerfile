@@ -18,7 +18,7 @@ apt-get install -y curl
 # Copy Files to container
 COPY . .
 
-HEALTHCHECK CMD curl -X GET localhost:8082/articles/100
+HEALTHCHECK CMD curl -X GET localhost:${PORT}/articles/100
 
 # Run the Flask App
 CMD [ "python", "app.py" ]
