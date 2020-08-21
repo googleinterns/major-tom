@@ -1,12 +1,13 @@
-KEYWORDS_DB_MOCK_1 = {"forzoso": {}, "bicicleta": {1: {"value": 1}}, "usar": {}, "casco": {1: {"value": 1}},
+KEYWORDS_DB_MOCK_1 = {"forzoso": {}, "bicicleta": {1: {"weight": 1}}, "usar": {},
+                      "casco": {1: {"weight": 1}},
                       "obligatorio": {}, "inexcusable": {}, "imprescindible": {},
                       "preciso": {}, "necesario": {}, "bici": {}, "velocipedo": {}, "tandem": {},
-                      "emplear": {}, "utilizar": {1: {"value": 1}}, "gastar": {}, "acostumbrar": {},
+                      "emplear": {}, "utilizar": {1: {"weight": 1}}, "gastar": {}, "acostumbrar": {},
                       "practicar": {},
                       "copa": {}, "suelo": {}, "pezuna": {}, "vaso": {}, "cabeza": {}}
 
-KEYWORDS_DB_MULTIPLE = {"taxi": {3: {"value": 2}}, "tener": {},
-                        "calcomania": {4: {"value": 1}}, "placa": {4: {"value": 1}},
+KEYWORDS_DB_MULTIPLE = {"taxi": {3: {"weight": 2}}, "tener": {},
+                        "calcomania": {4: {"weight": 1}}, "placa": {4: {"weight": 1}},
                         "taximetro": {},
                         "haber": {}, "poseer": {}, "detentar": {}, "sujetar": {}, "coger": {},
                         "copia": {}, "reproduccion": {}, "estampa": {}, "adhesivo": {},

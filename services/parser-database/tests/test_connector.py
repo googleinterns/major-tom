@@ -51,8 +51,8 @@ def test_get_articles_that_match_keywords_empty_result_two_keywords():
 
 @mock.patch("connector.keywords_in_memory", in_memory_value_mock)
 def test_get_articles_that_match_keywords_non_empty_result_one_keyword():
-    result_to_assert_3 = {"licencia": {"89": {"value": 3},
-                                       "45": {"value": 3}, "125": {"value": 2}}}
+    result_to_assert_3 = {"licencia": {"89": {"weight": 3},
+                                       "45": {"weight": 3}, "125": {"weight": 2}}}
     keywords = ["licencia"]
     result = connector.get_articles_that_match_keywords(keywords)
     assert result == result_to_assert_3
@@ -61,8 +61,8 @@ def test_get_articles_that_match_keywords_non_empty_result_one_keyword():
 @mock.patch("connector.keywords_in_memory", in_memory_value_mock)
 def test_get_articles_that_match_keywords_non_empty_result_two_keywords():
     result_to_assert_4 = {
-        "licencia": {"89": {"value": 3}, "45": {"value": 3}, "125": {"value": 2}},
-        "ciclista": {"5": {"value": 3}, "45": {"value": 1}, "99": {"value": 7}},
+        "licencia": {"89": {"weight": 3}, "45": {"weight": 3}, "125": {"weight": 2}},
+        "ciclista": {"5": {"weight": 3}, "45": {"weight": 1}, "99": {"weight": 7}},
     }
     keywords = ["licencia", "ciclista"]
     result = connector.get_articles_that_match_keywords(keywords)

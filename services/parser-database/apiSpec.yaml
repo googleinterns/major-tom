@@ -104,7 +104,7 @@ definitions:
       additionalProperties:
         type: object
         properties:
-          value:
+          weight:
             type: "number"
   Document:
     type: "object"
