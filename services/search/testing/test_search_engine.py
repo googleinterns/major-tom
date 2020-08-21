@@ -1,10 +1,10 @@
 from unittest import mock
 import json
-import flask
+import flask  # pylint: disable=import-error
 import responses  # pylint: disable=import-error
 from search_engine import SearchEngine  # pylint: disable=import-error
 import test_constants as constants
-from main import search_service
+from main import search_service  # pylint: disable=no-name-in-module
 import synonym_extractor  # pylint: disable=import-error
 
 
@@ -138,6 +138,7 @@ def test_multiple_articles():
         assert len(responses.calls) == 1
         assert responses.calls[0].request.url == constants.MOCK_URL_DB
         assert responses.calls[0].response.text == json.dumps(constants.KEYWORDS_DB_MULTIPLE)
+
 
 @responses.activate
 def test_full_workflow_search():
