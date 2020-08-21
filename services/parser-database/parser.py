@@ -61,18 +61,17 @@ def identify_articles(pdf_text):
         list: article objects
     """
     articles = []
-    article_text = ""
     article_count = 1
-    i = 0
+    i = 2
 
     res = re.split(r'(ART[ÍI]CULO *\d+ *[.-]-?)', pdf_text)
 
-    while i < len(pdf_text):
+    while i < len(res):
+        articles.append(Article(article_count, res[i].strip()))
         logging.info("Article #" + str(article_count) + " recognized!")
-        articles.append(Article(article_count-1, article_text.strip()))
-        article_text = ""
+        logging.info(res[i].lstrip())
         article_count += 1
-        i += 1
+        i += 2
     return articles
 
 
@@ -115,16 +114,9 @@ def parse(document_to_parse):
             final_text = ""
             for page in doc:
                 final_text += page
-            print(len(res))
-            #for r in res:
-                #print('ANNIE')
-                #print(r)
-            # final_text = final_text.strip().lower().split()
-            # articles = identify_articles(final_text)
+            articles = identify_articles(final_text)
 
             for article in articles:
+                # print(article.text)
                 dictionary = article.to_dict()
                 connector.store_article(dictionary)
-
-
-parse_all_documents()
