@@ -29,4 +29,5 @@ TEN_SYNONYMS = 10
 INCREASED_MAX_SYNONYMS = 8
 DECREASED_MAX_SYNONYMS = 3
 
-MOCK_URL = "http://somerealurl.com/"
+MOCK_URL_DB = "http://somerealurl.com/"
+MOCK_URL_KEYWORDS = "http://someotherurl.com/"
