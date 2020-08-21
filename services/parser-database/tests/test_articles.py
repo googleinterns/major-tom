@@ -18,7 +18,7 @@ articles = (
     + " ARTICULO 3. velocidad maxima de 10kmh"
     + " ARTÍCULO 4.- carros de mas de 3/4 toneladas requieren licencia de chofer"
     + " ARTÍCULO 5.- no te pueden infraccionar en navidad"
-    + " ARTÍCULO 6.- marcar al seguro y al 911 al chocar"
+    + " ARTÍCULO 6.- marcar al seguro y al 911 al chocar, como lo dice el Articulo 50"
 )
 
 
@@ -37,4 +37,4 @@ def test_article_extraction_by_number_of_articles_extracted():
     assert recieved_articles[2].text == "velocidad maxima de 10kmh"
     assert recieved_articles[3].text == "carros de mas de 3/4 toneladas requieren licencia de chofer"
     assert recieved_articles[4].text == "no te pueden infraccionar en navidad"
-    assert recieved_articles[5].text == "marcar al seguro y al 911 al chocar"
+    assert recieved_articles[5].text == "marcar al seguro y al 911 al chocar, como lo dice el Articulo 50"
