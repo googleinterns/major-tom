@@ -1,6 +1,5 @@
 """conector.py - One stop connector for external
 services/databases"""
-# import requests  # pylint: disable=import-error
 import random
 import logging
 
@@ -21,10 +20,8 @@ def get_documents_to_parse():
 
 def get_keywords(text):
     """Get keywords that relate to this article
-
     Args:
         text (sting): text to extract keywords from
-
     Returns:
         [list]: list of extracted keywords
     """
@@ -69,16 +66,16 @@ def save_keywords_in_memory(keywords, article):
         article (Article): article object
     """
     for keyword in keywords:
-        frequency = article["text"].count(keyword)
+        frequency = article["content"].count(keyword)
         if keyword not in keywords_in_memory:
             keywords_in_memory[keyword] = []
         keywords_in_memory[keyword].append({
-            "articleNumber": article["articleNumber"],
+            "number": article["number"],
             "frequency": frequency
         })
 
 
 def store_article(article_dict):
     articles_in_memory[article_dict["id"]] = article_dict
-    save_keywords_in_memory(get_keywords(article_dict["text"]), article_dict)
+    save_keywords_in_memory(get_keywords(article_dict["content"]), article_dict)
     logging.info('Article ' + article_dict["id"] + ' assigned keywords')
