@@ -39,15 +39,15 @@ jobs:
     - name: Test with pytest (parser)
       working-directory: ./services
       run: |
-        python -m pytest --cov=parser-database /parser-database/tests
+        python -m pytest --cov=parser-database parser-database/tests
     - name: Test with pytest (keyword)
       working-directory: ./services
       run: |
-        python -m pytest --cov=keywords --cov-append /keywords/testing
+        python -m pytest --cov=keywords --cov-append keywords/testing
     - name: Test with pytest (searchengine)
       working-directory: ./services
       run: |
-        python -m pytest --cov=search --cov-append /keywords/testing
+        python -m pytest --cov=search --cov-append search/testing
     - uses: actions/checkout@master
     - uses: codecov/codecov-action@v1
       name: codecov-umbrella
