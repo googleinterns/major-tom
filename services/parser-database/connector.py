@@ -1,6 +1,5 @@
 """conector.py - One stop connector for external
 services/databases"""
-import os
 import requests  # pylint: disable=import-error
 import logging
 import constants
