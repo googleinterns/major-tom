@@ -67,7 +67,8 @@ class SearchEngine:
 
     def _calculate_individual(self, word, frequency, weight, target_dict):
         if word in frequency:
-            for key, value in frequency[word].items():
+            for key, obj in frequency[word].items():
+                value = obj["value"]
                 score = target_dict.get(int(key), 0) + value * weight
                 if score != 0:
                     target_dict[int(key)] = score

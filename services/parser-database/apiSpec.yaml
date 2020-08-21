@@ -97,21 +97,15 @@ definitions:
     - keywords
   ArticleKeywords:
     type: object
+    # Keyword
     additionalProperties:
       type: object
+      # Article ID
       additionalProperties:
-        type: integer
-  # For Reference Only
-  ArticleKeywordFrequencyPair:
-    type: "object"
-    properties:
-      articleId:
-        type: "string"
-      frequency:
-        type: "integer"
-    required:
-    - articleId
-    - frequency
+        type: object
+        properties:
+          value:
+            type: "number"
   Document:
     type: "object"
     properties:
