@@ -63,7 +63,7 @@ def identify_articles(pdf_text):
     articles = []
     article_count = 1
     i = 2
-    res = re.split(r'(ART[ÍI]CULO *\d+ *[.-]-?)', pdf_text)
+    res = re.split(r'(ART[ÍI]CULO *\d+ *\.?-?)', pdf_text)
     while i < len(res):
         articles.append(Article(article_count, res[i].strip()))
         logging.info("Article #" + str(article_count) + " recognized!")
