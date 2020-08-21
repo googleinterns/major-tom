@@ -41,11 +41,11 @@ jobs:
       run: |
         python -m pytest --cov=parser-database parser-database/tests
     - name: Test with pytest (keyword)
-      working-directory: ./services
+      working-directory: ./services/keywords
       run: |
         python -m pytest
     - name: Test with pytest (searchengine)
-      working-directory: ./services
+      working-directory: ./services/search
       run: |
         python -m pytest
     - uses: actions/checkout@master
