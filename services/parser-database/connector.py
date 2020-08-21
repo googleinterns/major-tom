@@ -4,6 +4,7 @@ import os
 import requests  # pylint: disable=import-error
 import logging
 import constants
+import env
 
 logging.basicConfig(level=logging.INFO)
 
@@ -29,7 +30,7 @@ def get_keywords(text):
     """
     extracted_keywords = []
     request = {'text': text}
-    nlp_output = requests.post(os.getenv("KEYWORDS_SERVICE"), json=request)
+    nlp_output = requests.post(env.get_keywords_endpoint(), json=request)
     json_output = nlp_output.json()
     if 'error' in json_output:
         raise Exception(json_output['error']['message'])
