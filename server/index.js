@@ -1,5 +1,6 @@
-import { ApolloServer } from 'apollo-server'
+import { ApolloServer } from 'apollo-server-express'
 import { importSchema } from 'graphql-import'
+import express from 'express'
 import path from 'path'
 import resolvers from './resolvers'
 import { PORT } from './config'
@@ -14,6 +15,9 @@ const server = new ApolloServer({
   playground: true
 })
 
-server.listen(PORT).then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`)
+const app = express()
+server.applyMiddleware({ app })
+
+app.listen({ port: PORT }, () => {
+  console.log(`🚀  Server ready at http://localhost:${PORT}${server.graphqlPath}`)
 })
