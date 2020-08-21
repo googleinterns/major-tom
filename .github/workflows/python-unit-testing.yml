@@ -18,6 +18,9 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
+    - uses: actions/checkout@master
+    - uses: codecov/codecov-action@v1
+      name: codecov-umbrella
     - name: Install dependencies (Keywords)
       working-directory: ./services/keywords
       run: |
@@ -47,3 +50,4 @@ jobs:
       working-directory: ./services/search
       run: |
         python -m pytest
+      
