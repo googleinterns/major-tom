@@ -97,10 +97,10 @@ definitions:
     - keywords
   ArticleKeywords:
     type: object
-    # Keyword
+    # Every additional property is one keyword and it's object
     additionalProperties:
       type: object
-      # Article ID
+      # Every additional property is one article ID and it's object
       additionalProperties:
         type: object
         properties:
