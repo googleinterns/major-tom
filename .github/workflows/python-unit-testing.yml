@@ -37,17 +37,17 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
   
     - name: Test with pytest (parser)
-      working-directory: ./services/parser-database
+      working-directory: ./services
       run: |
-        python -m pytest
+        python -m pytest --cov=parser-database
     - name: Test with pytest (keyword)
-      working-directory: ./services/keywords
+      working-directory: ./services
       run: |
-        python -m pytest
+        python -m pytest --cov=keywords --cov-append
     - name: Test with pytest (searchengine)
-      working-directory: ./services/search
+      working-directory: ./services
       run: |
-        python -m pytest
+        python -m pytest --cov=search --cov-append
     - uses: actions/checkout@master
     - uses: codecov/codecov-action@v1
       name: codecov-umbrella
