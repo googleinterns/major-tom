@@ -1,5 +1,5 @@
 from unittest import mock
-import pytest
+import pytest  # pylint: disable=import-error
 import connector
 import env
 import constants
