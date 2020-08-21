@@ -47,4 +47,5 @@ def get_article_by_number_in_memory(id):
 
 
 if __name__ == '__main__':
+    parse_all_documents()
     app.run(debug=True, host='0.0.0.0', port=os.getenv("PORT"))
