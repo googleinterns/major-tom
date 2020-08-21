@@ -1,0 +1,34 @@
+steps:
+    - name: gcr.io/cloud-builders/docker
+      args:
+        - build
+        - '--no-cache'
+        - '-t'
+        - '$_GCR_HOSTNAME/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA'
+        - $_DOCKER_BUILD_DIR
+        - '-f'
+        - $_DOCKER_BUILD_DIR/Dockerfile
+      id: Build
+    - name: gcr.io/cloud-builders/docker
+      args:
+        - push
+        - '$_GCR_HOSTNAME/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA'
+      id: Push
+    - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+      args:
+        - run
+        - services
+        - update
+        - $_SERVICE_NAME
+        - '--platform=gke'
+        - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA'
+        - >-
+          --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID,$_LABELS
+        - '--cluster=$_GKE_CLUSTER'
+        - '--cluster-location=$_GKE_LOCATION'
+        - '--namespace=$_NAMESPACE'
+        - '--quiet'
+      id: Deploy
+      entrypoint: gcloud
+  images:
+    - '$_GCR_HOSTNAME/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA'
