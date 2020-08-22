@@ -83,9 +83,9 @@ def get_articles_by_tfidf_value(keywords_list):
                 term_density_in_article = article["frequency"]/word_count
                 document_frequency = len(articles_in_memory)/len(keywords_in_memory[keyword])
                 inverse_doc_freq = np.log(document_frequency)
-                value = term_density_in_article * inverse_doc_freq
+                weight = term_density_in_article * inverse_doc_freq
 
-                articles_that_match_keyword[str(article["id"])] = value
+                articles_that_match_keyword[str(article["id"])] = {"weight": weight}
         matching_articles[keyword] = articles_that_match_keyword
     return matching_articles
 

@@ -91,8 +91,8 @@ def test_get_articles_that_match_keywords_non_empty_result_one_keyword():
 @mock.patch("connector.articles_in_memory", articles_in_memory)
 def test_get_articles_by_tfidf_value():
     expected = {
-        "licencia": {"89": .3125, "45": .125, "125": .125},
-        "ciclista": {"5": .15625, "45": .25, "99": .3},
+        "licencia": {"89": {"weight": .3125}, "45": {"weight": .125}, "125": {"weight": .125}},
+        "ciclista": {"5": {"weight": .15625}, "45": {"weight": .25}, "99": {"weight": .3}},
     }
     keywords = ["licencia", "ciclista"]
     with mock.patch("numpy.log", side_effect=logn):
