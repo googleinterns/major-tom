@@ -1,9 +1,8 @@
-import os
 import logging
 import requests  # pylint: disable=import-error
 import constants
-import testing.test_constants
-import utils
+import synonym_extractor
+import env
 
 
 class SearchEngine:
@@ -38,11 +37,10 @@ class SearchEngine:
             A map of the score of every article
         """
         query_text = {'text': query}
-        keywords_endpoint = os.getenv('KEYWORDS_ENDPOINT') is not None or 'http://localhost:8081'
 
-        logging.debug("keywords location: %s", keywords_endpoint)
+        logging.debug("keywords location: %s", env.get_keyword_endpoint())
 
-        response = requests.post(keywords_endpoint, json=query_text)
+        response = requests.post(env.get_keyword_endpoint(), json=query_text)
         response = response.json()
         logging.info("keywords response: %s", response)
 
@@ -52,7 +50,7 @@ class SearchEngine:
         lan = response['lan']
 
         if lan not in constants.SUPPORTED_LANGUAGES:
-            raise ValueError(f'{lan} not supported')
+            logging.warning("%s not supported", lan)
 
         keywords = []
 
@@ -61,13 +59,20 @@ class SearchEngine:
 
         logging.info("keywords: %s", keywords)
 
-        synonyms = utils.create_synonym_list_esp(keywords)
+        synonyms = synonym_extractor.create_synonym_list_esp(keywords)
 
         logging.info("synonyms: %s", synonyms)
 
         return self.search_query(keywords, synonyms)
 
-    def _calculate_score(self, frequency, weight, words, target_dict):
+    def _calculate_individual(self, word, frequency, weight, target_dict):
+        if word in frequency:
+            for key, value in frequency[word].items():
+                score = target_dict.get(int(key), 0) + value * weight
+                if score != 0:
+                    target_dict[int(key)] = score
+
+    def _calculate_score(self, frequency, keywords, synonyms, target_dict):
         """
         Helper function to update score for resulting array
         Attributes:
@@ -76,12 +81,11 @@ class SearchEngine:
             iwords: keywords in search engine
             target_dict: dictionary to update
         """
-        for word in words:
-            if word in frequency:
-                for key, value in frequency[word].items():
-                    score = target_dict.get(key, 0) + value * weight
-                    if score != 0:
-                        target_dict[key] = score
+        for word in keywords:
+            self._calculate_individual(word, frequency, self.keywords_weight, target_dict)
+
+        for word in synonyms:
+            self._calculate_individual(word, frequency, self.synonyms_weight, target_dict)
 
     def search_query(self, keywords, synonyms):
         """
@@ -94,20 +98,14 @@ class SearchEngine:
 
         score_per_article = {}
 
-        # keywords_json = {"keywords": keywords}
-        # synonyms_json = {"keywords": synonyms}
-        # article_keywords_frequency = requests.post(db_endpoint, json=keywords_json)
-        # article_synonyms_frequency = requests.post(db_endpoint, json=synonyms_json)
+        keywords_json = {"keywords": keywords+synonyms}
+        article_keywords_frequency = requests.post(env.get_db_endpoint(), json=keywords_json).json()
 
-        article_keywords_frequency = testing.test_constants.KEYWORDS_DB_MOCK_1
-        article_synonyms_frequency = testing.test_constants.SYNONYMS_DB_MOCK_1
+        logging.info("DB Endpoint response: %s", article_keywords_frequency)
 
-        logging.info("DB Endpoint response keywords: %s", article_keywords_frequency)
-        logging.info("DB Endpoint response synonyms: %s", article_synonyms_frequency)
+        if 'error' in article_keywords_frequency:
+            raise Exception(article_keywords_frequency['error']['message'])
 
-        self._calculate_score(article_keywords_frequency, self.keywords_weight,
-                              keywords, score_per_article)
-        self._calculate_score(article_synonyms_frequency, self.synonyms_weight,
-                              synonyms, score_per_article)
+        self._calculate_score(article_keywords_frequency, keywords, synonyms, score_per_article)
 
         return score_per_article

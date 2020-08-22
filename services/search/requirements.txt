@@ -1,2 +1,5 @@
 requests
 functions-framework
+responses
+flask
+requests-futures
