@@ -1,9 +1,9 @@
 """conector.py - One stop connector for external
 services/databases"""
-import random
+import requests  # pylint: disable=import-error
 import logging
-
 import constants
+import env
 
 logging.basicConfig(level=logging.INFO)
 
@@ -19,18 +19,21 @@ def get_documents_to_parse():
 
 
 def get_keywords(text):
-    """Get keywords that relate to this article
+    """Get keywords that relate to this article (from NLP service)
     Args:
         text (sting): text to extract keywords from
     Returns:
         [list]: list of extracted keywords
     """
-    splited_text = text.split()
-    keywords = [
-        splited_text[random.randint(0, len(splited_text) - 1)],
-        splited_text[random.randint(0, len(splited_text) - 1)],
-    ]
-    return keywords
+    extracted_keywords = []
+    request = {'text': text}
+    nlp_output = requests.post(env.get_keywords_endpoint(), json=request)
+    json_output = nlp_output.json()
+    if 'error' in json_output:
+        raise Exception(json_output['error']['message'])
+    for keyword in json_output["tokens"]:
+        extracted_keywords.append(keyword["lemma"])
+    return extracted_keywords
 
 
 def get_article_by_number(art_num):
@@ -53,7 +56,7 @@ def get_articles_that_match_keywords(keywords_list):
         articles_that_match_keyword = {}
         if keyword in keywords_in_memory:
             for article in keywords_in_memory[keyword]:
-                articles_that_match_keyword[str(article["id"])] = article["frequency"]
+                articles_that_match_keyword[str(article["id"])] = {"weight": article["frequency"]}
         matching_articles[keyword] = articles_that_match_keyword
     return matching_articles
 
