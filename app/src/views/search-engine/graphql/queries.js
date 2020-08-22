@@ -6,7 +6,6 @@ const GET_ARTICLES = gql`
       id
       number
       content
-      keywords
       minutesToRead
     }
   }
