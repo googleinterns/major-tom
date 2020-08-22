@@ -12,6 +12,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        working-dir: [./services/keywords, ./services/search, ./services/parser-database]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
@@ -19,38 +22,15 @@ jobs:
       with:
         python-version: 3.8
     - uses: codecov/codecov-action@v1
-    - name: Install dependencies (Keywords)
-      working-directory: ./services/keywords
+      
+    - name: Install dependencies
+      working-directory: ${{ matrix.working-dir }}
       run: |
         python -m pip install --upgrade pip
-        pip install pytest pytest-mock pytest-cov
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        
-    - name: Install dependencies (Search Engine)
-      working-directory: ./services/search/
-      run: |
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        
-    - name: Install dependencies (Parser)
-      working-directory: ./services/parser-database
-      run: |
+        pip install pytest pytest-mock
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
   
-    - name: Test with pytest (parser)
-      working-directory: ./services
-      run: |
-        python -m pytest --cov=parser-database parser-database/tests
-    - name: Test with pytest (keyword)
-      working-directory: ./services/keywords
+    - name: Test with pytest
+      working-directory: ${{ matrix.working-dir }}
       run: |
         python -m pytest
-    - name: Test with pytest (searchengine)
-      working-directory: ./services/search
-      run: |
-        python -m pytest
-    - uses: actions/checkout@master
-    - uses: codecov/codecov-action@v1
-      name: codecov-umbrella
-      with:
-        file: ./services/coverage.xml
-      
