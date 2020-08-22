@@ -3,7 +3,7 @@ services/databases"""
 # import requests  # pylint: disable=import-error
 import random
 import logging
-import numpy as np
+import numpy as np  # pylint: disable=import-error
 
 import constants
 
