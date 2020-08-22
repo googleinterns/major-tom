@@ -36,14 +36,14 @@ in_memory_value_mock = {
 
 in_memory_value_mock_no_decimals = {
     "ciclista": [
-        {"id": 5, "frequency": 3},
-        {"id": 45, "frequency": 6},
-        {"id": 99, "frequency": 9},
+        {"number": 5, "frequency": 3},
+        {"number": 45, "frequency": 6},
+        {"number": 99, "frequency": 9},
     ],
     "licencia": [
-        {"id": 89, "frequency": 3},
-        {"id": 45, "frequency": 3},
-        {"id": 125, "frequency": 15},
+        {"number": 89, "frequency": 3},
+        {"number": 45, "frequency": 3},
+        {"number": 125, "frequency": 15},
     ],
 }
 
