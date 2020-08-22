@@ -23,14 +23,14 @@ many_documents = [
 
 in_memory_value_mock = {
     "ciclista": [
-        {"id": "5", "articleNumber": 5, "frequency": 3},
-        {"id": "45", "articleNumber": 45, "frequency": 1},
-        {"id": "99", "articleNumber": 99, "frequency": 7},
+        {"id": "5", "number": 5, "frequency": 3},
+        {"id": "45", "number": 45, "frequency": 1},
+        {"id": "99", "number": 99, "frequency": 7},
     ],
     "licencia": [
-        {"id": "89", "articleNumber": 89, "frequency": 3},
-        {"id": "45", "articleNumber": 45, "frequency": 3},
-        {"id": "125", "articleNumber": 125, "frequency": 2},
+        {"id": "89", "number": 89, "frequency": 3},
+        {"id": "45", "number": 45, "frequency": 3},
+        {"id": "125", "number": 125, "frequency": 2},
     ],
 }
 

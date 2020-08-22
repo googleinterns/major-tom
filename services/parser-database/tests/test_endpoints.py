@@ -39,8 +39,9 @@ def test_if_article_119_was_parsed(app, client):
     res = client.get("/articles/119")
     data = json.loads(res.get_data(as_text=True))
     must_match = {
-        'articleNumber': 119,
-        'text': 'las escuelas deberán contar con lugares especiales y debidamente señalizados para que los vehículos de transporte escolar efectúen el ascenso y descenso de los escolares, sin que afecte u obstaculice la circulación en la vía pública. en caso de que el lugar de ascenso y descenso de escolares, ocasione conflictos viales, o ponga en riesgo la integridad física de los mismos, dichos lugares serán ubicados en las inmediaciones de los planteles donde técnicamente sea factible a propuesta de las escuelas y previa autorización de la autoridad municipal, observando de manera primordial lo necesario para garantizar la seguridad de los escolares.',  # noqa: E501
+        'id': '119',
+        'number': 119,
+        'content': 'las escuelas deberán contar con lugares especiales y debidamente señalizados para que los vehículos de transporte escolar efectúen el ascenso y descenso de los escolares, sin que afecte u obstaculice la circulación en la vía pública. en caso de que el lugar de ascenso y descenso de escolares, ocasione conflictos viales, o ponga en riesgo la integridad física de los mismos, dichos lugares serán ubicados en las inmediaciones de los planteles donde técnicamente sea factible a propuesta de las escuelas y previa autorización de la autoridad municipal, observando de manera primordial lo necesario para garantizar la seguridad de los escolares.',  # noqa: E501
         'wordCount': 100
     }
     assert data == must_match
@@ -51,8 +52,9 @@ def test_if_article_25_was_parsed(app, client):
     res = client.get("/articles/25")
     data = json.loads(res.get_data(as_text=True))
     must_match = {
-        'articleNumber': 25,
-        'text': 'queda prohibido que los vehículos que circulen en la vía pública porten los accesorios o artículos siguientes: i. ii. faros encendidos o reflejantes de colores diferentes al blanco o ámbar en la parte delantera; faros encendidos o reflejantes de colores diferentes al rojo o ámbar en la parte posterior; con excepción solamente de las luces de reversa y de placa; iii. dispositivos de rodamiento con superficie metálica que haga contacto con el pavimento. esto incluye cadenas sobre las llantas; iv. radios que utilicen la frecuencia de la dependencia de tránsito correspondiente o cualquier otro cuerpo de seguridad; v. piezas del vehículo que no estén debidamente sujetas de tal forma que puedan desprenderse constituyendo un peligro; vi. sirena o aparatos que emitan sonidos semejantes a ella, torreta y/o luces estroboscópicas de cualquier color con excepción de los vehículos oficiales, de emergencia o especiales; artículos u objetos que impidan u obstaculicen la visibilidad del conductor; y mofles directos, rotos o que emitan un ruido excesivo. vii. viii.',  # noqa: E501
+        'id': '25',
+        'number': 25,
+        'content': 'queda prohibido que los vehículos que circulen en la vía pública porten los accesorios o artículos siguientes: i. ii. faros encendidos o reflejantes de colores diferentes al blanco o ámbar en la parte delantera; faros encendidos o reflejantes de colores diferentes al rojo o ámbar en la parte posterior; con excepción solamente de las luces de reversa y de placa; iii. dispositivos de rodamiento con superficie metálica que haga contacto con el pavimento. esto incluye cadenas sobre las llantas; iv. radios que utilicen la frecuencia de la dependencia de tránsito correspondiente o cualquier otro cuerpo de seguridad; v. piezas del vehículo que no estén debidamente sujetas de tal forma que puedan desprenderse constituyendo un peligro; vi. sirena o aparatos que emitan sonidos semejantes a ella, torreta y/o luces estroboscópicas de cualquier color con excepción de los vehículos oficiales, de emergencia o especiales; artículos u objetos que impidan u obstaculicen la visibilidad del conductor; y mofles directos, rotos o que emitan un ruido excesivo. vii. viii.',  # noqa: E501
         'wordCount': 165
     }
     assert data == must_match
