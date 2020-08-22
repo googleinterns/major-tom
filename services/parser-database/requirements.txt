@@ -3,3 +3,4 @@ utils
 https://github.com/timClicks/slate/archive/master.zip
 requests
 numpy
+pytest-mock
