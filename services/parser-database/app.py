@@ -1,4 +1,5 @@
 import os
+import logging
 from copy import copy
 
 from flask import Flask  # pylint: disable=import-error
@@ -18,7 +19,7 @@ def trigger_parsing():
     try:
         parse_all_documents()
     except Exception as e:
-        print(e)
+        logging.error(e)
         return {"error": {"message": "Internal Parser Error"}}, 500
     return "Sucessful Operation", 200
 
@@ -27,7 +28,9 @@ def trigger_parsing():
 def get_keywords():
     json_request = request.get_json()
     if "keywords" not in json_request:
-        return {"error": {"message": "keywords request body is missing"}}, 400
+        error = {"error": {"message": "keywords request body is missing"}}
+        logging.error(error)
+        return error, 400
     else:
         return jsonify(get_articles_by_tfidf_value(json_request['keywords']))
 
@@ -39,11 +42,11 @@ def get_article_by_number_in_memory(id):
     article = get_article_by_number(str(id))
     if article is not None:
         article = copy(article)
-        del article["id"]
         return jsonify(article)
     else:
-        return {"error": {
-            "message": "Article not found with submitted ID"}}, 404
+        error = {"error": {"message": "Article not found with submitted ID"}}, 404
+        logging.error(error)
+        return error
 
 
 if __name__ == '__main__':
