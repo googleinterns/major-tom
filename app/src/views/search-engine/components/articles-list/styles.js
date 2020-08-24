@@ -10,9 +10,6 @@ const styles = makeStyles(() => ({
   cardContent: {
     whiteSpace: 'pre-wrap',
     marginBottom: 15
-  },
-  keywords: {
-    width: '75%'
   }
 }))
 

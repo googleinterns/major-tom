@@ -43,21 +43,12 @@ const ArticlesList = ({ articles }) => {
                 >
                   {contentPreview}
                 </Typography>
-                <Typography
-                  variant='caption'
-                  color='textSecondary'
-                  component='p'
-                  noWrap
-                  className={classes.keywords}
-                >
-                  {`Palabras clave: ${article.keywords.join(', ')}`}
-                </Typography>
               </CardContent>
               <CardActions>
                 <Chip
                   size='small'
                   color='secondary'
-                  label={`${article.minutesToRead} mins`}
+                  label={`${article.minutesToRead.toFixed(2)} mins`}
                   className={classes.minutesToRead}
                 />
               </CardActions>

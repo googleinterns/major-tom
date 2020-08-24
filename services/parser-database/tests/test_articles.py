@@ -33,9 +33,9 @@ def test_article_extraction_by_number_of_articles_extracted():
     assert recieved_articles[3].number == 4
     assert recieved_articles[4].number == 5
     assert recieved_articles[5].number == 6
-    assert recieved_articles[0].text == "los ciclistas se deben de orillar"
-    assert recieved_articles[1].text == "los ciclistas no se deben de orillar"
-    assert recieved_articles[2].text == "velocidad maxima de 10kmh"
-    assert recieved_articles[3].text == "carros de mas de 3/4 toneladas requieren licencia de chofer"
-    assert recieved_articles[4].text == "no te pueden infraccionar en navidad"
-    assert recieved_articles[5].text == "marcar al seguro y al 911 al chocar"
+    assert recieved_articles[0].content == "los ciclistas se deben de orillar"
+    assert recieved_articles[1].content == "los ciclistas no se deben de orillar"
+    assert recieved_articles[2].content == "velocidad maxima de 10kmh"
+    assert recieved_articles[3].content == "carros de mas de 3/4 toneladas requieren licencia de chofer"
+    assert recieved_articles[4].content == "no te pueden infraccionar en navidad"
+    assert recieved_articles[5].content == "marcar al seguro y al 911 al chocar"

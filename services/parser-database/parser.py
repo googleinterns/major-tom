@@ -34,17 +34,17 @@ class Document:
 class Article:
     """Class for storing articles.
     """
-    def __init__(self, number, text):
+    def __init__(self, number, content):
         self.number = number
-        self.text = text
+        self.content = content
         self.id = str(number)
 
     def to_dict(self):
         article_dict = {
-            "articleNumber": self.number,
+            "number": self.number,
             "id": self.id,
-            "text": self.text,
-            "wordCount": len(self.text.split())
+            "content": self.content,
+            "wordCount": len(self.content.split())
         }
         return article_dict
 
@@ -60,7 +60,7 @@ def identify_articles(pdf_text):
         list: article objects
     """
     articles = []
-    article_text = ""
+    article_content = ""
     article_count = 1
     i = 0
 
@@ -70,14 +70,14 @@ def identify_articles(pdf_text):
                 or pdf_text[i + 1] == str(article_count) + "-"
                 or pdf_text[i + 1] == str(article_count) + "."):
             logging.info("Article #" + str(article_count) + " recognized!")
-            articles.append(Article(article_count-1, article_text.strip()))
-            article_text = ""
+            articles.append(Article(article_count-1, article_content.strip()))
+            article_content = ""
             article_count += 1
             i += 1
         else:
-            article_text += " " + pdf_text[i]
+            article_content += " " + pdf_text[i]
             if i == len(pdf_text) - 1:
-                articles.append(Article(article_count-1, article_text.strip()))
+                articles.append(Article(article_count-1, article_content.strip()))
         i += 1
     articles.pop(0)
     return articles
