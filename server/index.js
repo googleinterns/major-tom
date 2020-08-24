@@ -1,5 +1,6 @@
-import { ApolloServer } from 'apollo-server'
+import { ApolloServer } from 'apollo-server-express'
 import { importSchema } from 'graphql-import'
+import express from 'express'
 import path from 'path'
 import redis from 'async-redis'
 import localCache from './utils/in-memory-cache'
@@ -22,7 +23,10 @@ const server = new ApolloServer({
   playground: true
 })
 
+const app = express()
+server.applyMiddleware({ app })
+
 cache.on('ready', isLocal => {
   console.log(isLocal || `🧶  Redis server ready at ${REDIS_IP}:${REDIS_PORT}`)
-  server.listen(PORT).then(({ url }) => console.log(`🚀  Server ready at ${url}`))
+  app.listen({ port: PORT }, () => console.log(`🚀  Server ready at http://localhost:${PORT}${server.graphqlPath}`))
 })
