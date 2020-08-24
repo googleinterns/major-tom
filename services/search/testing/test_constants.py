@@ -1,11 +1,13 @@
-KEYWORDS_DB_MOCK_1 = {"forzoso": {}, "bicicleta": {1: 1}, "usar": {}, "casco": {1: 1},
+KEYWORDS_DB_MOCK_1 = {"forzoso": {}, "bicicleta": {1: {"weight": 1}}, "usar": {},
+                      "casco": {1: {"weight": 1}},
                       "obligatorio": {}, "inexcusable": {}, "imprescindible": {},
                       "preciso": {}, "necesario": {}, "bici": {}, "velocipedo": {}, "tandem": {},
-                      "emplear": {}, "utilizar": {1: 1}, "gastar": {}, "acostumbrar": {},
+                      "emplear": {}, "utilizar": {1: {"weight": 1}}, "gastar": {}, "acostumbrar": {},
                       "practicar": {},
                       "copa": {}, "suelo": {}, "pezuna": {}, "vaso": {}, "cabeza": {}}
 
-KEYWORDS_DB_MULTIPLE = {"taxi": {3: 2}, "tener": {}, "calcomania": {4: 1}, "placa": {4: 1},
+KEYWORDS_DB_MULTIPLE = {"taxi": {3: {"weight": 2}}, "tener": {},
+                        "calcomania": {4: {"weight": 1}}, "placa": {4: {"weight": 1}},
                         "taximetro": {},
                         "haber": {}, "poseer": {}, "detentar": {}, "sujetar": {}, "coger": {},
                         "copia": {}, "reproduccion": {}, "estampa": {}, "adhesivo": {},
@@ -24,4 +26,10 @@ SYNONYMS_MULTIPLE = ["taximetro",
                      "copia", "reproduccion", "estampa", "adhesivo",
                      "lamina", "plancha", "chapa", "hoja", "pelicula"]
 
-MOCK_URL = "http://somerealurl.com/"
+DEFAULT_MAX_SYNONYMS = 5
+TEN_SYNONYMS = 10
+INCREASED_MAX_SYNONYMS = 8
+DECREASED_MAX_SYNONYMS = 3
+
+MOCK_URL_DB = "http://somerealurl.com/"
+MOCK_URL_KEYWORDS = "http://someotherurl.com/"
