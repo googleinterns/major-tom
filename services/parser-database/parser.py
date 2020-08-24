@@ -42,7 +42,7 @@ class Article:
 
     def to_dict(self):
         article_dict = {
-            "articleNumber": self.number,
+            "number": self.number,
             "id": self.id,
             "content": self.content,
             "wordCount": len(self.content.split())

@@ -12,6 +12,7 @@
     "@babel/core": "^7.10.5",
     "@babel/node": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
+    "async-redis": "^1.1.7",
     "apollo-server-express": "^2.16.1",
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",

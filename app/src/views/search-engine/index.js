@@ -19,8 +19,17 @@ const SearchEngine = () => {
     const { data, error } = getArticlesQuery
 
     if (error) {
-      setError(JSON.parse(error.message))
-      console.log(JSON.parse(error.message))
+      let errorToSet
+
+      try {
+        errorToSet = typeof error === 'object'
+          ? error
+          : JSON.parse(error.message)
+      } catch (e) {
+        console.log(error)
+      }
+
+      setError(errorToSet)
     } else if (data?.articles) {
       setArticles(data.articles)
     }

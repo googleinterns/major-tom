@@ -1,7 +1,7 @@
 import logging
 import requests  # pylint: disable=import-error
 import constants
-import utils
+import synonym_extractor
 import env
 
 
@@ -59,7 +59,7 @@ class SearchEngine:
 
         logging.info("keywords: %s", keywords)
 
-        synonyms = utils.create_synonym_list_esp(keywords)
+        synonyms = synonym_extractor.create_synonym_list_esp(keywords)
 
         logging.info("synonyms: %s", synonyms)
 
@@ -67,10 +67,11 @@ class SearchEngine:
 
     def _calculate_individual(self, word, frequency, weight, target_dict):
         if word in frequency:
-            for key, value in frequency[word].items():
-                score = target_dict.get(key, 0) + value * weight
+            for key, obj in frequency[word].items():
+                value = obj["weight"]
+                score = target_dict.get(int(key), 0) + value * weight
                 if score != 0:
-                    target_dict[key] = score
+                    target_dict[int(key)] = score
 
     def _calculate_score(self, frequency, keywords, synonyms, target_dict):
         """
