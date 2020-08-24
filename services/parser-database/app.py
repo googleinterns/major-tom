@@ -39,7 +39,6 @@ def get_article_by_number_in_memory(id):
     article = get_article_by_number(str(id))
     if article is not None:
         article = copy(article)
-        del article["id"]
         return jsonify(article)
     else:
         return {"error": {

@@ -35,17 +35,17 @@ class Document:
 class Article:
     """Class for storing articles.
     """
-    def __init__(self, number, text):
+    def __init__(self, number, content):
         self.number = number
-        self.text = text
+        self.content = content
         self.id = str(number)
 
     def to_dict(self):
         article_dict = {
             "articleNumber": self.number,
             "id": self.id,
-            "text": self.text,
-            "wordCount": len(self.text.split())
+            "content": self.content,
+            "wordCount": len(self.content.split())
         }
         return article_dict
 

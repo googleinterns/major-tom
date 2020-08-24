@@ -69,7 +69,7 @@ def save_keywords_in_memory(keywords, article):
         article (Article): article object
     """
     for keyword in keywords:
-        frequency = article["text"].count(keyword)
+        frequency = article["content"].count(keyword)
         if keyword not in keywords_in_memory:
             keywords_in_memory[keyword] = []
         keywords_in_memory[keyword].append({
@@ -80,5 +80,5 @@ def save_keywords_in_memory(keywords, article):
 
 def store_article(article_dict):
     articles_in_memory[article_dict["id"]] = article_dict
-    save_keywords_in_memory(get_keywords(article_dict["text"]), article_dict)
+    save_keywords_in_memory(get_keywords(article_dict["content"]), article_dict)
     logging.info('Article ' + article_dict["id"] + ' assigned keywords')
