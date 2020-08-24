@@ -35,6 +35,18 @@ in_memory_value_mock = {
 }
 
 
+keywords_mock = ["forzoso", "bicicleta", "usar", "casco"]
+
+
+article_mock = {"id": 1, "number": 1, "content": "en bicicleta es siempre forzoso usar casco"}
+
+
+expected_in_memory = {"forzoso": [{"id": 1, "number": 1, "frequency": 1}],
+                      "bicicleta": [{"id": 1, "number": 1, "frequency": 1}],
+                      "usar": [{"id": 1, "number": 1, "frequency": 1}],
+                      "casco": [{"id": 1, "frequency": 1, "number": 1}]}
+
+
 @mock.patch("connector.keywords_in_memory", in_memory_value_mock)
 def test_get_articles_that_match_keywords_empty_result_one_keyword():
     result_to_assert_1 = {"alcohol": {}}
@@ -92,3 +104,11 @@ def test_if_got_error_from_keywords_service(mock_get):
     mock_get.return_value.json.return_value = {'error': {'message': "something happened"}}  # noqa: E501
     with pytest.raises(Exception):
         assert connector.get_keywords(text_to_keywordize)
+
+
+def test_no_errors_set_keywords_in_memory():
+    try:
+        connector.save_keywords_in_memory(keywords_mock, article_mock)
+        assert expected_in_memory == connector.keywords_in_memory
+    except Exception as e:
+        pytest.fail("Error: " + str(e))
