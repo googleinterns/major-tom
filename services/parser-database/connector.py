@@ -104,6 +104,7 @@ def save_keywords_in_memory(keywords, article):
             keywords_in_memory[keyword] = []
         keywords_in_memory[keyword].append({
             "number": article["number"],
+            "id": article["id"],
             "frequency": frequency
         })
 
