@@ -12,14 +12,14 @@
     "@babel/core": "^7.10.5",
     "@babel/node": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
-    "async-redis": "^1.1.7",
     "apollo-server-express": "^2.16.1",
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "graphql": "^15.3.0",
     "graphql-import": "^1.0.2",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "redis": "^3.0.2"
   },
   "devDependencies": {
     "@jest/globals": "^26.4.0",
