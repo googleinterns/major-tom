@@ -7,8 +7,8 @@ from flask import request  # pylint: disable=import-error
 from flask import jsonify  # pylint: disable=import-error
 
 from parser import parse_all_documents
-from connector import get_articles_that_match_keywords
 from connector import get_article_by_number
+from connector import get_articles_by_tfidf_value
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -32,7 +32,7 @@ def get_keywords():
         logging.error(error)
         return error, 400
     else:
-        return jsonify(get_articles_that_match_keywords(json_request['keywords']))
+        return jsonify(get_articles_by_tfidf_value(json_request['keywords']))
 
 
 @app.route('/articles/<id>', methods=['GET'])
