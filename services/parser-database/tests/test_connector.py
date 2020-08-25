@@ -99,6 +99,7 @@ def test_keywords_in_memory():
                           "bicicleta": [{"id": 1, "number": 1, "frequency": 1}],
                           "usar": [{"id": 1, "number": 1, "frequency": 1}],
                           "casco": [{"id": 1, "frequency": 1, "number": 1}]}
+    assert {} == connector.keywords_in_memory
     try:
         connector.save_keywords_in_memory(
             ["forzoso", "bicicleta", "usar", "casco"],
