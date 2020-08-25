@@ -2,6 +2,8 @@
 services/databases"""
 import requests  # pylint: disable=import-error
 import logging
+import numpy as np  # pylint: disable=import-error
+
 import constants
 import env
 
@@ -57,6 +59,34 @@ def get_articles_that_match_keywords(keywords_list):
         if keyword in keywords_in_memory:
             for article in keywords_in_memory[keyword]:
                 articles_that_match_keyword[str(article["id"])] = {"weight": article["frequency"]}
+        matching_articles[keyword] = articles_that_match_keyword
+    return matching_articles
+
+
+def get_articles_by_tfidf_value(keywords_list):
+    """
+    Returns a value for every article based on a keyword
+    for a keyword list, value is based on
+    term frequency inverse document frequency (tfidf)
+    Args:
+        keywords_list (list): Keyword(s) to look for
+
+    Returns:
+        list: articles and value for such keyword(s)
+    """
+    matching_articles = {}
+    for keyword in keywords_list:
+        articles_that_match_keyword = {}
+        if keyword in keywords_in_memory:
+            for article in keywords_in_memory[keyword]:
+                # tfidf computation
+                word_count = articles_in_memory[str(article["number"])]["wordCount"]
+                term_density_in_article = article["frequency"]/word_count
+                document_frequency = len(articles_in_memory)/len(keywords_in_memory[keyword])
+                inverse_doc_freq = np.log(document_frequency)
+                weight = term_density_in_article * inverse_doc_freq
+
+                articles_that_match_keyword[str(article["number"])] = {"weight": weight}
         matching_articles[keyword] = articles_that_match_keyword
     return matching_articles
 
