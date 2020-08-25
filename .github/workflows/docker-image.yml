@@ -14,7 +14,7 @@ jobs:
     - name: Build Frontend Docker image
       working-directory: ./app
       run: |
-        docker login docker.pkg.github.com -u ${{ secrets.USERNAME }} --password ${{ secrets.DOCKER_CI_TOKEN }}
+        docker login docker.pkg.github.com --password ${{ secrets.GITHUB_TOKEN }}
         docker build . --file Dockerfile --tag frontend
         docker tag frontend docker.pkg.github.com/googleinterns/major-tom/frontend
         docker push docker.pkg.github.com/googleinterns/major-tom/frontend
