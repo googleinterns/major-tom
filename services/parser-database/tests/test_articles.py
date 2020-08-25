@@ -13,14 +13,13 @@ test_file = {
 
 
 articles = (
-    "articulo 1.- los ciclistas se deben de orillar"
-    + " articulo 2- los ciclistas no se deben de orillar"
-    + " articulo 3. velocidad maxima de 10kmh"
-    + " artículo 4.- carros de mas de 3/4 toneladas requieren licencia de chofer"
-    + " artículo 5.- no te pueden infraccionar en navidad"
-    + " artículo 6.- marcar al seguro y al 911 al chocar"
-).strip()
-articles = articles.split()
+    "ARTICULO 1.- los ciclistas se deben de orillar"
+    + " ARTICULO 2- los ciclistas no se deben de orillar"
+    + " ARTICULO 3. velocidad maxima de 10kmh"
+    + " ARTÍCULO 4.- carros de mas de 3/4 toneladas requieren licencia de chofer"
+    + " ARTÍCULO 5.- no te pueden infraccionar en navidad"
+    + " ARTÍCULO 6.- marcar al seguro y al 911 al chocar, como lo dice el Articulo 50"
+)
 
 
 def test_article_extraction_by_number_of_articles_extracted():
@@ -38,4 +37,4 @@ def test_article_extraction_by_number_of_articles_extracted():
     assert recieved_articles[2].content == "velocidad maxima de 10kmh"
     assert recieved_articles[3].content == "carros de mas de 3/4 toneladas requieren licencia de chofer"
     assert recieved_articles[4].content == "no te pueden infraccionar en navidad"
-    assert recieved_articles[5].content == "marcar al seguro y al 911 al chocar"
+    assert recieved_articles[5].content == "marcar al seguro y al 911 al chocar, como lo dice el Articulo 50"
