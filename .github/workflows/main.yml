@@ -14,7 +14,6 @@ jobs:
     - uses: actions/setup-node@v2-beta
       with:
         node-version: '12'
-        check-latest: true
     - name: Yarn Test
       working-directory: ./server
       run: |
