@@ -31,7 +31,9 @@ class SynonymExtractor:
         """
         Returns json from request
         """
-        return resp.result().json()
+        response = resp.result()
+        response.raise_for_status()
+        return response.json()
 
 
 def create_synonym_list_esp(word_arr, max_synonyms=5):

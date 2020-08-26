@@ -27,6 +27,9 @@ class MockJson:
     def json(self):
         return self.json_test_value
 
+    def raise_for_status(self):
+        pass
+
 
 class MockResult:
     def __init__(self, json_test_value):

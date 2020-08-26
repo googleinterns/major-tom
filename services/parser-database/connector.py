@@ -28,6 +28,7 @@ def get_keywords(text):
     extracted_keywords = []
     request = {'text': text}
     nlp_output = requests.post(env.get_keywords_endpoint(), json=request)
+    nlp_output.raise_for_status()
     json_output = nlp_output.json()
     if 'error' in json_output:
         raise Exception(json_output['error']['message'])
