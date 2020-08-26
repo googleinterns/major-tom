@@ -1,0 +1,21 @@
+name: Backend Testing
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2-beta
+      with:
+        node-version: '12'
+    - name: Yarn Test
+      working-directory: ./server
+      run: |
+        yarn install
+        yarn test

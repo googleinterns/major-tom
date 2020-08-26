@@ -2,7 +2,7 @@ import { fade, makeStyles } from '@material-ui/core/styles'
 
 const styles = makeStyles((theme) => ({
   appbar: {
-    margin: '25px 0px',
+    margin: '25px 0px 10px 0px',
     borderRadius: theme.shape.borderRadius
   },
   root: {
@@ -36,8 +36,11 @@ const styles = makeStyles((theme) => ({
   },
   inputInput: {
     transition: theme.transitions.create('width'),
-    width: '100%',
     fontWeight: 'bold',
+    width: '20ch',
+    '&:focus': {
+      width: '30ch'
+    },
     [theme.breakpoints.up('sm')]: {
       width: '35ch',
       '&:focus': {

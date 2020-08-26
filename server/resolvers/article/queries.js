@@ -32,6 +32,7 @@ const articleQueries = {
       delete article.wordCount
 
       cache.set(article.id, JSON.stringify(article))
+      cache.expire(article.id, 60 * 60 * 24)
 
       articles.push(article)
     }
