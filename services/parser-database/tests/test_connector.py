@@ -1,5 +1,7 @@
 from unittest import mock
+import requests  # pylint: disable=import-error
 import pytest  # pylint: disable=import-error
+import responses  # pylint: disable=import-error
 import connector
 import env
 import constants
@@ -92,3 +94,18 @@ def test_if_got_error_from_keywords_service(mock_get):
     mock_get.return_value.json.return_value = {'error': {'message': "something happened"}}  # noqa: E501
     with pytest.raises(Exception):
         assert connector.get_keywords(text_to_keywordize)
+
+@responses.activate
+def test_http_error_calling_keyword():
+    """
+    Tests re raising of status code 400 when calling keywords endpoint
+    """
+    mock_url_keyword = "http://somerealurl.com/"
+    responses.add(responses.POST, mock_url_keyword, status=400)
+
+    with mock.patch('env.get_keywords_endpoint', return_value=mock_url_keyword):
+        with pytest.raises(requests.HTTPError):
+            connector.get_keywords("Some super real query")
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url == mock_url_keyword
+    assert responses.calls[0].response.status_code == 400
