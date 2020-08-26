@@ -9,7 +9,8 @@ const styles = makeStyles(() => ({
   },
   cardContent: {
     whiteSpace: 'pre-wrap',
-    marginBottom: 15
+    marginBottom: 15,
+    maxHeight: '20vh'
   }
 }))
 
