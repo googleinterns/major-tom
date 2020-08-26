@@ -20,7 +20,7 @@ const SearchBar = ({ setSearch, refetch, setLoading, loading }) => {
           </IconButton>
           <Input
             type='search'
-            placeholder='Buscar...'
+            placeholder='Buscar artículos...'
             classes={{
               root: classes.inputRoot,
               input: classes.inputInput
