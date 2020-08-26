@@ -1,8 +1,8 @@
 # [Road Regulations Pdf](https://www.guadalupe.gob.mx/nuevo-reglamento-de-transito-homologado/)
 
 
-#### Query: Mi luz de atrás se acaba de romper
-#### Output: 166, 24, 152
+## Query: Mi luz de atrás se acaba de romper
+## Output: 166, 24, 152
 * Luz:
   * 4 - 2
   * 10 - 1
@@ -33,14 +33,14 @@
 * Romper
   * None
 
-#### Query: Choque
-#### Output: 137, 166, Anexo 5
+## Query: Choque
+## Output: 137, 166, Anexo 5
 * 137 - 5
 * 166 - 5
 * Anexo 5 - 1
 
-#### Query: ¿Me pueden multar por un neumático ponchado?
-#### Output: 24, 130, 136, 158, 166, 168, 169, 172, 173
+## Query: ¿Me pueden multar por un neumático ponchado?
+## Output: 24, 130, 136, 158, 166, 168, 169, 172, 173
 
 * Multa
   * 24 - 1
@@ -53,16 +53,16 @@
   * 172 - 1
   * 173 - 1
 
-#### Query: La carroceria
-#### Output: 4, 24,  166
+## Query: La carroceria
+## Output: 4, 24,  166
 
 * Carroceria
   * 4 - 1
   * 24 - 1
   * 166 - 2
 
-#### Query: Permiso de conducir
-#### Output: 4, 24, 32, 43, 49, 51, 107, 108, 109, 110, 111, 112, 115, 117, 124, 126, 130, 131, 134, 166, 170, 171, 173, 175
+## Query: Permiso de conducir
+## Output: 4, 24, 32, 43, 49, 51, 107, 108, 109, 110, 111, 112, 115, 117, 124, 126, 130, 131, 134, 166, 170, 171, 173, 175
 
 * Conducir
   * 4 - 1
