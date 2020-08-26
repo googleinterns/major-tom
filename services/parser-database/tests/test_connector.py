@@ -157,6 +157,7 @@ def test_if_got_error_from_keywords_service(mock_get):
     with pytest.raises(Exception):
         assert connector.get_keywords(text_to_keywordize)
 
+
 @responses.activate
 def test_http_error_calling_keyword():
     """
@@ -171,6 +172,7 @@ def test_http_error_calling_keyword():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url == mock_url_keyword
     assert responses.calls[0].response.status_code == 400
+
 
 def test_keywords_in_memory():
     expected_in_memory = {"forzoso": [{"id": 1, "number": 1, "frequency": 1}],
