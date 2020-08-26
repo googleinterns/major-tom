@@ -8,10 +8,7 @@ import { createTestClient } from 'apollo-server-testing'
 import resolvers from '../resolvers'
 import { databaseApi, searchApi } from '../endpoints'
 import { mockArticles, mockArticlesInCache } from './mocks'
-
-// In-memory cache to mock redis operations
-const cache = new Map()
-cache.exists = key => cache.has(key)
+import cache from '../utils/in-memory-cache'
 
 const typeDefs = importSchema(path.join(__dirname, '../typedefs/index.graphql'))
 const server = new ApolloServer({
