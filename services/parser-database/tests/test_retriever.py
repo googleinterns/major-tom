@@ -1,8 +1,8 @@
-from unittest import mock
 import requests  # pylint: disable=import-error
 import pytest  # pylint: disable=import-error
 import responses  # pylint: disable=import-error
 import retriever
+
 
 @responses.activate
 def test_http_error_retrieving():
