@@ -41,20 +41,21 @@ class SearchEngine:
         logging.debug("keywords location: %s", env.get_keyword_endpoint())
 
         response = requests.post(env.get_keyword_endpoint(), json=query_text)
-        response = response.json()
-        logging.info("keywords response: %s", response)
+        response.raise_for_status()
+        keyword_response = response.json()
+        logging.info("keywords response: %s", keyword_response)
 
-        if 'error' in response:
-            raise Exception(response['error']['message'])
+        if 'error' in keyword_response:
+            raise Exception(keyword_response['error']['message'])
 
-        lan = response['lan']
+        lan = keyword_response['lan']
 
         if lan not in constants.SUPPORTED_LANGUAGES:
             logging.warning("%s not supported", lan)
 
         keywords = []
 
-        for token in response['tokens']:
+        for token in keyword_response['tokens']:
             keywords.append(token['lemma'])
 
         logging.info("keywords: %s", keywords)
@@ -100,7 +101,9 @@ class SearchEngine:
         score_per_article = {}
 
         keywords_json = {"keywords": keywords+synonyms}
-        article_keywords_frequency = requests.post(env.get_db_endpoint(), json=keywords_json).json()
+        response = requests.post(env.get_db_endpoint(), json=keywords_json)
+        response.raise_for_status()
+        article_keywords_frequency = response.json()
 
         logging.info("DB Endpoint response: %s", article_keywords_frequency)
 
