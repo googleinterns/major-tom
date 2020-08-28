@@ -4,8 +4,8 @@ This repository contains the code and Docker Images of our road regulations sear
 ## Why a road regulations search engine?
 Finding accurate and up to date information online is not easy for everybody, especially when it comes to the law. There is no simple way of searching long documents for a specific articles without matching the text completly or having to only use keywords. Our search engine allows users to do complete sentence queries and get articles that match what they are searching for with high accurracy.
 
-## How? 
-Our application is divided into multiple microservices to be language agnostic. Also, our apps are containerized so that they can run everywhere, on-prem, cloud, hybrid, etc. 
+## How?
+Our application is divided into multiple microservices to be language agnostic. Also, our apps are containerized so that they can run everywhere, on-prem, cloud, hybrid, etc.
 
 ### Frontend
 A React App that connects to the backend and serves content to the user.
