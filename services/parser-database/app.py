@@ -7,8 +7,8 @@ from flask import request  # pylint: disable=import-error
 from flask import jsonify  # pylint: disable=import-error
 
 from parser import parse_all_documents
-from connector import get_article_by_number
-from connector import get_articles_by_tfidf_value
+from connector import get_article_by_id_db
+from connector import get_articles_that_match_keywords_db
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -32,14 +32,14 @@ def get_keywords():
         logging.error(error)
         return error, 400
     else:
-        return jsonify(get_articles_by_tfidf_value(json_request['keywords']))
+        return jsonify(get_articles_that_match_keywords_db(json_request['keywords']))
 
 
 @app.route('/articles/<id>', methods=['GET'])
 def get_article_by_number_in_memory(id):
     """Returns the article that matches the ID value
     accoring to the apiSpec.yaml file"""
-    article = get_article_by_number(str(id))
+    article = get_article_by_id_db(str(id))
     if article is not None:
         article = copy(article)
         return jsonify(article)
@@ -50,5 +50,5 @@ def get_article_by_number_in_memory(id):
 
 
 if __name__ == '__main__':
-    parse_all_documents()
+    #parse_all_documents()
     app.run(debug=True, host='0.0.0.0', port=os.getenv("PORT"))

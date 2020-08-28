@@ -38,7 +38,7 @@ class Article:
     def __init__(self, number, content):
         self.number = number
         self.content = content
-        self.id = str(number)
+        self.id = 'monterrey'+str(number)
 
     def to_dict(self):
         article_dict = {
@@ -48,6 +48,13 @@ class Article:
             "wordCount": len(self.content.split())
         }
         return article_dict
+
+    @staticmethod
+    def from_dict(src):
+        self.number = src["number"]
+        self.id = src["id"]
+        self.content = src["content"]
+        self.wordCount = src["wordCount"]
 
 
 def identify_articles(pdf_text):
@@ -113,4 +120,6 @@ def parse(document_to_parse):
 
             for article in articles:
                 dictionary = article.to_dict()
-                connector.store_article(dictionary)
+                connector.store_article_in_db(dictionary)
+
+#parse_all_documents()

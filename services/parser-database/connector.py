@@ -3,14 +3,53 @@ services/databases"""
 import requests  # pylint: disable=import-error
 import logging
 import numpy as np  # pylint: disable=import-error
-
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 import constants
 import env
 
 logging.basicConfig(level=logging.INFO)
 
+class Keywords:
+    """Class for storing articles.
+    """
+    def __init__(self, keyword):
+        self.keyword = keyword
+        self.articles_that_contain_keyword = {}
+
+    def to_dict(self):
+        article_dict = {
+            "keyword": self.number,
+            "contain": self.articles_that_contain_keyword,
+        }
+        return article_dict
+
+    @staticmethod
+    def from_dict(src):
+        self.number = src["number"]
+        self.id = src["id"]
+        self.content = src["keyword"]
+        self.wordCount = src["frequency"]
+
+cred = credentials.ApplicationDefault()
+firebase_admin.initialize_app(cred, {
+  'projectId': 'major-tom-285619',
+})
+
+db = firestore.client()
+
 articles_in_memory = {}
 keywords_in_memory = {}
+
+
+def get_documents_to_parse_db():
+    documents_ref = db.collection(u'documents')
+    docs = documents_ref.stream()
+
+    for doc in docs:
+        print(f'{doc.id} => {doc.to_dict()}')
+    return docs
 
 
 def get_documents_to_parse():
@@ -113,3 +152,56 @@ def store_article(article_dict):
     articles_in_memory[article_dict["id"]] = article_dict
     save_keywords_in_memory(get_keywords(article_dict["content"]), article_dict)
     logging.info('Article ' + article_dict["id"] + ' assigned keywords')
+
+
+def store_article_in_db(article_dict):
+    db.collection(u'articles').document(article_dict["id"]).set(article_dict)
+    save_keywords_in_db(get_keywords(article_dict["content"]), article_dict)
+    logging.info('Article ' + article_dict["id"] + ' assigned keywords')
+
+
+def save_keywords_in_db(keywords, article):
+    """Saves the keywords from an article in memory
+
+    Args:
+        keywords (JSON): contains keywords
+        article (Article): article object
+    """
+    for keyword in keywords:
+        frequency = article["content"].count(keyword)
+
+        doc_ref = db.collection(u'keywords').where('keyword', '==', keyword)
+        doc = doc_ref.get()
+        
+        if len(doc) != 0 and doc[0] is not None:
+            from_db = doc[0].to_dict()
+            print(from_db)
+            from_db["matching_articles"][article["id"]] = frequency
+            #print(from_db)
+            db.collection(u'keywords').document(doc[0].id).set(from_db)
+        else:
+            to_send = {"keyword": keyword, "matching_articles": {article["id"]: frequency}}
+            db.collection(u'keywords').add(to_send)
+
+
+def get_articles_that_match_keywords_db(keywords_list):
+    matching_articles = {}
+    for keyword in keywords_list:
+        articles_that_match_keyword = {}
+        doc_ref = db.collection(u'keywords').where('keyword', '==', keyword)
+        doc = doc_ref.get()
+        if doc.exists():
+            doc_dict = doc.to_dict()
+            for article in doc_dict[keyword]:
+                articles_that_match_keyword[str(article["id"])] = {"weight": article["frequency"]}
+        matching_articles[keyword] = articles_that_match_keyword
+    return matching_articles
+
+
+def get_article_by_id_db(art_num):
+    documents_ref = db.collection(u'articles').document(art_num)
+    doc = documents_ref.get()
+    if doc is not None:
+        return doc.to_dict()
+    else:
+        return None
