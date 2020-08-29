@@ -1,0 +1,42 @@
+name: Build Docker Images & Push to Registry
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Frontend Docker image
+      working-directory: ./app
+      run: |
+        docker login docker.pkg.github.com -u ${{ secrets.USERNAME }} --password ${{ secrets.GITHUB_TOKEN }}
+        docker build . --file Dockerfile --tag frontend
+        docker tag frontend docker.pkg.github.com/googleinterns/major-tom/frontend
+        docker push docker.pkg.github.com/googleinterns/major-tom/frontend
+    - name: Build Backend Docker image
+      working-directory: ./server
+      run: |
+        docker build . --file Dockerfile --tag backend
+        docker tag backend docker.pkg.github.com/googleinterns/major-tom/backend
+        docker push docker.pkg.github.com/googleinterns/major-tom/backend
+    - name: Build Keywords Docker image
+      working-directory: ./services/keywords
+      run: |
+        docker build . --file Dockerfile --tag keywords
+        docker tag keywords docker.pkg.github.com/googleinterns/major-tom/keywords
+        docker push docker.pkg.github.com/googleinterns/major-tom/keywords
+    - name: Build Search Docker image
+      working-directory: ./services/search
+      run: |
+        docker build . --file Dockerfile --tag search
+        docker tag search docker.pkg.github.com/googleinterns/major-tom/search
+        docker push docker.pkg.github.com/googleinterns/major-tom/search
+    - name: Build Parser Docker image
+      working-directory: ./services/parser-database
+      run: |
+        docker build . --file Dockerfile --tag parser-database
+        docker tag parser-database docker.pkg.github.com/googleinterns/major-tom/parser-database
+        docker push docker.pkg.github.com/googleinterns/major-tom/parser-database
